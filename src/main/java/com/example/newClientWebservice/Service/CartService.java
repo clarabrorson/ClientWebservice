@@ -22,7 +22,7 @@ public class CartService {
     public static void getAllCarts(String jwt) throws IOException, ParseException {
 
         //Skapa ett objekt av HttpGet klassen. Inkludera URL
-        HttpGet request = new HttpGet("http://localhost:8081/carts");
+        HttpGet request = new HttpGet("http://localhost:8081/cart");
 
         //Inkludera en Authorization metod till request
         request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
@@ -49,5 +49,30 @@ public class CartService {
         }
     }
 
+    public static void getOneCartById(int id, String jwt) throws IOException, ParseException {
+        //Skapa ett objekt av HttpGet klassen. Inkludera URL
+        HttpGet request = new HttpGet(String.format("http://localhost:8081/cart/%d", id));
 
+        //Inkludera en Authorization metod till request
+        request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
+
+        //Exekvera Request
+        CloseableHttpResponse response = httpClient.execute(request);
+
+        if (response.getCode() != 200) {
+            System.out.println("Something went wrong");
+            return;
+        }
+
+        //Visa upp response payload i console
+        HttpEntity entity = response.getEntity();
+        //System.out.println(EntityUtils.toString(entity));
+
+        //Konvertera ResponsePayload till användbart objekt.
+        ObjectMapper mapper = new ObjectMapper();
+        Cart cart = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Cart>() {});
+
+        //Skriv ut cart med tillhörande användare och artiklar
+        System.out.println(String.format("Cart %s belongs to %s and contains %s", (Object) cart.getId(), (Object) cart.getUser(), (Object) cart.getArticles()));
+    }
 }
