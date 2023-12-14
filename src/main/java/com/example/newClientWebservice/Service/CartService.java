@@ -129,4 +129,31 @@ public class CartService {
         //Skriv ut cart med tillhörande användare och artiklar
         System.out.println(String.format("Article %s in cart %s has updated its quantity to %d", (Object) articleId, (Object) cartId, (Object) quantity));
     }
+
+    public static void deleteArticleFromCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
+        //Skapa ett objekt av HttpGet klassen. Inkludera URL
+        HttpGet request = new HttpGet(String.format("http://localhost:8081/cart/%d/articles/%d", cartId, articleId));
+
+        //Inkludera en Authorization metod till request
+        request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
+
+        //Exekvera Request
+        CloseableHttpResponse response = httpClient.execute(request);
+
+        if (response.getCode() != 200) {
+            System.out.println("Something went wrong");
+            return;
+        }
+
+        //Visa upp response payload i console
+        HttpEntity entity = response.getEntity();
+        //System.out.println(EntityUtils.toString(entity));
+
+        //Konvertera ResponsePayload till användbart objekt.
+        ObjectMapper mapper = new ObjectMapper();
+        Cart cart = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Cart>() {});
+
+        //Skriv ut cart med tillhörande användare och artiklar
+        System.out.println(String.format("Article %s has been deleted from cart %s", (Object) articleId, (Object) cartId));
+    }
 }
