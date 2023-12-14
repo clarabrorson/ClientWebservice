@@ -126,7 +126,7 @@ public class CartService {
         ObjectMapper mapper = new ObjectMapper();
         Cart cart = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Cart>() {});
 
-        //Skriv ut cart med tillhörande användare och artiklar
+        //Skriv ut cart, artikel och antal som har uppdaterats
         System.out.println(String.format("Article %s in cart %s has updated its quantity to %d", (Object) articleId, (Object) cartId, (Object) quantity));
     }
 
@@ -153,7 +153,7 @@ public class CartService {
         ObjectMapper mapper = new ObjectMapper();
         Cart cart = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Cart>() {});
 
-        //Skriv ut cart med tillhörande användare och artiklar
+        //Skriv ut cart och artikel som har tagits bort
         System.out.println(String.format("Article %s has been deleted from cart %s", (Object) articleId, (Object) cartId));
     }
 }
