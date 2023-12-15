@@ -16,4 +16,6 @@ public class Article {
     private String description;
     private Integer quantity;
 
+    private History history;
+
 }
