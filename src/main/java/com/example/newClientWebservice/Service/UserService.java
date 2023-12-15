@@ -5,6 +5,7 @@ import com.example.newClientWebservice.Models.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
@@ -43,12 +44,34 @@ public class UserService {
     }
     public static void register()throws IOException, ParseException{
         // skapa ett username och password
+        String username = getStringInput("Enter username");
+        String password = getStringInput("Enter your password");
+
+        User newUser = new User(0L, username, password);
+
+        HttpPost request = new HttpPost("http://localhost:8081/webshop/auth/register");
+
+        request.setEntity(createPayload(newUser));
+
+        CloseableHttpResponse response = httpClient.execute(request);
+
+        if (response.getCode() != 200){
+            System.out.println("Something went wrong");
+            return;
+        }
+
+        HttpEntity payload = response.getEntity();
+
+        ObjectMapper mapper = new ObjectMapper();
+        User responseUser = mapper.readValue(EntityUtils.toString(payload), new TypeReference<User>() {});
+
+        System.out.println(String.format("User %s has been created with the id %d",responseUser.getUsername(), responseUser.getId()));
     }
 
 
     public static void main(String[] args) throws IOException, ParseException {
         // Replace with your actual JWT token
-        String jwtToken = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiamFmYXIiLCJpYXQiOjE3MDI1ODQ5NzEsInJvbGVzIjoiVVNFUiJ9.vzqbptQ1S9vMixxTkyTAH4_oolzXPeXOnYUOqXy11YEsVVFTbPnTTvvLA-i2sZq8RFLO4sngO_dxkscpXlumvfbhr62_sjRgqhROCAgCWzOzzV0OjbhkAMO1Io5lGxz_ueGH13cgSDUJFYu04ITBa5lzRbmkSJBaQ1owENaSFztMfN9dI4hCsfpjS24W0u7g7WDid_WsJFSMBDhbNzHk6Z2yMRZY4kwmzFrVDO2Kinzh91igpklmwwaKUvFQajf4072KSqfYMxaDC1S1dtODV8twipHLe5j5dZUnOdeDXWTTZqFGnyFGRqBK7Atbufl2v30lhFSTYaWTvKpEyLAVng";
+        String jwtToken = "";
 
         getUser(jwtToken);
     }
