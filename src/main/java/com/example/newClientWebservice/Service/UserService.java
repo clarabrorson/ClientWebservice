@@ -1,6 +1,7 @@
 package com.example.newClientWebservice.Service;
 
 import com.example.newClientWebservice.Models.Cart;
+import com.example.newClientWebservice.Models.LoginResponse;
 import com.example.newClientWebservice.Models.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -68,6 +69,30 @@ public class UserService {
         System.out.println(String.format("User %s has been created with the id %d",responseUser.getUsername(), responseUser.getId()));
     }
 
+    public static LoginResponse login(String username, String password) throws IOException, ParseException{
+        //Skapa user objekt
+        User loginUser = new User(0L, username, password);
+
+        //skapa ett nytt request
+        HttpPost request = new HttpPost("http://localhost:8081/webshop/auth/login");
+        //skapa en payload
+        request.setEntity(createPayload(loginUser));
+
+        //send request
+        CloseableHttpResponse response = httpClient.execute(request);
+        if (response.getCode() != 200){
+            System.out.println("Något har gått fel vi inloggning");
+            return null;
+        }
+
+        //hämta Payload från response
+        HttpEntity payload = response.getEntity();
+
+        //skapa User objekt från payload
+        ObjectMapper mapper = new ObjectMapper();
+        LoginResponse loginResponse = mapper.readValue(EntityUtils.toString(payload), new TypeReference<LoginResponse>() {});
+        return loginResponse;
+    }
 
     public static void main(String[] args) throws IOException, ParseException {
         // Replace with your actual JWT token
