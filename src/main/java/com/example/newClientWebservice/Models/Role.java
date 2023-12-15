@@ -1,5 +1,6 @@
 package com.example.newClientWebservice.Models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Role {
-
-    private Long id;
+    private Long roleId;
     private String authority;
 }

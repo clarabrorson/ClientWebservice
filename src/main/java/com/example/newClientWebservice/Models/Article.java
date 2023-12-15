@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Article {
 
-
     private Long id;
     private String name;
     private Double cost;
