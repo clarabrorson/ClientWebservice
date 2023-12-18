@@ -35,7 +35,7 @@ public class ArticleService {
         HttpEntity entity = response.getEntity();
 
         ObjectMapper mapper = new ObjectMapper();
-        ArrayList<Article> articles = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<Article>>() {})
+        ArrayList<Article> articles = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<Article>>() {});
 
         for (Article article : articles) {
             System.out.println(String.format("Artikeln %s kostar %s", article.getName(), article.getCost()));
