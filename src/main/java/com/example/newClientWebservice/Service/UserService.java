@@ -1,10 +1,12 @@
 package com.example.newClientWebservice.Service;
 
 import com.example.newClientWebservice.Models.Cart;
+import com.example.newClientWebservice.Models.LoginResponse;
 import com.example.newClientWebservice.Models.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
@@ -21,7 +23,7 @@ public class UserService {
 
     private static final CloseableHttpClient httpClient = HttpClients.createDefault();
 
-    public static void getUser(String jwt) throws IOException, ParseException {
+    public static void getUsers(String jwt) throws IOException, ParseException {
 
             HttpGet request = new HttpGet("http://localhost:8081/webshop/user");
 
@@ -36,20 +38,67 @@ public class UserService {
             HttpEntity entity = response.getEntity();
 
             ObjectMapper mapper = new ObjectMapper();
-            User user = mapper.readValue(EntityUtils.toString(entity), new TypeReference<User>() {});
+            ArrayList<User> users = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<User>>() {});
 
-        System.out.println(user.toString());
-
+        for (User user : users) {
+            System.out.println(String.format("Id: %d  Username: %s",user.getId(), user.getUsername()));
+        }
     }
     public static void register()throws IOException, ParseException{
         // skapa ett username och password
+        String username = getStringInput("Enter username");
+        String password = getStringInput("Enter your password");
+
+        User newUser = new User(0L, username, password);
+
+        HttpPost request = new HttpPost("http://localhost:8081/webshop/auth/register");
+
+        request.setEntity(createPayload(newUser));
+
+        CloseableHttpResponse response = httpClient.execute(request);
+
+        if (response.getCode() != 200){
+            System.out.println("Something went wrong");
+            return;
+        }
+
+        HttpEntity payload = response.getEntity();
+
+        ObjectMapper mapper = new ObjectMapper();
+        User responseUser = mapper.readValue(EntityUtils.toString(payload), new TypeReference<User>() {});
+
+        System.out.println(String.format("User %s has been created with the id %d",responseUser.getUsername(), responseUser.getId()));
     }
 
+    public static LoginResponse login(String username, String password) throws IOException, ParseException{
+        //Skapa user objekt
+        User loginUser = new User(0L, username, password);
+
+        //skapa ett nytt request
+        HttpPost request = new HttpPost("http://localhost:8081/webshop/auth/login");
+        //skapa en payload
+        request.setEntity(createPayload(loginUser));
+
+        //send request
+        CloseableHttpResponse response = httpClient.execute(request);
+        if (response.getCode() != 200){
+            System.out.println("Något har gått fel vi inloggning");
+            return null;
+        }
+
+        //hämta Payload från response
+        HttpEntity payload = response.getEntity();
+
+        //skapa User objekt från payload
+        ObjectMapper mapper = new ObjectMapper();
+        LoginResponse loginResponse = mapper.readValue(EntityUtils.toString(payload), new TypeReference<LoginResponse>() {});
+        return loginResponse;
+    }
 
     public static void main(String[] args) throws IOException, ParseException {
         // Replace with your actual JWT token
-        String jwtToken = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiamFmYXIiLCJpYXQiOjE3MDI1ODQ5NzEsInJvbGVzIjoiVVNFUiJ9.vzqbptQ1S9vMixxTkyTAH4_oolzXPeXOnYUOqXy11YEsVVFTbPnTTvvLA-i2sZq8RFLO4sngO_dxkscpXlumvfbhr62_sjRgqhROCAgCWzOzzV0OjbhkAMO1Io5lGxz_ueGH13cgSDUJFYu04ITBa5lzRbmkSJBaQ1owENaSFztMfN9dI4hCsfpjS24W0u7g7WDid_WsJFSMBDhbNzHk6Z2yMRZY4kwmzFrVDO2Kinzh91igpklmwwaKUvFQajf4072KSqfYMxaDC1S1dtODV8twipHLe5j5dZUnOdeDXWTTZqFGnyFGRqBK7Atbufl2v30lhFSTYaWTvKpEyLAVng";
+        String jwtToken = "";
 
-        getUser(jwtToken);
+        getUsers(jwtToken);
     }
 }
