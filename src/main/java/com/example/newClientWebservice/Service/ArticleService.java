@@ -15,7 +15,7 @@ public class ArticleService {
 
         CloseableHttpResponse response = httpClient.execute(request);
 
-        
+
     }
 
 }
