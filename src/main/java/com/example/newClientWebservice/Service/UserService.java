@@ -23,7 +23,7 @@ public class UserService {
 
     private static final CloseableHttpClient httpClient = HttpClients.createDefault();
 
-    public static void getUser(String jwt) throws IOException, ParseException {
+    public static void getUsers(String jwt) throws IOException, ParseException {
 
             HttpGet request = new HttpGet("http://localhost:8081/webshop/user");
 
@@ -38,10 +38,11 @@ public class UserService {
             HttpEntity entity = response.getEntity();
 
             ObjectMapper mapper = new ObjectMapper();
-            User user = mapper.readValue(EntityUtils.toString(entity), new TypeReference<User>() {});
+            ArrayList<User> users = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<User>>() {});
 
-        System.out.println(user.toString());
-
+        for (User user : users) {
+            System.out.println(String.format("Id: %d  Username: %s",user.getId(), user.getUsername()));
+        }
     }
     public static void register()throws IOException, ParseException{
         // skapa ett username och password
@@ -98,6 +99,6 @@ public class UserService {
         // Replace with your actual JWT token
         String jwtToken = "";
 
-        getUser(jwtToken);
+        getUsers(jwtToken);
     }
 }
