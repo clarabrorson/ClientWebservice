@@ -3,6 +3,7 @@ package com.example.newClientWebservice.Models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class History {
     private Long id;
-    private Set<Article> purchasedArticles = new HashSet<>();
+    private Set<Article> purchasedArticles;
     private User user;
     private int totalCost;
     @Override
