@@ -4,6 +4,7 @@ import com.example.newClientWebservice.Models.Article;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
@@ -60,4 +61,26 @@ public class ArticleService {
 
         System.out.println(String.format("Artikeln %s kostar %.2f", article.getName(), article.getCost()));
     }
+
+    public static void addArticle(Article article) throws IOException, ParseException {
+
+       /* Article newArticle = new Article("Kaffe", 20, "Beskrivning", 50);
+
+        HttpPost request = new HttpPost("http://localhost:8081/articles");
+
+        request.setEntity(createPayload(article));
+
+        CloseableHttpResponse response = httpClient.execute(request);
+
+        if (response.getCode() != 200) {
+            System.out.println("Error uppstod");
+            return;
+        }
+        HttpEntity entity = response.getEntity();
+
+        ObjectMapper mapper = new ObjectMapper();
+        Article responseArticle = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Article>() {});
+
+        System.out.println(String.format("Artikeln %s kostar %.2f", responseArticle.getName(), responseArticle.getCost()));
+    */}
 }

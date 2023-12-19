@@ -11,10 +11,17 @@ public class Article {
 
     private Long id;
     private String name;
-    private Double cost;
+    private int cost;
     private String description;
-    private Integer quantity;
+    private int quantity;
 
     private History history;
+
+    public Article(String name, int cost, String description, int quantity) {
+        this.name = name;
+        this.cost = cost;
+        this.description = description;
+        this.quantity = quantity;
+    }
 
 }
