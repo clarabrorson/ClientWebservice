@@ -3,7 +3,9 @@ package com.example.newClientWebservice.Service;
 import com.example.newClientWebservice.Models.Article;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.hc.client5.http.classic.methods.HttpDelete;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPatch;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
@@ -106,5 +108,54 @@ public class ArticleService {
         } else {
             System.out.println("Något gick fel");
         }
+    }
+
+    public static void updateArticle(int id, String jwt) throws IOException, ParseException {
+
+        Article article = createArticle();
+
+        HttpPatch request = new HttpPatch(String.format("http://localhost:8081/articles/%d", id));
+
+        ObjectMapper mapper = new ObjectMapper();
+        StringEntity payload = new StringEntity(mapper.writeValueAsString(article), ContentType.APPLICATION_JSON);
+
+        request.setEntity(payload);
+
+        request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
+
+        CloseableHttpResponse response = httpClient.execute(request);
+
+        if (response.getCode() != 200) {
+            System.out.println("Error uppstod");
+            return;
+        }
+
+        HttpEntity entity = response.getEntity();
+
+        Article responseArticle = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Article>() {});
+
+        if (responseArticle.getName().equals(article.getName()) && responseArticle.getCost() == article.getCost()
+                && responseArticle.getDescription().equals(article.getDescription()) && responseArticle.getQuantity() == article.getQuantity()) {
+            System.out.println(String.format("Artikeln %s har uppdaterats", responseArticle.getName()));
+        } else {
+            System.out.println("Något gick fel");
+        }
+    }
+
+
+    public static void deleteArticle(int id, String jwt) throws IOException, ParseException {
+
+        HttpDelete request = new HttpDelete(String.format("http://localhost:8081/articles/%d", id));
+
+        request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
+
+        CloseableHttpResponse response = httpClient.execute(request);
+
+        if (response.getCode() != 200) {
+            System.out.println("Error uppstod");
+            return;
+        }
+
+        System.out.println(String.format("Artikeln med ID %d har tagits bort", id));
     }
 }
