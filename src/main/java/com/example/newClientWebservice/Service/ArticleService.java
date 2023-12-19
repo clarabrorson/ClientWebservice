@@ -8,14 +8,18 @@ import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.HttpHeaders;
 import org.apache.hc.core5.http.ParseException;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import static com.example.newClientWebservice.Service.UtilService.*;
 
 @Service
 public class ArticleService {
@@ -62,13 +66,28 @@ public class ArticleService {
         System.out.println(String.format("Artikeln %s kostar %.2f", article.getName(), article.getCost()));
     }
 
-    public static void addArticle(Article article) throws IOException, ParseException {
+    public static Article createArticle() {
+        Article article = new Article();
 
-       /* Article newArticle = new Article("Kaffe", 20, "Beskrivning", 50);
+        article.setName(getStringInput("Ange namn på artikel:"));
+        article.setCost(getIntInput("Ange pris på artikel:"));
+        article.setDescription(getStringInput("Ange beskrivning på artikel:"));
+        article.setQuantity(getIntInput("Ange antal på artikel:"));
+        return article;
+    }
+
+    public static void addArticle(String jwt) throws IOException, ParseException {
+
+       Article newArticle = createArticle();
 
         HttpPost request = new HttpPost("http://localhost:8081/articles");
 
-        request.setEntity(createPayload(article));
+        ObjectMapper mapper = new ObjectMapper();
+        StringEntity payload = new StringEntity(mapper.writeValueAsString(newArticle), ContentType.APPLICATION_JSON);
+
+        request.setEntity(payload);
+
+        request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
 
         CloseableHttpResponse response = httpClient.execute(request);
 
@@ -76,11 +95,16 @@ public class ArticleService {
             System.out.println("Error uppstod");
             return;
         }
+
         HttpEntity entity = response.getEntity();
 
-        ObjectMapper mapper = new ObjectMapper();
         Article responseArticle = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Article>() {});
 
-        System.out.println(String.format("Artikeln %s kostar %.2f", responseArticle.getName(), responseArticle.getCost()));
-    */}
+        if (responseArticle.getName().equals(newArticle.getName()) && responseArticle.getCost() == newArticle.getCost()
+                && responseArticle.getDescription().equals(newArticle.getDescription()) && responseArticle.getQuantity() == newArticle.getQuantity()) {
+            System.out.println(String.format("Artikeln %s har lagts till", responseArticle.getName()));
+        } else {
+            System.out.println("Något gick fel");
+        }
+    }
 }

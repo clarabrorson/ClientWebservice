@@ -21,6 +21,18 @@ public class UtilService {
         return input;
     }
 
+    public static int getIntInput(String prompt) {
+        Scanner scan = new Scanner(System.in);
+        System.out.print(prompt);
+        int input = scan.nextInt();
+
+        if (input == 0) {
+            System.out.println("Felaktig input. Försök igen.");
+            return getIntInput(prompt);
+        }
+        return input;
+    }
+
     public static StringEntity createPayload(Object object) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         StringEntity payload = new StringEntity(mapper.writeValueAsString(object), ContentType.APPLICATION_JSON);
