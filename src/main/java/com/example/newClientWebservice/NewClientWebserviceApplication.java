@@ -14,8 +14,9 @@ public class NewClientWebserviceApplication {
 	}
 
 	@Bean
-	CommandLineRunner run(ArticleService articleService) {
+	CommandLineRunner run() {
 		return args -> {
+			ArticleService.getAllArticles();
 		};
 	}
 

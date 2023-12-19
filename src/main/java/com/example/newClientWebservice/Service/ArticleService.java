@@ -45,7 +45,7 @@ public class ArticleService {
         ArrayList<Article> articles = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<Article>>() {});
 
         for (Article article : articles) {
-            System.out.println(String.format("Artikel: %s \n Pris: %.2f \n ", article.getName(), article.getCost()));
+            System.out.println(String.format("Article: %s \n Price: %d \n Description: %s \n Quantity: %d", article.getName(), article.getCost(), article.getDescription(), article.getQuantity()));
         }
         return articles;
     }
@@ -65,7 +65,7 @@ public class ArticleService {
         ObjectMapper mapper = new ObjectMapper();
         Article article = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Article>() {});
 
-        System.out.println(String.format("Artikeln %s kostar %.2f", article.getName(), article.getCost()));
+        System.out.println(String.format("Artikeln %s kostar %d", article.getName(), article.getCost()));
     }
 
     public static Article createArticle() {
