@@ -19,6 +19,9 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 
+import static com.example.newClientWebservice.Service.UtilService.createPayload;
+import static com.example.newClientWebservice.Service.UtilService.getStringInput;
+
 public class UserService {
 
     private static final CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -44,61 +47,73 @@ public class UserService {
             System.out.println(String.format("Id: %d  Username: %s",user.getId(), user.getUsername()));
         }
     }
-//    public static void register()throws IOException, ParseException{
-//        // skapa ett username och password
-//        String username = getStringInput("Enter username");
-//        String password = getStringInput("Enter your password");
-//
-//        User newUser = new User(0L, username, password);
-//
-//        HttpPost request = new HttpPost("http://localhost:8081/webshop/auth/register");
-//
-//        request.setEntity(createPayload(newUser));
-//
-//        CloseableHttpResponse response = httpClient.execute(request);
-//
-//        if (response.getCode() != 200){
-//            System.out.println("Something went wrong");
-//            return;
-//        }
-//
-//        HttpEntity payload = response.getEntity();
-//
-//        ObjectMapper mapper = new ObjectMapper();
-//        User responseUser = mapper.readValue(EntityUtils.toString(payload), new TypeReference<User>() {});
-//
-//        System.out.println(String.format("User %s has been created with the id %d",responseUser.getUsername(), responseUser.getId()));
-//    }
-//
-//    public static LoginResponse login(String username, String password) throws IOException, ParseException{
-//        //Skapa user objekt
-//        User loginUser = new User(0L, username, password);
-//
-//        //skapa ett nytt request
-//        HttpPost request = new HttpPost("http://localhost:8081/webshop/auth/login");
-//        //skapa en payload
-//        request.setEntity(createPayload(loginUser));
-//
-//        //send request
-//        CloseableHttpResponse response = httpClient.execute(request);
-//        if (response.getCode() != 200){
-//            System.out.println("Något har gått fel vi inloggning");
-//            return null;
-//        }
-//
-//        //hämta Payload från response
-//        HttpEntity payload = response.getEntity();
-//
-//        //skapa User objekt från payload
-//        ObjectMapper mapper = new ObjectMapper();
-//        LoginResponse loginResponse = mapper.readValue(EntityUtils.toString(payload), new TypeReference<LoginResponse>() {});
-//        return loginResponse;
-//    }
+    public static void register()throws IOException, ParseException{
+        // skapa ett username och password
+        String username = getStringInput("Enter username");
+        String password = getStringInput("Enter your password");
+
+        User newUser = new User(0L, username, password);
+
+        HttpPost request = new HttpPost("http://localhost:8081/webshop/auth/register");
+
+        request.setEntity(createPayload(newUser));
+
+        CloseableHttpResponse response = httpClient.execute(request);
+
+        if (response.getCode() != 200){
+            System.out.println("Something went wrong");
+            return;
+        }
+
+        HttpEntity payload = response.getEntity();
+
+        ObjectMapper mapper = new ObjectMapper();
+        User responseUser = mapper.readValue(EntityUtils.toString(payload), new TypeReference<User>() {});
+
+        System.out.println(String.format("User %s has been created with the id %d",responseUser.getUsername(), responseUser.getId()));
+    }
+
+    public static LoginResponse login() throws IOException, ParseException{
+        // skapa ett username och password
+        String username = getStringInput("Enter username ");
+        String password = getStringInput("Enter your password ");
+        //Skapa user objekt
+        User loginUser = new User(0L, username, password);
+
+        //skapa ett nytt request
+        HttpPost request = new HttpPost("http://localhost:8081/webshop/auth/login");
+        //skapa en payload
+        request.setEntity(createPayload(loginUser));
+
+        //send request
+        CloseableHttpResponse response = httpClient.execute(request);
+        if (response.getCode() != 200){
+            System.out.println("Något har gått fel vi inloggning");
+            return null;
+        }
+
+        //hämta Payload från response
+        HttpEntity payload = response.getEntity();
+
+        //skapa User objekt från payload
+        ObjectMapper mapper = new ObjectMapper();
+        LoginResponse loginResponse = mapper.readValue(EntityUtils.toString(payload), new TypeReference<LoginResponse>() {});
+        if (loginResponse.getUser() == null) {
+            System.out.println("Felaktigt användarnamn eller lösenord");
+            return null;
+        }
+        System.out.println(String.format("User %s has logged in", loginResponse.getUser().getUsername()));
+        System.out.println(String.format("JWT token: %s", loginResponse.getJwt()));
+        return loginResponse;
+    }
 
     public static void main(String[] args) throws IOException, ParseException {
         // Replace with your actual JWT token
-        String jwtToken = "";
+//        String jwtToken = "";
+//
+//        getUsers(jwtToken);
 
-        getUsers(jwtToken);
+//    register();
+   login();
     }
 }
