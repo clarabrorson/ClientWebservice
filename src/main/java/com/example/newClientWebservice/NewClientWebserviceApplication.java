@@ -18,12 +18,15 @@ public class NewClientWebserviceApplication {
 	}
 
 
-	/*@Bean
-	CommandLineRunner run() {
->>>>>>> 8ba9ccf3594d353d6dbc2922ff41802ec79cd15f
-		return args -> {
-			ArticleService.getAllArticles();
-		};
-	}*/
+//	CommandLineRunner run() {
+//
+//			//ArticleService.getAllArticles();
+//			CartService.getOneCartById(1, login().getJwt()); //Fungerar
+//			//CartService.getAllCarts(login().getJwt()); //Fungerar
+//			//CartService.addArticleToCart(1, 1, login().getJwt()); //Fungerar
+//			//CartService.updateArticleCount(1, 1, 5, login().getJwt()); //Fungerar
+//			//CartService.deleteArticleFromCart(1, 1, login().getJwt()); //Fungerar
+//		};
+//	}
 
 }

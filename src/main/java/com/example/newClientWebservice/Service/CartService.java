@@ -66,12 +66,12 @@ public class CartService {
         ObjectMapper mapper = new ObjectMapper();
         Cart cart = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Cart>() {});
 
-        System.out.println(String.format("Cart %s belongs to %s and contains %s", (Object) cart.getId(), (Object) cart.getUser(), (Object) cart.getArticles()));
+        System.out.println(String.format("Cart %s belongs to %s and contains %s", cart.getId(), cart.getUser(), cart.getArticles()));
     }
 
     public static void addArticleToCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
 
-        HttpPost request = new HttpPost(String.format("http://localhost:8081/webshop/cart/%d/articles/%d", cartId, articleId));
+        HttpPost request = new HttpPost(String.format("http://localhost:8081/webshop/cart/%d", cartId));
 
         request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
 
@@ -110,7 +110,7 @@ public class CartService {
         ObjectMapper mapper = new ObjectMapper();
         Cart cart = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Cart>() {});
 
-        System.out.println(String.format("Article %s in cart %s has updated its quantity to %d", (Object) articleId, (Object) cartId, (Object) quantity));
+        System.out.println(String.format("Article %s in cart %s has updated its quantity to %d", articleId, cartId, quantity));
     }
 
     public static void deleteArticleFromCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
@@ -133,8 +133,9 @@ public class CartService {
         Cart cart = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Cart>() {});
 
         //Skriv ut cart och artikel som har tagits bort
-        System.out.println(String.format("Article %s has been deleted from cart %s", (Object) articleId, (Object) cartId));
+        System.out.println(String.format("Article %s has been deleted from cart %s", articleId, cartId));
     }
+
 
     public static void main(String[] args) throws IOException, ParseException {
 
@@ -147,4 +148,5 @@ public class CartService {
             deleteArticleFromCart(1, 1, jwt);
 
     }
+
 }
