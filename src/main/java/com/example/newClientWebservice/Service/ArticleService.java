@@ -63,7 +63,7 @@ public class ArticleService {
         CloseableHttpResponse response = httpClient.execute(request);
 
         if (response.getCode() != 200) {
-            System.out.println("Error uppstod");
+            System.out.println("Error uppstod. HTTP response code: " + response.getCode());
             return;
         }
         HttpEntity entity = response.getEntity();
