@@ -24,7 +24,7 @@ public class CartService {
     public static void getAllCarts(String jwt) throws IOException, ParseException {
 
         //Skapa ett objekt av HttpGet klassen. Inkludera URL
-        HttpGet request = new HttpGet("http://localhost:8081/cart");
+        HttpGet request = new HttpGet("http://localhost:8081/webshop/cart");
 
         //Inkludera en Authorization metod till request
         request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
@@ -34,6 +34,7 @@ public class CartService {
 
         if (response.getCode() != 200) {
             System.out.println("Something went wrong");
+            System.out.println(response.getCode());
             return;
         }
 
@@ -53,7 +54,7 @@ public class CartService {
 
     public static void getOneCartById(int id, String jwt) throws IOException, ParseException {
         //Skapa ett objekt av HttpGet klassen. Inkludera URL
-        HttpGet request = new HttpGet(String.format("http://localhost:8081/cart/%d", id));
+        HttpGet request = new HttpGet(String.format("http://localhost:8081/webshop/cart/%d", id));
 
         //Inkludera en Authorization metod till request
         request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
@@ -63,6 +64,7 @@ public class CartService {
 
         if (response.getCode() != 200) {
             System.out.println("Something went wrong");
+            System.out.println(response.getCode());
             return;
         }
 
@@ -80,7 +82,7 @@ public class CartService {
 
     public static void addArticleToCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
         //Skapa ett objekt av HttpGet klassen. Inkludera URL
-        HttpGet request = new HttpGet(String.format("http://localhost:8081/cart/%d/articles/%d", cartId, articleId));
+        HttpGet request = new HttpGet(String.format("http://localhost:8081/webshop/cart/%d/articles/%d", cartId, articleId));
 
         //Inkludera en Authorization metod till request
         request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
@@ -90,6 +92,7 @@ public class CartService {
 
         if (response.getCode() != 200) {
             System.out.println("Something went wrong");
+            System.out.println(response.getCode());
             return;
         }
 
@@ -107,7 +110,7 @@ public class CartService {
 
     public static void updateArticleCount(int cartId, int articleId, int quantity, String jwt) throws IOException, ParseException {
         //Skapa ett objekt av HttpGet klassen. Inkludera URL
-        HttpGet request = new HttpGet(String.format("http://localhost:8081/cart/%d/articles/%d?quantity=%d", cartId, articleId, quantity));
+        HttpGet request = new HttpGet(String.format("http://localhost:8081/webshop/cart/%d/articles/%d?quantity=%d", cartId, articleId, quantity));
 
         //Inkludera en Authorization metod till request
         request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
@@ -117,6 +120,7 @@ public class CartService {
 
         if (response.getCode() != 200) {
             System.out.println("Something went wrong");
+            System.out.println(response.getCode());
             return;
         }
 
@@ -134,7 +138,7 @@ public class CartService {
 
     public static void deleteArticleFromCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
         //Skapa ett objekt av HttpGet klassen. Inkludera URL
-        HttpGet request = new HttpGet(String.format("http://localhost:8081/cart/%d/articles/%d", cartId, articleId));
+        HttpGet request = new HttpGet(String.format("http://localhost:8081/webshop/cart/%d/articles/%d", cartId, articleId));
 
         //Inkludera en Authorization metod till request
         request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
@@ -144,6 +148,7 @@ public class CartService {
 
         if (response.getCode() != 200) {
             System.out.println("Something went wrong");
+            System.out.println(response.getCode());
             return;
         }
 
@@ -161,8 +166,13 @@ public class CartService {
 
     public static void main(String[] args) throws IOException, ParseException {
 
-   login();
+   String jwt = String.valueOf(login());
 
+            getAllCarts(jwt);
+            getOneCartById(1, jwt);
+            addArticleToCart(1, 1, jwt);
+            updateArticleCount(1, 1, 5, jwt);
+            deleteArticleFromCart(1, 1, jwt);
 
     }
 }
