@@ -17,11 +17,5 @@ public class NewClientWebserviceApplication {
 		SpringApplication.run(NewClientWebserviceApplication.class, args);
 	}
 
-	/*@Bean
-	CommandLineRunner run() {
-		return args -> {
-			ArticleService.getAllArticles();
-		};
-	}*/
 
 }
