@@ -62,7 +62,7 @@ public class HistoryService {
         }
     }
 
-    public static ArrayList<History> getCurrentUserHistory(String jwt) {
+    public static ArrayList<Article> getCurrentUserHistory(String jwt) {
         HttpGet request = new HttpGet("http://localhost:8081/webshop/history/currentUserHistory");
 
         // Include an Authorization method to the request
@@ -83,16 +83,17 @@ public class HistoryService {
             ArrayList<Article> articles = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<Article>>() {
             });
 
-            System.out.println("Purchased Articles:");
-            // Print out the articles in the list
+          System.out.println("Purchased Articles:");
+            // skriv ut alla artiklar som köpts
             for (Article article : articles) {
                 System.out.println(String.format(
-                        "  Article id: %d, name: %s, cost: %f, description: %s, quantity: %d",
+                        "Article id: %d, name: %s, cost: %d, description: %s, quantity: %d",
                         article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity()
                 ));
+
             }
 
-            return null;  // Update this to return the actual list of histories
+            return articles;  // Update this to return the actual list of histories
         } catch (IOException | ParseException e) {
             e.printStackTrace();
             return null;
@@ -100,6 +101,6 @@ public class HistoryService {
     }
     public static void main(String[] args) throws IOException, ParseException {
         String jwt = String.valueOf(login().getJwt());
-        getAllHistory(jwt);
+        getCurrentUserHistory(jwt);
     }
 }
