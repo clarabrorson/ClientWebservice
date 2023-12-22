@@ -28,36 +28,42 @@ public class ArticleService {
 
     private static final CloseableHttpClient httpClient = HttpClients.createDefault();
 
-    public static ArrayList<Article> getAllArticles() throws IOException, ParseException {
+    public static ArrayList<Article> getAllArticles() {
+        try {
 
-        HttpGet request = new HttpGet("http://localhost:8081/articles");
+            HttpGet request = new HttpGet("http://localhost:8081/webshop/articles");
+            CloseableHttpResponse response = httpClient.execute(request);
 
-        CloseableHttpResponse response = httpClient.execute(request);
+            if (response.getCode() != 200) {
+                System.out.println("Error uppstod. HTTP response code: " + response.getCode());
+                return null;
+            }
 
-        if (response.getCode() != 200) {
-            System.out.println("Error uppstod");
+            HttpEntity entity = response.getEntity();
+            ObjectMapper mapper = new ObjectMapper();
+            ArrayList<Article> articles = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<Article>>() {});
+
+            for (Article article : articles) {
+                System.out.println(String.format("Article: %s \n Price: %d \n Description: %s \n Quantity: %d \n", article.getName(), article.getCost(), article.getDescription(), article.getQuantity()));
+            }
+            return articles;
+
+        } catch (IOException | ParseException e) {
+            System.out.println("Error: " + e.getMessage());
+            e.printStackTrace();
             return null;
         }
-
-        HttpEntity entity = response.getEntity();
-
-        ObjectMapper mapper = new ObjectMapper();
-        ArrayList<Article> articles = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<Article>>() {});
-
-        for (Article article : articles) {
-            System.out.println(String.format("Article: %s \n Price: %d \n Description: %s \n Quantity: %d", article.getName(), article.getCost(), article.getDescription(), article.getQuantity()));
-        }
-        return articles;
     }
+
 
     public static void getOneArticle(int id) throws IOException, ParseException {
 
-        HttpGet request = new HttpGet(String.format("http://localhost:8081/articles/%d", id));
+        HttpGet request = new HttpGet(String.format("http://localhost:8081/webshop/articles/%d", id));
 
         CloseableHttpResponse response = httpClient.execute(request);
 
         if (response.getCode() != 200) {
-            System.out.println("Error uppstod");
+            System.out.println("Error uppstod. HTTP response code: " + response.getCode());
             return;
         }
         HttpEntity entity = response.getEntity();
@@ -82,7 +88,7 @@ public class ArticleService {
 
        Article newArticle = createArticle();
 
-        HttpPost request = new HttpPost("http://localhost:8081/articles");
+        HttpPost request = new HttpPost("http://localhost:8081/webshop/articles");
 
         ObjectMapper mapper = new ObjectMapper();
         StringEntity payload = new StringEntity(mapper.writeValueAsString(newArticle), ContentType.APPLICATION_JSON);
@@ -114,7 +120,7 @@ public class ArticleService {
 
         Article article = createArticle();
 
-        HttpPatch request = new HttpPatch(String.format("http://localhost:8081/articles/%d", id));
+        HttpPatch request = new HttpPatch(String.format("http://localhost:8081/webshop/articles/%d", id));
 
         ObjectMapper mapper = new ObjectMapper();
         StringEntity payload = new StringEntity(mapper.writeValueAsString(article), ContentType.APPLICATION_JSON);
@@ -145,7 +151,7 @@ public class ArticleService {
 
     public static void deleteArticle(int id, String jwt) throws IOException, ParseException {
 
-        HttpDelete request = new HttpDelete(String.format("http://localhost:8081/articles/%d", id));
+        HttpDelete request = new HttpDelete(String.format("http://localhost:8081/webshop/articles/%d", id));
 
         request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
 
