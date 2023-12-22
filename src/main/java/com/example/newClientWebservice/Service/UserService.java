@@ -26,23 +26,26 @@ public class UserService {
 
     private static final CloseableHttpClient httpClient = HttpClients.createDefault();
 
-    public static void getUsers(String jwt) throws IOException, ParseException {
-
+    public static void getUsers(String jwt) throws IOException, ParseException { // för admin
+    // skapa ett objekt av http get klassen
             HttpGet request = new HttpGet("http://localhost:8081/webshop/user");
-
+    // inkludera en authorization metod till request
             request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
-
+    // exekvera request
             CloseableHttpResponse response = httpClient.execute(request);
+            // visa upp response payload i console
             if (response.getCode() != 200) {
                 System.out.println("Something went wrong");
                 return;
             }
 
+            // visa upp response payload i console
             HttpEntity entity = response.getEntity();
-
+        // skapa ett objekt av ObjectMapper klassen
             ObjectMapper mapper = new ObjectMapper();
+            // skapar en arraylist av User objekt för att kunna loopa igenom och skriva ut alla users
             ArrayList<User> users = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<User>>() {});
-
+        // loopa igenom och skriv ut users
         for (User user : users) {
             System.out.println(String.format("Id: %d  Username: %s",user.getId(), user.getUsername()));
         }
@@ -88,7 +91,7 @@ public class UserService {
         //send request
         CloseableHttpResponse response = httpClient.execute(request);
         if (response.getCode() != 200){
-            System.out.println("Något har gått fel vi inloggning");
+            System.out.println("Something went wrong");
             return null;
         }
 
