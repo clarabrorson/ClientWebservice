@@ -15,6 +15,8 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.example.newClientWebservice.Service.UserService.login;
+
 public class CartService {
 
     private static final CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -155,5 +157,12 @@ public class CartService {
 
         //Skriv ut cart och artikel som har tagits bort
         System.out.println(String.format("Article %s has been deleted from cart %s", (Object) articleId, (Object) cartId));
+    }
+
+    public static void main(String[] args) throws IOException, ParseException {
+
+   login();
+
+
     }
 }
