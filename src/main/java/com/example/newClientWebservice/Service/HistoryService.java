@@ -19,6 +19,8 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.example.newClientWebservice.Service.UserService.login;
+
 public class HistoryService {
     private static final CloseableHttpClient httpClient = HttpClients.createDefault();
 
@@ -48,8 +50,8 @@ public class HistoryService {
             // Print out the histories in the list
             for (History history : histories) {
                 System.out.println(String.format(
-                        "  History id: %d, totalCost: %d, user: %s",
-                        history.getId(), history.getTotalCost(), history.getUser()
+                        "  History id: %d, totalCost: %d, article: %s, user: %s",
+                        history.getId(), history.getTotalCost(), history.getPurchasedArticles(), history.getUser().getUsername()
                 ));
             }
 
@@ -96,8 +98,8 @@ public class HistoryService {
             return null;
         }
     }
-    public static void main(String[] args) {
-        String jwt = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiYWRtaW4iLCJpYXQiOjE3MDI5MDUzMTksInJvbGVzIjoiQURNSU4ifQ.bgeiYV_AxaJggsxUT9S7_0wYKv2dvX59CsX0zf_WmLYLoXe-Kn_LnYHSHRy9NL_aw5jxykNwQUiDLhkoeVL9jdjwNEvPJO1laOmqxEP-JGQhmveBa80UxRbOknpswC77sCZAp54PrqB8YPx4R-F1ZLWvEi3dCW2vXN9b522Y8crHIwxYp13CyPWVtvnXBDZzyT7YP2vozssAFOHyH95dOy6pC_m312pOvYXxDhIyipED0pPKmeRWNWSy5LNg1vYVilHE_OyNv282FzcjMmLaneWWCT510nmtQ4-s7O_bRSNYpfEVnWTamCN0EZVSRfNgIuv0Ul3_d9vtwgu5SJ_vUw";
+    public static void main(String[] args) throws IOException, ParseException {
+        String jwt = String.valueOf(login().getJwt());
         getAllHistory(jwt);
     }
 }

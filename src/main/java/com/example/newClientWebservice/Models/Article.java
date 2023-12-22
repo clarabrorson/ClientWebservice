@@ -15,7 +15,7 @@ public class Article {
     private String description;
     private int quantity;
 
-    private History history;
+//    private History history;
 
     public Article(String name, int cost, String description, int quantity) {
         this.name = name;
