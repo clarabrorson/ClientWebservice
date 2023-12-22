@@ -17,5 +17,16 @@ public class NewClientWebserviceApplication {
 		SpringApplication.run(NewClientWebserviceApplication.class, args);
 	}
 
+	@Bean
+	CommandLineRunner run() {
+		return args -> {
+			//ArticleService.getAllArticles();
+			CartService.getOneCartById(1, login().getJwt()); //Fungerar
+			//CartService.getAllCarts(login().getJwt()); //Fungerar
+			//CartService.addArticleToCart(1, 1, login().getJwt()); //Fungerar
+			//CartService.updateArticleCount(1, 1, 5, login().getJwt()); //Fungerar
+			//CartService.deleteArticleFromCart(1, 1, login().getJwt()); //Fungerar
+		};
+	}
 
 }
