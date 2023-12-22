@@ -44,7 +44,7 @@ public class CartService {
         ArrayList<Cart> carts = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<Cart>>() {});
 
         for (Cart cart : carts) {
-            System.out.println(String.format("Cart %s belongs to %s and contains %s", (Object) cart.getId(), (Object) cart.getUser(), (Object) cart.getArticles()));
+            System.out.println(String.format("Cart %s belongs to %s and contains %s", (Object) cart.getId(), (Object) cart.getUsername(), (Object) cart.getArticles()));
         }
     }
 
@@ -66,7 +66,7 @@ public class CartService {
         ObjectMapper mapper = new ObjectMapper();
         Cart cart = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Cart>() {});
 
-        System.out.println(String.format("Cart %s belongs to %s and contains %s", cart.getId(), cart.getUser(), cart.getArticles()));
+        System.out.println(String.format("Cart %s belongs to %s and contains %s", cart.getId(), cart.getUsername(), cart.getArticles()));
     }
 
     public static void addArticleToCart(int cartId, int articleId, String jwt) throws IOException, ParseException {

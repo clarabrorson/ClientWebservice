@@ -14,6 +14,7 @@ public class Cart {
         private Long id;
         private User user;
         private Set<Article> articles;
+        private String username;
         public Cart(Long id) {
                 this.id = id;
         }
