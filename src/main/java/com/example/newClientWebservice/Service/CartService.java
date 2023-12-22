@@ -71,7 +71,7 @@ public class CartService {
 
     public static void addArticleToCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
 
-        HttpPost request = new HttpPost(String.format("http://localhost:8081/webshop/cart/%d/articles/%d", cartId, articleId));
+        HttpPost request = new HttpPost(String.format("http://localhost:8081/webshop/cart/%d", cartId));
 
         request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
 
@@ -136,15 +136,4 @@ public class CartService {
         System.out.println(String.format("Article %s has been deleted from cart %s", (Object) articleId, (Object) cartId));
     }
 
-    public static void main(String[] args) throws IOException, ParseException {
-
-   String jwt = String.valueOf(login());
-
-            getAllCarts(jwt);
-            getOneCartById(1, jwt);
-            addArticleToCart(1, 1, jwt);
-            updateArticleCount(1, 1, 5, jwt);
-            deleteArticleFromCart(1, 1, jwt);
-
-    }
 }
