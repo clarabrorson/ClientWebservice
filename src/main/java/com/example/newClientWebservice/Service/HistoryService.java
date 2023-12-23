@@ -19,6 +19,8 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.example.newClientWebservice.Service.UserService.login;
+
 public class HistoryService {
     private static final CloseableHttpClient httpClient = HttpClients.createDefault();
 
@@ -48,8 +50,8 @@ public class HistoryService {
             // Print out the histories in the list
             for (History history : histories) {
                 System.out.println(String.format(
-                        "  History id: %d, totalCost: %d, user: %s",
-                        history.getId(), history.getTotalCost(), history.getUser()
+                        "  History id: %d, totalCost: %d, article: %s, user: %s",
+                        history.getId(), history.getTotalCost(), history.getPurchasedArticles(), history.getUser().getUsername()
                 ));
             }
 
@@ -60,7 +62,7 @@ public class HistoryService {
         }
     }
 
-    public static ArrayList<History> getCurrentUserHistory(String jwt) {
+    public static ArrayList<Article> getCurrentUserHistory(String jwt) {
         HttpGet request = new HttpGet("http://localhost:8081/webshop/history/currentUserHistory");
 
         // Include an Authorization method to the request
@@ -81,23 +83,24 @@ public class HistoryService {
             ArrayList<Article> articles = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<Article>>() {
             });
 
-            System.out.println("Purchased Articles:");
-            // Print out the articles in the list
+          System.out.println("Purchased Articles:");
+            // skriv ut alla artiklar som köpts
             for (Article article : articles) {
                 System.out.println(String.format(
-                        "  Article id: %d, name: %s, cost: %f, description: %s, quantity: %d",
+                        "Article id: %d, name: %s, cost: %d, description: %s, quantity: %d",
                         article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity()
                 ));
+
             }
 
-            return null;  // Update this to return the actual list of histories
+            return articles;  // Update this to return the actual list of histories
         } catch (IOException | ParseException e) {
             e.printStackTrace();
             return null;
         }
     }
-    public static void main(String[] args) {
-        String jwt = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiYWRtaW4iLCJpYXQiOjE3MDI5MDUzMTksInJvbGVzIjoiQURNSU4ifQ.bgeiYV_AxaJggsxUT9S7_0wYKv2dvX59CsX0zf_WmLYLoXe-Kn_LnYHSHRy9NL_aw5jxykNwQUiDLhkoeVL9jdjwNEvPJO1laOmqxEP-JGQhmveBa80UxRbOknpswC77sCZAp54PrqB8YPx4R-F1ZLWvEi3dCW2vXN9b522Y8crHIwxYp13CyPWVtvnXBDZzyT7YP2vozssAFOHyH95dOy6pC_m312pOvYXxDhIyipED0pPKmeRWNWSy5LNg1vYVilHE_OyNv282FzcjMmLaneWWCT510nmtQ4-s7O_bRSNYpfEVnWTamCN0EZVSRfNgIuv0Ul3_d9vtwgu5SJ_vUw";
-        getAllHistory(jwt);
+    public static void main(String[] args) throws IOException, ParseException {
+        String jwt = String.valueOf(login().getJwt());
+        getCurrentUserHistory(jwt);
     }
 }
