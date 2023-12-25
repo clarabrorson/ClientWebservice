@@ -35,7 +35,7 @@ public class ArticleService {
             CloseableHttpResponse response = httpClient.execute(request);
 
             if (response.getCode() != 200) {
-                System.out.println("Error uppstod. HTTP response code: " + response.getCode());
+                System.out.println("Error occurred. HTTP response code: " + response.getCode());
                 return null;
             }
 
@@ -55,7 +55,6 @@ public class ArticleService {
         }
     }
 
-
     public static void getOneArticle(int id) throws IOException, ParseException {
 
         HttpGet request = new HttpGet(String.format("http://localhost:8081/webshop/articles/%d", id));
@@ -63,7 +62,7 @@ public class ArticleService {
         CloseableHttpResponse response = httpClient.execute(request);
 
         if (response.getCode() != 200) {
-            System.out.println("Error uppstod. HTTP response code: " + response.getCode());
+            System.out.println("Error occurred. HTTP response code: " + response.getCode());
             return;
         }
         HttpEntity entity = response.getEntity();
@@ -71,16 +70,16 @@ public class ArticleService {
         ObjectMapper mapper = new ObjectMapper();
         Article article = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Article>() {});
 
-        System.out.println(String.format("Artikeln %s kostar %d", article.getName(), article.getCost()));
+        System.out.println(String.format("Article: %s \n Price: %d", article.getName(), article.getCost()));
     }
 
     public static Article createArticle() {
         Article article = new Article();
 
-        article.setName(getStringInput("Ange namn på artikel:"));
-        article.setCost(getIntInput("Ange pris på artikel:"));
-        article.setDescription(getStringInput("Ange beskrivning på artikel:"));
-        article.setQuantity(getIntInput("Ange antal på artikel:"));
+        article.setName(getStringInput("Enter the name of the article:"));
+        article.setCost(getIntInput("Enter the price of the article"));
+        article.setDescription(getStringInput("Enter the description of the article:"));
+        article.setQuantity(getIntInput("Enter the quantity of the article"));
         return article;
     }
 
@@ -100,7 +99,7 @@ public class ArticleService {
         CloseableHttpResponse response = httpClient.execute(request);
 
         if (response.getCode() != 200) {
-            System.out.println("Error uppstod");
+            System.out.println("Error occurred");
             return;
         }
 
@@ -110,9 +109,9 @@ public class ArticleService {
 
         if (responseArticle.getName().equals(newArticle.getName()) && responseArticle.getCost() == newArticle.getCost()
                 && responseArticle.getDescription().equals(newArticle.getDescription()) && responseArticle.getQuantity() == newArticle.getQuantity()) {
-            System.out.println(String.format("Artikeln %s har lagts till", responseArticle.getName()));
+            System.out.println(String.format("The article: %s, has been added", responseArticle.getName()));
         } else {
-            System.out.println("Något gick fel");
+            System.out.println("Something went wrong");
         }
     }
 
@@ -142,12 +141,11 @@ public class ArticleService {
 
         if (responseArticle.getName().equals(article.getName()) && responseArticle.getCost() == article.getCost()
                 && responseArticle.getDescription().equals(article.getDescription()) && responseArticle.getQuantity() == article.getQuantity()) {
-            System.out.println(String.format("Artikeln %s har uppdaterats", responseArticle.getName()));
+            System.out.println(String.format("The article: %s, has been updated", responseArticle.getName()));
         } else {
-            System.out.println("Något gick fel");
+            System.out.println("Something went wrong");
         }
     }
-
 
     public static void deleteArticle(int id, String jwt) throws IOException, ParseException {
 
@@ -158,10 +156,10 @@ public class ArticleService {
         CloseableHttpResponse response = httpClient.execute(request);
 
         if (response.getCode() != 200) {
-            System.out.println("Error uppstod");
+            System.out.println("Error occurred");
             return;
         }
 
-        System.out.println(String.format("Artikeln med ID %d har tagits bort", id));
+        System.out.println(String.format("The article with ID: %d has been deleted", id));
     }
 }
