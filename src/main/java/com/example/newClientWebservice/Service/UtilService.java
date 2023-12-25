@@ -15,7 +15,7 @@ public class UtilService {
         String input = scan.nextLine();
 
         if (input.equals("")) {
-            System.out.println("Felaktig input. Försök igen.");
+            System.out.println("Try again.");
             return getStringInput(prompt);
         }
         return input;
@@ -27,7 +27,7 @@ public class UtilService {
         int input = scan.nextInt();
 
         if (input == 0) {
-            System.out.println("Felaktig input. Försök igen.");
+            System.out.println("Try again");
             return getIntInput(prompt);
         }
         return input;
