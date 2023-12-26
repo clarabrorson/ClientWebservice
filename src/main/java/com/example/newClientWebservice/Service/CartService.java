@@ -162,11 +162,11 @@ public class CartService {
    String jwt = String.valueOf(login().getJwt());
 
 
-//            getOneCartById(1, jwt);
-         addArticleToCart(4, 1, jwt);
-        getAllCarts(jwt);
+          // getOneCartById(1, jwt);
+         //addArticleToCart(4, 1, jwt);
+        //getAllCarts(jwt);
 //            purchaseArticles(jwt);
-//            updateArticleCount(1, 1, 5, jwt);
+            //updateArticleCount(1, 1, 5, jwt);
 //            deleteArticleFromCart(1, 1, jwt);
 
     }
