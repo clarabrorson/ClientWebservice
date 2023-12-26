@@ -1,5 +1,7 @@
 package com.example.newClientWebservice.Menu;
 
+import com.example.newClientWebservice.Models.Cart;
+
 import static com.example.newClientWebservice.Menu.Login.getUserChoice;
 import static com.example.newClientWebservice.Service.ArticleService.getAllArticles;
 import static com.example.newClientWebservice.Service.CartService.*;
@@ -11,7 +13,7 @@ public class UserMenu {
         while (true) {
             System.out.println("Welcome to Fruit Haven!");
             System.out.println("1. View all fruits");
-            System.out.println("2. Add a fruit to the basket");
+            System.out.println("2. Add a fruit to the basket"); // Ska användaren kunna skapa en ny frukt eller välja från en lista?
             System.out.println("3. View basket");
             System.out.println("4. Remove a fruit from the basket");
             System.out.println("5. Want more fruits? Update the quantity of a fruit in the basket");
@@ -25,7 +27,7 @@ public class UserMenu {
                     getAllArticles();
                     break;
                 case 2:
-                    addArticleToCart(); // TODO: addArticleToCart
+                    addArticleToCart();
                     break;
                 case 3:
                     getOneCartById();
@@ -41,6 +43,11 @@ public class UserMenu {
                     break;
                 case 7:
                     purchaseArticles();
+                    break;
+                default:
+                    System.out.println("Invalid input. Please enter a number between 1 and 7.");
+                    userMenu();
+                    break;
             }
         }
     }
