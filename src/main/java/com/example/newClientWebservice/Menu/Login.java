@@ -8,7 +8,7 @@ import static com.example.newClientWebservice.Service.UserService.login;
 
 public class Login {
 
-    private static int getUserChoice() {
+    public static int getUserChoice() {
         System.out.println("Enter your choice: ");
         try {
             return Integer.parseInt(System.console().readLine());
