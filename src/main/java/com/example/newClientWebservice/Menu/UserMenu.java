@@ -1,6 +1,10 @@
 package com.example.newClientWebservice.Menu;
 
 import com.example.newClientWebservice.Models.Cart;
+import com.example.newClientWebservice.Service.CartService;
+import org.apache.hc.core5.http.ParseException;
+
+import java.io.IOException;
 
 import static com.example.newClientWebservice.Menu.Login.getUserChoice;
 import static com.example.newClientWebservice.Service.ArticleService.getAllArticles;
@@ -9,7 +13,7 @@ import static com.example.newClientWebservice.Service.HistoryService.getCurrentU
 
 public class UserMenu {
 
-    private static void userMenu() {
+    private static void userMenu() throws IOException, ParseException {
         while (true) {
             System.out.println("Welcome to Fruit Haven!");
             System.out.println("1. View all fruits");
@@ -24,10 +28,10 @@ public class UserMenu {
 
             switch (choice) {
                 case 1:
-                    getAllArticles();
+                    getAllArticles(); // ID behöver skrivas ut
                     break;
                 case 2:
-                    addArticleToCart();
+                    addFruitToBasket();
                     break;
                 case 3:
                     getOneCartById();
@@ -50,5 +54,16 @@ public class UserMenu {
                     break;
             }
         }
+    }
+
+    private static void addFruitToBasket() throws IOException, ParseException {
+        System.out.println("Enter the ID of the fruit you want to add to the basket:");
+        int articleId = getUserChoice();
+        System.out.println("Enter the quantity:");
+        int quantity = getUserChoice();
+        System.out.println("Enter the ID of the basket you want to add the fruit to:");
+        int cartId = getUserChoice();
+
+        CartService.addArticleToCart(cartId, articleId, String.valueOf(quantity));
     }
 }
