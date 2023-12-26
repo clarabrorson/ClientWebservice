@@ -31,7 +31,8 @@ public class UserMenu {
                     getAllArticles(); // ID behöver skrivas ut
                     break;
                 case 2:
-                    addFruitToBasket();
+                    addArticleToCart();
+                    //addFruitToBasket();
                     break;
                 case 3:
                     getOneCartById();
@@ -56,7 +57,7 @@ public class UserMenu {
         }
     }
 
-    private static void addFruitToBasket() throws IOException, ParseException {
+    /*private static void addFruitToBasket() throws IOException, ParseException {
         System.out.println("Enter the ID of the fruit you want to add to the basket:");
         int articleId = getUserChoice();
         System.out.println("Enter the quantity:");
@@ -65,5 +66,6 @@ public class UserMenu {
         int cartId = getUserChoice();
 
         CartService.addArticleToCart(cartId, articleId, String.valueOf(quantity));
-    }
+    }*/
+
 }
