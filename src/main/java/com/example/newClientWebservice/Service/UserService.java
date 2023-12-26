@@ -57,7 +57,7 @@ public class UserService {
             ArrayList<User> users = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<User>>() {});
         // loopa igenom och skriv ut users
         for (User user : users) {
-            System.out.println(String.format("Id: %d  Username: %s",user.getId(), user.getUsername()));
+            System.out.println(String.format("Id: %d \n  Username: %s",user.getId(), user.getUsername()));
         }
     }
 

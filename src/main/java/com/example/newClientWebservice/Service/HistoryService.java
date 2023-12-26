@@ -60,7 +60,7 @@ public class HistoryService {
             // skriv ut alla köphistorik
             for (History history : histories) {
                 System.out.println(String.format(
-                        "  History id: %d, totalCost: %d, article: %s, user: %s",
+                        "  History id: %d \n totalCost: %d \n article: %s \n user: %s",
                         history.getId(), history.getTotalCost(), history.getPurchasedArticles(), history.getUser().getUsername()
                 ));
             }
@@ -102,7 +102,7 @@ public class HistoryService {
             // skriv ut alla artiklar som köpts
             for (Article article : articles) {
                 System.out.println(String.format(
-                        "Article id: %d, name: %s, cost: %d, description: %s, quantity: %d",
+                        "Article id: %d \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d",
                         article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity()
                 ));
 
