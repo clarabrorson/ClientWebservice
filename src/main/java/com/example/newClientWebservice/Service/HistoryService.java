@@ -20,37 +20,47 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.example.newClientWebservice.Service.UserService.login;
-
+/**
+ * @author jafar
+ *  det här klassen är för att hämta historik användarens köphistorik från databasen
+ *  det finns två metoder getAllHistory och getCurrentUserHistory
+ *
+ * */
 public class HistoryService {
     private static final CloseableHttpClient httpClient = HttpClients.createDefault();
-
+    /**
+     * @Method getAllHistory hämtar alla köphistorik från databasen
+     * @param jwt är en string som är en token som används för att autentisera användaren
+     *  @return histories är en arraylist av History objekt
+     *  det här metoden är för admin för att kunna se alla köphistorik från alla användare
+     * */
     public static ArrayList<History> getAllHistory(String jwt) { //för admin
         //skapa ett objekt av http get klassen
         HttpGet request = new HttpGet("http://localhost:8081/webshop/history");
 
-        // Include an Authorization method to the request
+        // inkludera en authorization metod till request
         request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
 
-        // Execute the Request
+        // Exekvera request
         try (CloseableHttpResponse response = httpClient.execute(request)) {
             if (response.getCode() != 200) {
                 System.out.println("Error");
                 return null;
             }
 
-            // Display the response payload in the console
+            // visa upp response payload i console
             HttpEntity entity = response.getEntity();
 
-            // Convert ResponsePayload to a useful object.
+            // konvertera response payload till ett användbart objekt
             ObjectMapper mapper = new ObjectMapper();
             ArrayList<History> histories = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<History>>() {
             });
 
             System.out.println("Histories:");
-            // Print out the histories in the list
+            // skriv ut alla köphistorik
             for (History history : histories) {
                 System.out.println(String.format(
-                        "  History id: %d, totalCost: %d, article: %s, user: %s",
+                        "  History id: %d \n totalCost: %d \n article: %s \n user: %s",
                         history.getId(), history.getTotalCost(), history.getPurchasedArticles(), history.getUser().getUsername()
                 ));
             }
@@ -61,24 +71,29 @@ public class HistoryService {
             return null;
         }
     }
-
+    /**
+     * @Method getCurrentUserHistory hämtar alla köphistorik från databasen av den aktuella användaren
+     * @param jwt är en string som är en token som används för att autentisera användaren
+     * @return articles är en arraylist av Article objekt, det är alla artiklar som köpts av den aktuella användaren
+     * det här metoden är för att hämta alla köphistorik från den aktuella användaren där användaren och en aurhentiserad användare har tillgång till den
+     * */
     public static ArrayList<Article> getCurrentUserHistory(String jwt) {
         HttpGet request = new HttpGet("http://localhost:8081/webshop/history/currentUserHistory");
 
-        // Include an Authorization method to the request
+        // inkludera en authorization metod till request
         request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
 
-        // Execute the Request
+        // Exekvera request
         try (CloseableHttpResponse response = httpClient.execute(request)) {
             if (response.getCode() != 200) {
                 System.out.println("Error");
                 return null;
             }
 
-            // Display the response payload in the console
+            // visar upp response payload i console
             HttpEntity entity = response.getEntity();
 
-            // Convert ResponsePayload to a useful object.
+            // konvertera response payload till ett användbart objekt
             ObjectMapper mapper = new ObjectMapper();
             ArrayList<Article> articles = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<Article>>() {
             });
@@ -87,13 +102,13 @@ public class HistoryService {
             // skriv ut alla artiklar som köpts
             for (Article article : articles) {
                 System.out.println(String.format(
-                        "Article id: %d, name: %s, cost: %d, description: %s, quantity: %d",
+                        "Article id: %d \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d",
                         article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity()
                 ));
 
             }
 
-            return articles;  // Update this to return the actual list of histories
+            return articles;
         } catch (IOException | ParseException e) {
             e.printStackTrace();
             return null;

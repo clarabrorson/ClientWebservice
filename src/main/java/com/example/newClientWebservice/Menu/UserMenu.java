@@ -14,6 +14,9 @@ import static com.example.newClientWebservice.Service.HistoryService.getCurrentU
 public class UserMenu {
 
     private static void userMenu() throws IOException, ParseException {
+
+    public static void userMenu() {
+
         while (true) {
             System.out.println("Welcome to Fruit Haven!");
             System.out.println("1. View all fruits");
@@ -31,23 +34,27 @@ public class UserMenu {
                     getAllArticles(); // ID behöver skrivas ut
                     break;
                 case 2:
+
                     addArticleToCart();
                     //addFruitToBasket();
+
+                    //addArticleToCart();
+
                     break;
                 case 3:
-                    getOneCartById();
+                    //getOneCartById();
                     break;
                 case 4:
-                    deleteArticleFromCart();
+                    //deleteArticleFromCart();
                     break;
                 case 5:
-                    updateArticleCount();
+                   // updateArticleCount();
                     break;
                 case 6:
-                    getCurrentUserHistory();
+                   // getCurrentUserHistory();
                     break;
                 case 7:
-                    purchaseArticles();
+                   // purchaseArticles();
                     break;
                 default:
                     System.out.println("Invalid input. Please enter a number between 1 and 7.");
