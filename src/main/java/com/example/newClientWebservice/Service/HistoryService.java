@@ -78,7 +78,7 @@ public class HistoryService {
      * @return articles är en arraylist av Article objekt, det är alla artiklar som köpts av den aktuella användaren
      * det här metoden är för att hämta alla köphistorik från den aktuella användaren där användaren och en aurhentiserad användare har tillgång till den
      * */
-    public static ArrayList<Article> getCurrentUserHistory(String jwt) {
+    public static ArrayList<History> getCurrentUserHistory(String jwt) {
         HttpGet request = new HttpGet("http://localhost:8081/webshop/history/currentUserHistory");
 
         // inkludera en authorization metod till request
@@ -96,7 +96,7 @@ public class HistoryService {
 
             // konvertera response payload till ett användbart objekt
             ObjectMapper mapper = new ObjectMapper();
-           return mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<Article>>() {
+           return mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<History>>() {
             });
 
 //          System.out.println("Purchased Articles:");
@@ -112,6 +112,40 @@ public class HistoryService {
             return null;
         }
     }
+//    public static ArrayList<Article> getCurrentUserHistory(String jwt) {
+//        HttpGet request = new HttpGet("http://localhost:8081/webshop/history/currentUserHistory");
+//
+//        // inkludera en authorization metod till request
+//        request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
+//
+//        // Exekvera request
+//        try (CloseableHttpResponse response = httpClient.execute(request)) {
+//            if (response.getCode() != 200) {
+//                System.out.println("Error");
+//                return null;
+//            }
+//
+//            // visar upp response payload i console
+//            HttpEntity entity = response.getEntity();
+//
+//            // konvertera response payload till ett användbart objekt
+//            ObjectMapper mapper = new ObjectMapper();
+//           return mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<Article>>() {
+//            });
+//
+////          System.out.println("Purchased Articles:");
+//            // skriv ut alla artiklar som köpts
+////            for (Article article : articles) {
+////                System.out.println(String.format(
+////                        "Article id: %d \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d",
+////                        article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity()
+////                ));
+//
+//        } catch (IOException | ParseException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
     public static void main(String[] args) throws IOException, ParseException {
         String jwt = String.valueOf(login().getJwt());
 //        List<History> histories = getAllHistory(jwt);
@@ -123,12 +157,12 @@ public class HistoryService {
 //            ));
 //        }
 
-       List<Article> histories = getCurrentUserHistory(jwt);
-        System.out.println("Purchased Articles:");
-       for (Article history : histories) {
+       List<History> histories = getCurrentUserHistory(jwt);
+        System.out.println("Purchased Articles:\n");
+       for (History history : histories) {
            System.out.println(String.format(
-                   "Article id: %d \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d",
-                   history.getId(), history.getName(), history.getCost(), history.getDescription(), history.getQuantity()
+                   "  History id: %d \n totalCost: %d \n article: %s \n user: %s \n",
+                   history.getId(), history.getTotalCost(), history.getPurchasedArticles(), history.getUser().getUsername()
            ));
        }
     }
