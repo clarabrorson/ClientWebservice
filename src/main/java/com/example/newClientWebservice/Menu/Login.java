@@ -18,7 +18,7 @@ public class Login {
         }
     }
 
-//    private static void loginMenu() throws IOException, ParseException {
+    public static void loginMenu() throws IOException, ParseException {
 //        while (true) {
 //            System.out.println("Login Menu");
 //            System.out.println("1. Login");
@@ -32,12 +32,12 @@ public class Login {
 //                login();
 //                break;
 //            case 2:
-//                mainMenu();
+//                MainMenu.run();
 //                break;
 //            default:
 //                System.out.println("Invalid input. Please enter a number between 1 and 3.");
 //                loginMenu();
 //                break;
 //        }
-//    }
+    }
 }
