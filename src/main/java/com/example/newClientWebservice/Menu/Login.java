@@ -8,15 +8,6 @@ import static com.example.newClientWebservice.Service.UserService.login;
 
 public class Login {
 
-    public static int getUserChoice() {
-        System.out.println("Enter your choice: ");
-        try {
-            return Integer.parseInt(System.console().readLine());
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a number.");
-            return getUserChoice();
-        }
-    }
 
 //    private static void loginMenu() throws IOException, ParseException {
 //        while (true) {

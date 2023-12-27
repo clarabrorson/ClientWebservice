@@ -6,10 +6,10 @@ import org.apache.hc.core5.http.ParseException;
 
 import java.io.IOException;
 
-import static com.example.newClientWebservice.Menu.Login.getUserChoice;
 import static com.example.newClientWebservice.Service.ArticleService.getAllArticles;
 import static com.example.newClientWebservice.Service.CartService.*;
 import static com.example.newClientWebservice.Service.HistoryService.getCurrentUserHistory;
+import static com.example.newClientWebservice.Service.UtilService.getIntInput;
 
 public class UserMenu {
 
@@ -27,34 +27,30 @@ public class UserMenu {
             System.out.println("6. History of purchases");
             System.out.println("6. Ready to checkout? Proceed to checkout");
 
-            int choice = getUserChoice();
+            int choice = getIntInput("Enter your choice: ");
 
             switch (choice) {
                 case 1:
                     getAllArticles(); // ID behöver skrivas ut
                     break;
                 case 2:
-
                     addArticleToCart();
                     //addFruitToBasket();
-
-                    //addArticleToCart();
-
                     break;
                 case 3:
-                    //getOneCartById();
+                    getOneCartById();
                     break;
                 case 4:
-                    //deleteArticleFromCart();
+                    deleteArticleFromCart();
                     break;
                 case 5:
-                   // updateArticleCount();
+                   updateArticleCount();
                     break;
                 case 6:
-                   // getCurrentUserHistory();
+                   getCurrentUserHistory();
                     break;
                 case 7:
-                   // purchaseArticles();
+                   purchaseArticles();
                     break;
                 default:
                     System.out.println("Invalid input. Please enter a number between 1 and 7.");
