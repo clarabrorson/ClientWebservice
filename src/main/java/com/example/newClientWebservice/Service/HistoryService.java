@@ -18,6 +18,7 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.newClientWebservice.Service.UserService.login;
 /**
@@ -53,19 +54,19 @@ public class HistoryService {
 
             // konvertera response payload till ett användbart objekt
             ObjectMapper mapper = new ObjectMapper();
-            ArrayList<History> histories = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<History>>() {
+           return mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<History>>() {
             });
 
-            System.out.println("Histories:");
-            // skriv ut alla köphistorik
-            for (History history : histories) {
-                System.out.println(String.format(
-                        "  History id: %d \n totalCost: %d \n article: %s \n user: %s",
-                        history.getId(), history.getTotalCost(), history.getPurchasedArticles(), history.getUser().getUsername()
-                ));
-            }
+//            System.out.println("Histories:");
+//            // skriv ut alla köphistorik
+//            for (History history : histories) {
+//                System.out.println(String.format(
+//                        "  History id: %d \n totalCost: %d \n article: %s \n user: %s",
+//                        history.getId(), history.getTotalCost(), history.getPurchasedArticles(), history.getUser().getUsername()
+//                ));
+//            }
 
-            return histories;
+//            return histories;
         } catch (IOException | ParseException e) {
             e.printStackTrace();
             return null;
@@ -95,20 +96,17 @@ public class HistoryService {
 
             // konvertera response payload till ett användbart objekt
             ObjectMapper mapper = new ObjectMapper();
-            ArrayList<Article> articles = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<Article>>() {
+           return mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<Article>>() {
             });
 
-          System.out.println("Purchased Articles:");
+//          System.out.println("Purchased Articles:");
             // skriv ut alla artiklar som köpts
-            for (Article article : articles) {
-                System.out.println(String.format(
-                        "Article id: %d \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d",
-                        article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity()
-                ));
+//            for (Article article : articles) {
+//                System.out.println(String.format(
+//                        "Article id: %d \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d",
+//                        article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity()
+//                ));
 
-            }
-
-            return articles;
         } catch (IOException | ParseException e) {
             e.printStackTrace();
             return null;
@@ -116,6 +114,22 @@ public class HistoryService {
     }
     public static void main(String[] args) throws IOException, ParseException {
         String jwt = String.valueOf(login().getJwt());
-        getCurrentUserHistory(jwt);
+//        List<History> histories = getAllHistory(jwt);
+//        System.out.println("Histories:");
+//        for (History history : histories) {
+//            System.out.println(String.format(
+//                    "  History id: %d \n totalCost: %d \n article: %s \n user: %s",
+//                    history.getId(), history.getTotalCost(), history.getPurchasedArticles(), history.getUser().getUsername()
+//            ));
+//        }
+
+       List<Article> histories = getCurrentUserHistory(jwt);
+        System.out.println("Purchased Articles:");
+       for (Article history : histories) {
+           System.out.println(String.format(
+                   "Article id: %d \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d",
+                   history.getId(), history.getName(), history.getCost(), history.getDescription(), history.getQuantity()
+           ));
+       }
     }
 }
