@@ -2,6 +2,7 @@ package com.example.newClientWebservice.Menu;
 
 import com.example.newClientWebservice.Models.Article;
 import com.example.newClientWebservice.Models.Cart;
+import com.example.newClientWebservice.Models.LoginResponse;
 import com.example.newClientWebservice.Service.ArticleService;
 import com.example.newClientWebservice.Service.CartService;
 import com.example.newClientWebservice.Service.HistoryService;
@@ -14,11 +15,12 @@ import static com.example.newClientWebservice.Menu.ArticlesMenu.printArticlesMen
 import static com.example.newClientWebservice.Service.ArticleService.getAllArticles;
 import static com.example.newClientWebservice.Service.CartService.*;
 import static com.example.newClientWebservice.Service.HistoryService.getCurrentUserHistory;
+import static com.example.newClientWebservice.Service.UserService.login;
 import static com.example.newClientWebservice.Service.UtilService.getIntInput;
 
 public class UserMenu {
 
-    private static void userMenu(String jwt) throws IOException, ParseException {
+    public static void userMenu(String jwt) throws IOException, ParseException {
 
             while (true) {
                 System.out.println("Welcome to Fruit Haven!");

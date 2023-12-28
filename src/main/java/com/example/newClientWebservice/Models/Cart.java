@@ -19,4 +19,11 @@ public class Cart {
                 this.id = id;
         }
 
+        public static Long getCartIdFromUser(LoginResponse loginResponse) {
+                if (loginResponse != null && loginResponse.getUser() != null) {
+                        return loginResponse.getUser().getCart().getId();
+                }
+                return null;
+        }
+
 }
