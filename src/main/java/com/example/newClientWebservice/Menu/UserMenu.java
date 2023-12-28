@@ -4,6 +4,7 @@ import com.example.newClientWebservice.Models.Article;
 import com.example.newClientWebservice.Models.Cart;
 import com.example.newClientWebservice.Service.ArticleService;
 import com.example.newClientWebservice.Service.CartService;
+import com.example.newClientWebservice.Service.HistoryService;
 import org.apache.hc.core5.http.ParseException;
 
 import java.io.IOException;
@@ -45,17 +46,17 @@ public class UserMenu {
                         deleteFruitFromCart(jwt);
                         break;
                     case 5:
-                        updateArticleCount();
+                        updateFruitQuantity(jwt);
                         break;
                     case 6:
-                        getCurrentUserHistory();
+                        getHistory(jwt);
                         break;
                     case 7:
-                        purchaseArticles();
+                        purchaseCart(jwt);
                         break;
                     default:
                         System.out.println("Invalid input. Please enter a number between 1 and 7.");
-                        userMenu();
+                        userMenu(jwt);
                         break;
                 }
             }
@@ -91,7 +92,20 @@ public class UserMenu {
         CartService.deleteArticleFromCart(cartId, articleId, jwt);
     }
 
-    
+    private static void updateFruitQuantity(String jwt) throws IOException, ParseException {
+        int cartId = getIntInput("Enter the cart ID: ");
+        int articleId = getIntInput("Enter the article ID: ");
+        int quantity = getIntInput("Enter the new quantity: ");
+        CartService.updateArticleCount(cartId, articleId, quantity, jwt);
+    }
+
+    private static void getHistory(String jwt) throws IOException, ParseException {
+        HistoryService.getCurrentUserHistory(jwt);
+    }
+
+    private static void purchaseCart(String jwt) throws IOException, ParseException {
+        CartService.purchaseArticles(jwt);
+    }
 }
 
 

@@ -2,8 +2,8 @@ package com.example.newClientWebservice.Menu;
 
 import com.example.newClientWebservice.Service.UtilService;
 
-import static com.example.newClientWebservice.Menu.Login.getUserChoice;
-import static com.example.newClientWebservice.Menu.UserMenu.userMenu;
+
+
 import static com.example.newClientWebservice.Service.ArticleService.*;
 import static com.example.newClientWebservice.Service.CartService.*;
 import static com.example.newClientWebservice.Service.HistoryService.getAllHistory;
@@ -13,6 +13,7 @@ import static com.example.newClientWebservice.Service.UtilService.getIntInput;
 
 public class AdminMenu {
 
+    /*
 
     public static void adminMenu1() {
         while (true) {
@@ -82,4 +83,7 @@ public class AdminMenu {
 
        }
    }
+
+   */
+
 }
