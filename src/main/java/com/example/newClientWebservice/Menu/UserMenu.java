@@ -1,11 +1,15 @@
 package com.example.newClientWebservice.Menu;
 
+import com.example.newClientWebservice.Models.Article;
 import com.example.newClientWebservice.Models.Cart;
+import com.example.newClientWebservice.Service.ArticleService;
 import com.example.newClientWebservice.Service.CartService;
 import org.apache.hc.core5.http.ParseException;
 
 import java.io.IOException;
+import java.util.List;
 
+import static com.example.newClientWebservice.Menu.ArticlesMenu.printArticlesMenu;
 import static com.example.newClientWebservice.Service.ArticleService.getAllArticles;
 import static com.example.newClientWebservice.Service.CartService.*;
 import static com.example.newClientWebservice.Service.HistoryService.getCurrentUserHistory;
@@ -13,62 +17,81 @@ import static com.example.newClientWebservice.Service.UtilService.getIntInput;
 
 public class UserMenu {
 
-    private static void userMenu() throws IOException, ParseException {
+    private static void userMenu(String jwt) throws IOException, ParseException {
 
-    public static void userMenu() {
+            while (true) {
+                System.out.println("Welcome to Fruit Haven!");
+                System.out.println("1. View all fruits");
+                System.out.println("2. Add a fruit to the basket"); // Ska användaren kunna skapa en ny frukt eller välja från en lista?
+                System.out.println("3. View basket");
+                System.out.println("4. Remove a fruit from the basket");
+                System.out.println("5. Want more fruits? Update the quantity of a fruit in the basket");
+                System.out.println("6. History of purchases");
+                System.out.println("6. Ready to checkout? Proceed to checkout");
 
-        while (true) {
-            System.out.println("Welcome to Fruit Haven!");
-            System.out.println("1. View all fruits");
-            System.out.println("2. Add a fruit to the basket"); // Ska användaren kunna skapa en ny frukt eller välja från en lista?
-            System.out.println("3. View basket");
-            System.out.println("4. Remove a fruit from the basket");
-            System.out.println("5. Want more fruits? Update the quantity of a fruit in the basket");
-            System.out.println("6. History of purchases");
-            System.out.println("6. Ready to checkout? Proceed to checkout");
+                int choice = getIntInput("Enter your choice: ");
 
-            int choice = getIntInput("Enter your choice: ");
-
-            switch (choice) {
-                case 1:
-                    getAllArticles(); // ID behöver skrivas ut
-                    break;
-                case 2:
-                    addArticleToCart();
-                    //addFruitToBasket();
-                    break;
-                case 3:
-                    getOneCartById();
-                    break;
-                case 4:
-                    deleteArticleFromCart();
-                    break;
-                case 5:
-                   updateArticleCount();
-                    break;
-                case 6:
-                   getCurrentUserHistory();
-                    break;
-                case 7:
-                   purchaseArticles();
-                    break;
-                default:
-                    System.out.println("Invalid input. Please enter a number between 1 and 7.");
-                    userMenu();
-                    break;
+                switch (choice) {
+                    case 1:
+                        printArticlesMenu();
+                        break;
+                    case 2:
+                        addFruitToCart(jwt);
+                        break;
+                    case 3:
+                        viewCart(jwt);
+                        break;
+                    case 4:
+                        deleteFruitFromCart(jwt);
+                        break;
+                    case 5:
+                        updateArticleCount();
+                        break;
+                    case 6:
+                        getCurrentUserHistory();
+                        break;
+                    case 7:
+                        purchaseArticles();
+                        break;
+                    default:
+                        System.out.println("Invalid input. Please enter a number between 1 and 7.");
+                        userMenu();
+                        break;
+                }
             }
+        }
+
+
+    private static void addFruitToCart(String jwt) throws IOException, ParseException {
+        printArticlesMenu(); // Visa alla artiklar för användaren att välja
+        int articleNumber = getIntInput("Enter the article number of a fruit to add to the basket: ");
+        int quantity = getIntInput("Enter the quantity: ");
+
+        // Hämta den valda artikeln baserat på artikelnumret
+        List<Article> articles = ArticleService.getAllArticles();
+        if (articleNumber > 0 && articleNumber <= articles.size()) {
+            Article selectedArticle = articles.get(articleNumber - 1);
+            int cartId = getIntInput("Enter the cart ID: ");
+
+            // Lägg till artikeln i kundvagnen
+            CartService.addArticleToCart(cartId, Math.toIntExact(selectedArticle.getId()), quantity, jwt);
+        } else {
+            System.out.println("Invalid article number. Please try again.");
         }
     }
 
-    /*private static void addFruitToBasket() throws IOException, ParseException {
-        System.out.println("Enter the ID of the fruit you want to add to the basket:");
-        int articleId = getUserChoice();
-        System.out.println("Enter the quantity:");
-        int quantity = getUserChoice();
-        System.out.println("Enter the ID of the basket you want to add the fruit to:");
-        int cartId = getUserChoice();
+    private static void viewCart(String jwt) throws IOException, ParseException {
+        int cartId = getIntInput("Enter the cart ID: ");
+        CartService.getOneCartById(cartId, jwt);
+    }
 
-        CartService.addArticleToCart(cartId, articleId, String.valueOf(quantity));
-    }*/
+    private static void deleteFruitFromCart(String jwt) throws IOException, ParseException {
+        int cartId = getIntInput("Enter the cart ID: ");
+        int articleId = getIntInput("Enter the article ID: ");
+        CartService.deleteArticleFromCart(cartId, articleId, jwt);
+    }
 
+    
 }
+
+
