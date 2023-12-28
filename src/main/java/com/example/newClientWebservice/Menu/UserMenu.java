@@ -12,10 +12,6 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.example.newClientWebservice.Menu.ArticlesMenu.printArticlesMenu;
-import static com.example.newClientWebservice.Service.ArticleService.getAllArticles;
-import static com.example.newClientWebservice.Service.CartService.*;
-import static com.example.newClientWebservice.Service.HistoryService.getCurrentUserHistory;
-import static com.example.newClientWebservice.Service.UserService.login;
 import static com.example.newClientWebservice.Service.UtilService.getIntInput;
 
 public class UserMenu {
@@ -25,7 +21,7 @@ public class UserMenu {
             while (true) {
                 System.out.println("Welcome to Fruit Haven!");
                 System.out.println("1. View all fruits");
-                System.out.println("2. Add a fruit to the basket"); 
+                System.out.println("2. Add a fruit to the basket");
                 System.out.println("3. View basket");
                 System.out.println("4. Remove a fruit from the basket");
                 System.out.println("5. Want more fruits? Update the quantity of a fruit in the basket");
@@ -66,17 +62,18 @@ public class UserMenu {
 
 
     private static void addFruitToCart(String jwt) throws IOException, ParseException {
-        printArticlesMenu(); // Visa alla artiklar för användaren att välja
+        printArticlesMenu();
         int articleNumber = getIntInput("Enter the article number of a fruit to add to the basket: ");
         int quantity = getIntInput("Enter the quantity: ");
 
-        // Hämta den valda artikeln baserat på artikelnumret
+        // Hämtar artiklar från databasen
         List<Article> articles = ArticleService.getAllArticles();
         if (articleNumber > 0 && articleNumber <= articles.size()) {
             Article selectedArticle = articles.get(articleNumber - 1);
             int cartId = getIntInput("Enter the cart ID: ");
 
-            // Lägg till artikeln i kundvagnen
+            // Lägger till artiklar i Cart
+            // Math to int exact konverterar från long till int
             CartService.addArticleToCart(cartId, Math.toIntExact(selectedArticle.getId()), quantity, jwt);
         } else {
             System.out.println("Invalid article number. Please try again.");

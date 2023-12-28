@@ -25,6 +25,9 @@ public class Login {
 
             switch (choice) {
                 case 1:
+                    // Loggar in och får tillbaka ett LoginResponse-objekt
+                    // Skickar in LoginResponse-objektet till getCartIdFromUser-metoden i Cart-klassen
+                    // Returnerar CartId
                     LoginResponse loginResponse = login();
                     Long cartId = getCartIdFromUser(loginResponse);
 
