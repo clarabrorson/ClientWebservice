@@ -18,6 +18,7 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.newClientWebservice.Service.UserService.login;
 /**
@@ -53,19 +54,19 @@ public class HistoryService {
 
             // konvertera response payload till ett användbart objekt
             ObjectMapper mapper = new ObjectMapper();
-            ArrayList<History> histories = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<History>>() {
+           return mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<History>>() {
             });
 
-            System.out.println("Histories:");
-            // skriv ut alla köphistorik
-            for (History history : histories) {
-                System.out.println(String.format(
-                        "  History id: %d \n totalCost: %d \n article: %s \n user: %s",
-                        history.getId(), history.getTotalCost(), history.getPurchasedArticles(), history.getUser().getUsername()
-                ));
-            }
+//            System.out.println("Histories:");
+//            // skriv ut alla köphistorik
+//            for (History history : histories) {
+//                System.out.println(String.format(
+//                        "  History id: %d \n totalCost: %d \n article: %s \n user: %s",
+//                        history.getId(), history.getTotalCost(), history.getPurchasedArticles(), history.getUser().getUsername()
+//                ));
+//            }
 
-            return histories;
+//            return histories;
         } catch (IOException | ParseException e) {
             e.printStackTrace();
             return null;
@@ -77,7 +78,7 @@ public class HistoryService {
      * @return articles är en arraylist av Article objekt, det är alla artiklar som köpts av den aktuella användaren
      * det här metoden är för att hämta alla köphistorik från den aktuella användaren där användaren och en aurhentiserad användare har tillgång till den
      * */
-    public static ArrayList<Article> getCurrentUserHistory(String jwt) {
+    public static ArrayList<History> getCurrentUserHistory(String jwt) {
         HttpGet request = new HttpGet("http://localhost:8081/webshop/history/currentUserHistory");
 
         // inkludera en authorization metod till request
@@ -95,27 +96,74 @@ public class HistoryService {
 
             // konvertera response payload till ett användbart objekt
             ObjectMapper mapper = new ObjectMapper();
-            ArrayList<Article> articles = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<Article>>() {
+           return mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<History>>() {
             });
 
-          System.out.println("Purchased Articles:");
+//          System.out.println("Purchased Articles:");
             // skriv ut alla artiklar som köpts
-            for (Article article : articles) {
-                System.out.println(String.format(
-                        "Article id: %d \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d",
-                        article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity()
-                ));
+//            for (Article article : articles) {
+//                System.out.println(String.format(
+//                        "Article id: %d \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d",
+//                        article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity()
+//                ));
 
-            }
-
-            return articles;
         } catch (IOException | ParseException e) {
             e.printStackTrace();
             return null;
         }
     }
+//    public static ArrayList<Article> getCurrentUserHistory(String jwt) {
+//        HttpGet request = new HttpGet("http://localhost:8081/webshop/history/currentUserHistory");
+//
+//        // inkludera en authorization metod till request
+//        request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
+//
+//        // Exekvera request
+//        try (CloseableHttpResponse response = httpClient.execute(request)) {
+//            if (response.getCode() != 200) {
+//                System.out.println("Error");
+//                return null;
+//            }
+//
+//            // visar upp response payload i console
+//            HttpEntity entity = response.getEntity();
+//
+//            // konvertera response payload till ett användbart objekt
+//            ObjectMapper mapper = new ObjectMapper();
+//           return mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<Article>>() {
+//            });
+//
+////          System.out.println("Purchased Articles:");
+//            // skriv ut alla artiklar som köpts
+////            for (Article article : articles) {
+////                System.out.println(String.format(
+////                        "Article id: %d \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d",
+////                        article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity()
+////                ));
+//
+//        } catch (IOException | ParseException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
     public static void main(String[] args) throws IOException, ParseException {
         String jwt = String.valueOf(login().getJwt());
-        getCurrentUserHistory(jwt);
+//        List<History> histories = getAllHistory(jwt);
+//        System.out.println("Histories:");
+//        for (History history : histories) {
+//            System.out.println(String.format(
+//                    "  History id: %d \n totalCost: %d \n article: %s \n user: %s",
+//                    history.getId(), history.getTotalCost(), history.getPurchasedArticles(), history.getUser().getUsername()
+//            ));
+//        }
+
+       List<History> histories = getCurrentUserHistory(jwt);
+        System.out.println("Purchased Articles:\n");
+       for (History history : histories) {
+           System.out.println(String.format(
+                   "  History id: %d \n totalCost: %d \n article: %s \n user: %s \n",
+                   history.getId(), history.getTotalCost(), history.getPurchasedArticles(), history.getUser().getUsername()
+           ));
+       }
     }
 }

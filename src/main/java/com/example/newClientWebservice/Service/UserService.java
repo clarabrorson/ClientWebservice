@@ -69,8 +69,8 @@ public class UserService {
      */
     public static void register()throws IOException, ParseException{
         // skapa ett username och password
-        String username = getStringInput("Enter username");
-        String password = getStringInput("Enter your password");
+        String username = getStringInput("Enter username ");
+        String password = getStringInput("Enter your password ");
         // skapa ett user objekt och sparar username och password i det
         User newUser = new User(0L, username, password);
         // skapa ett nytt request
