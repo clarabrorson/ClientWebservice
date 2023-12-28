@@ -1,8 +1,6 @@
 package com.example.newClientWebservice.Menu;
 
 import com.example.newClientWebservice.Models.LoginResponse;
-import com.example.newClientWebservice.Service.UserService;
-import com.example.newClientWebservice.Service.UtilService;
 import org.apache.hc.core5.http.ParseException;
 
 import java.io.IOException;
@@ -27,7 +25,7 @@ public class Login {
                 case 1:
                     // Loggar in och får tillbaka ett LoginResponse-objekt
                     // Skickar in LoginResponse-objektet till getCartIdFromUser-metoden i Cart-klassen
-                    // Returnerar CartId
+                    // Returnerar CartId som användaren behöver ange för att utföra CRUD-operationer på sin Cart
                     LoginResponse loginResponse = login();
                     Long cartId = getCartIdFromUser(loginResponse);
 

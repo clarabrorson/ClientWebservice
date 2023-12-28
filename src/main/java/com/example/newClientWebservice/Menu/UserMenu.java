@@ -35,7 +35,7 @@ public class UserMenu {
                         printArticlesMenu(); //Fungerar
                         break;
                     case 2:
-                        addFruitToCart(jwt); //Fungerar inte
+                        addFruitToCart(jwt); //Fungerar inte status 405, HttpRequestMethodNotSupportedException: Request method 'POST' is not supported]
                         break;
                     case 3:
                         viewCart(jwt); //Fungerar

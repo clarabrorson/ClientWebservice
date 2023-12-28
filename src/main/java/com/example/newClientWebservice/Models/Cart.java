@@ -22,7 +22,7 @@ public class Cart {
         /**
          * Den här metoden tar emot ett LoginResponse-objekt och returnerar CartId
          * @param loginResponse LoginResponse-objekt som innehåller ett User-objekt som i sin tur innehåller ett Cart-objekt
-         * @return CartId som är en Long eller null om CartId inte finns 
+         * @return CartId som är en Long eller null om CartId inte finns
          */
         public static Long getCartIdFromUser(LoginResponse loginResponse) {
                 if (loginResponse != null && loginResponse.getUser() != null) {
