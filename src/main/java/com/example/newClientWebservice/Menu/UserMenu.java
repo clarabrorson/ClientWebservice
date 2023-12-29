@@ -18,48 +18,47 @@ public class UserMenu {
 
     public static void userMenu(String jwt) throws IOException, ParseException {
 
-            while (true) {
-                System.out.println("Welcome to Fruit Haven!");
-                System.out.println("1. View all fruits");
-                System.out.println("2. Add a fruit to the basket");
-                System.out.println("3. View basket");
-                System.out.println("4. Remove a fruit from the basket");
-                System.out.println("5. Want more fruits? Update the quantity of a fruit in the basket");
-                System.out.println("6. History of purchases");
-                System.out.println("6. Ready to checkout? Proceed to checkout");
+        while (true) {
+            System.out.println("Welcome to Fruit Haven!");
+            System.out.println("1. View all fruits");
+            System.out.println("2. Add a fruit to the basket");
+            System.out.println("3. View basket");
+            System.out.println("4. Remove a fruit from the basket");
+            System.out.println("5. Want more fruits? Update the quantity of a fruit in the basket");
+            System.out.println("6. History of purchases");
+            System.out.println("7. Ready to checkout? Proceed to checkout");
 
-                int choice = getIntInput("Enter your choice: ");
+            int choice = getIntInput("Enter your choice: ");
 
-                switch (choice) {
-                    case 1:
-                        printArticlesMenu(); //Fungerar
-                        break;
-                    case 2:
-                        addFruitToCart(jwt); //Fungerar inte status 405, HttpRequestMethodNotSupportedException: Request method 'POST' is not supported]
-                        break;
-                    case 3:
-                        viewCart(jwt); //Fungerar
-                        break;
-                    case 4:
-                        deleteFruitFromCart(jwt); //Fungerar
-                        break;
-                    case 5:
-                        updateFruitQuantity(jwt); //Fungerar
-                        break;
-                    case 6:
-                        getHistory(jwt); // TODO
-                        break;
-                    case 7:
-                        purchaseCart(jwt); // TODO
-                        break;
-                    default:
-                        System.out.println("Invalid input. Please enter a number between 1 and 7.");
-                        userMenu(jwt);
-                        break;
-                }
+            switch (choice) {
+                case 1:
+                    printArticlesMenu(); //Fungerar
+                    break;
+                case 2:
+                    addFruitToCart(jwt); //Fungerar inte status 405, HttpRequestMethodNotSupportedException: Request method 'POST' is not supported]
+                    break;
+                case 3:
+                    viewCart(jwt); //Fungerar
+                    break;
+                case 4:
+                    deleteFruitFromCart(jwt); //Fungerar
+                    break;
+                case 5:
+                    updateFruitQuantity(jwt); //Fungerar
+                    break;
+                case 6:
+                    getHistory(jwt); // Fel i getHistory
+                    break;
+                case 7:
+                    purchaseCart(jwt); // Fungerar (skriva ut totalkostnad?)
+                    break;
+                default:
+                    System.out.println("Invalid input. Please enter a number between 1 and 7.");
+                    userMenu(jwt);
+                    break;
             }
         }
-
+    }
 
     private static void addFruitToCart(String jwt) throws IOException, ParseException {
         printArticlesMenu();
@@ -79,6 +78,7 @@ public class UserMenu {
             System.out.println("Invalid article number. Please try again.");
         }
     }
+
 
     private static void viewCart(String jwt) throws IOException, ParseException {
         int cartId = getIntInput("Enter the cart ID: ");
