@@ -99,53 +99,11 @@ public class HistoryService {
            return mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<History>>() {
             });
 
-//          System.out.println("Purchased Articles:");
-            // skriv ut alla artiklar som köpts
-//            for (Article article : articles) {
-//                System.out.println(String.format(
-//                        "Article id: %d \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d",
-//                        article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity()
-//                ));
-
         } catch (IOException | ParseException e) {
             e.printStackTrace();
             return null;
         }
     }
-//    public static ArrayList<Article> getCurrentUserHistory(String jwt) {
-//        HttpGet request = new HttpGet("http://localhost:8081/webshop/history/currentUserHistory");
-//
-//        // inkludera en authorization metod till request
-//        request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
-//
-//        // Exekvera request
-//        try (CloseableHttpResponse response = httpClient.execute(request)) {
-//            if (response.getCode() != 200) {
-//                System.out.println("Error");
-//                return null;
-//            }
-//
-//            // visar upp response payload i console
-//            HttpEntity entity = response.getEntity();
-//
-//            // konvertera response payload till ett användbart objekt
-//            ObjectMapper mapper = new ObjectMapper();
-//           return mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<Article>>() {
-//            });
-//
-////          System.out.println("Purchased Articles:");
-//            // skriv ut alla artiklar som köpts
-////            for (Article article : articles) {
-////                System.out.println(String.format(
-////                        "Article id: %d \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d",
-////                        article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity()
-////                ));
-//
-//        } catch (IOException | ParseException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
     public static void main(String[] args) throws IOException, ParseException {
         String jwt = String.valueOf(login().getJwt());
 //        List<History> histories = getAllHistory(jwt);
@@ -157,13 +115,15 @@ public class HistoryService {
 //            ));
 //        }
 
-       List<History> histories = getCurrentUserHistory(jwt);
-        System.out.println("Purchased Articles:\n");
-       for (History history : histories) {
-           System.out.println(String.format(
-                   "  History id: %d \n totalCost: %d \n article: %s \n user: %s \n",
-                   history.getId(), history.getTotalCost(), history.getPurchasedArticles(), history.getUser().getUsername()
-           ));
-       }
-    }
+//       List<History> histories = getCurrentUserHistory(jwt);
+//        System.out.println("\nPurchased Articles:\n");
+//       for (History history : histories) {
+//           for (Article article : history.getPurchasedArticles()) {
+//                System.out.println(String.format(
+//                          "id: %d \n  User: %s \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d \n  Total cost: %d",
+//                          history.getId(), history.getUser().getUsername(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity(), history.getTotalCost()
+//                ));
+//           }
+//       }
+   }
 }

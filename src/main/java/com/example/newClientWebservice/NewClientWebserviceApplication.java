@@ -22,11 +22,11 @@ public class NewClientWebserviceApplication {
 
 
 
-	@Bean
-	public CommandLineRunner run() {
-		return args -> {
-			MainMenu.run();
-			};
-		}
+//	@Bean
+//	public CommandLineRunner run() {
+//		return args -> {
+//			MainMenu.run();
+//			};
+//		}
 }
 
