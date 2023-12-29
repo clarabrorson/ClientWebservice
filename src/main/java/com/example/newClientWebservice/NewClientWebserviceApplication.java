@@ -22,23 +22,11 @@ public class NewClientWebserviceApplication {
 
 
 
-	@Bean
-	public CommandLineRunner run() {
-		return args -> {
-			MainMenu.run();
-			};
-		}
-
-
-
-//	CommandLineRunner run() {
-//
-//		ArticleService.getAllArticles();
-//			CartService.getOneCartById(1, login().getJwt()); //Fungerar
-//			//CartService.getAllCarts(login().getJwt()); //Fungerar
-//			//CartService.addArticleToCart(1, 1, login().getJwt()); //Fungerar
-//			//CartService.updateArticleCount(1, 1, 5, login().getJwt()); //Fungerar
-//			//CartService.deleteArticleFromCart(1, 1, login().getJwt()); //Fungerar
-//	}
+//	@Bean
+//	public CommandLineRunner run() {
+//		return args -> {
+//			MainMenu.run();
+//			};
+//		}
 }
 

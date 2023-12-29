@@ -30,7 +30,7 @@ public class ArticlesMenu {
     }
 
 
-    public static void main(String[] args) {
-        printArticlesMenu();
-    }
+//    public static void main(String[] args) {
+//        printArticlesMenu();
+//    }
 }
