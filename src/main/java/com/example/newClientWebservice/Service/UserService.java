@@ -18,6 +18,7 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.newClientWebservice.Service.UtilService.createPayload;
 import static com.example.newClientWebservice.Service.UtilService.getStringInput;
@@ -33,10 +34,10 @@ public class UserService {
     /**
      * @Method getUsers hämtar alla användare från databasen
      * @param jwt är en string som är en token som används för att autentisera användaren
-     * @Return users är en arraylist av User objekt
+     * @Return mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<User>>() {}) är en arraylist av User objekt
      * det här metoden är för admin för att kunna se alla användare
      * */
-    public static void getUsers(String jwt) throws IOException, ParseException { // för admin
+    public static List<User> getUsers(String jwt) throws IOException, ParseException { // för admin
     // skapa ett objekt av http get klassen
             HttpGet request = new HttpGet("http://localhost:8081/webshop/user");
     // inkludera en authorization metod till request
@@ -46,7 +47,7 @@ public class UserService {
             // visa upp response payload i console
             if (response.getCode() != 200) {
                 System.out.println("Something went wrong");
-                return;
+                return null;
             }
 
             // visa upp response payload i console
@@ -54,11 +55,11 @@ public class UserService {
         // skapa ett objekt av ObjectMapper klassen
             ObjectMapper mapper = new ObjectMapper();
             // skapar en arraylist av User objekt för att kunna loopa igenom och skriva ut alla users
-            ArrayList<User> users = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<User>>() {});
+            return mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<User>>() {});
         // loopa igenom och skriv ut users
-        for (User user : users) {
-            System.out.println(String.format("Id: %d \n  Username: %s",user.getId(), user.getUsername()));
-        }
+//        for (User user : users) {
+//            System.out.println(String.format("Id: %d \n  Username: %s",user.getId(), user.getUsername()));
+//        }
     }
 
     /**
@@ -136,13 +137,17 @@ public class UserService {
         return loginResponse;
     }
 
-    public static void main(String[] args) throws IOException, ParseException {
-        // Replace with your actual JWT token
-//        String jwtToken = "";
+//    public static void main(String[] args) throws IOException, ParseException {
+//        // Replace with your actual JWT token
+//        String jwt = String.valueOf(login().getJwt());
+////
+////        getUsers(jwtToken);
 //
-//        getUsers(jwtToken);
-
-//    register();
-   login();
-    }
+////    register();
+////   login();
+//        List<User> users = getUsers(jwt);
+//        for (User user : users) {
+//            System.out.println(String.format("Id: %d\n Username: %s",user.getId(), user.getUsername()));
+//        }
+//    }
 }
