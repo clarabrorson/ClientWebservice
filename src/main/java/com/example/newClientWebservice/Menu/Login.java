@@ -37,7 +37,7 @@ public class Login {
                     }
                     break;
                 case 2:
-                    MainMenu.run();
+                    MainMenu.runMeny();
                     return;
                 default:
                     System.out.println("Invalid input. Please enter a number between 1 and 3.");
@@ -48,7 +48,9 @@ public class Login {
 
 
     }
-
+//public static void main(String[] args) throws IOException, ParseException {
+//        loginMenu();
+//    }
 
 
 }
