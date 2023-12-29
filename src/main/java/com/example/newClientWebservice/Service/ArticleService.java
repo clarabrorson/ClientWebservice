@@ -196,6 +196,6 @@ public static ArrayList<Article> getAllArticles() {
             return;
         }
 
-        System.out.println(String.format("The article with ID: %d has been deleted", id));
+        System.out.println("The article has been deleted");
     }
 }
