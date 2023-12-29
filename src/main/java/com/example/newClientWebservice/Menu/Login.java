@@ -32,7 +32,8 @@ public class Login {
 
                     if (cartId != null) {
                         System.out.println("Ready to go shopping? Don't forget your Cart ID: " + cartId);
-                        UserMenu.userMenu(loginResponse.getJwt());
+                        //UserMenu.userMenu(loginResponse.getJwt());
+                        AdminMenu.adminMenu1(loginResponse.getJwt());
                     } else {
                         System.out.println("Something went wrong. Please try again.");
                     }

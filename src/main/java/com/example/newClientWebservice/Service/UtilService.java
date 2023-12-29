@@ -51,7 +51,7 @@ public class UtilService {
         return input;
     }
 
-    public static int getIntInputForHttpPatch(String prompt) {
+    /*public static int getIntInputForHttpPatch(String prompt) {
         Scanner scan = new Scanner(System.in);
         System.out.print(prompt);
         int input = scan.nextInt();
@@ -60,5 +60,23 @@ public class UtilService {
             System.out.println("No changes made.");
         }
         return input;
+    } */
+
+    public static int getIntInputForHttpPatch(String prompt) {
+        Scanner scan = new Scanner(System.in);
+        System.out.print(prompt);
+        String input = scan.nextLine();
+
+        if (input.isEmpty()) {
+            System.out.println("No changes made.");
+            return 0;
+        }
+
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Please enter a number.");
+            return getIntInputForHttpPatch(prompt);
+        }
     }
 }

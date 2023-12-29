@@ -25,7 +25,7 @@ public class AdminMenu {
             System.out.println("2. Admin menu");
             System.out.println("3. Exit.");
 
-            int choice = getIntInput("Enter your choice: ");
+            int choice = getIntInput("\nEnter your choice: ");
 
             switch (choice) {
                 case 1:
