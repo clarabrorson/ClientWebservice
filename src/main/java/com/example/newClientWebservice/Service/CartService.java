@@ -158,6 +158,7 @@ public class CartService {
         //Skriv ut cart och artikel som har tagits bort
         System.out.println(String.format("Article %s has been deleted from cart %s", articleId, cartId));
     }
+
     public static void purchaseArticles(String jwt) {
         try {
             HttpPost request = new HttpPost("http://localhost:8081/webshop/history/purchase");
@@ -177,7 +178,6 @@ public class CartService {
             e.printStackTrace();
         }
     }
-
 
     public static void main(String[] args) throws IOException, ParseException {
 
