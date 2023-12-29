@@ -98,7 +98,6 @@ public class AdminMenu {
        getUsers(jwt);
    }
 
-   //Fungerar inte riktigt som den ska än
     public static Void patchArticle(String jwt) throws IOException, ParseException {
 
         int id = getIntInput("Enter the id of the article you want to update: ");
@@ -113,14 +112,32 @@ public class AdminMenu {
 
             Article article = new Article();
 
-            article.setName(getStringInputForHttpPatch("If you want to change the name of the article. Enter the new name. Otherwise press enter:"));
-            article.setCost(getIntInputForHttpPatch("If you want to change the price of the article. Enter the new price. Otherwise press enter:"));
-            article.setDescription(getStringInputForHttpPatch("If you want to change the description of the article. Enter the new description. Otherwise press enter:"));
-            article.setQuantity(getIntInputForHttpPatch("If you want to change the quantity of the article. Enter the new quantity. Otherwise press enter:"));
+            String newName = getStringInputForHttpPatch("If you want to change the name of the article. Enter the new name. Otherwise press enter:");
+            if (!newName.isEmpty()) {
+                article.setName(newName);
+            }
 
-            return updateArticle(id, jwt);
-        } return null;
+            int newCost = getIntInputForHttpPatch("If you want to change the price of the article. Enter the new price. Otherwise press enter:");
+            if (newCost != 0) {
+                article.setCost(newCost);
+            }
+
+            String newDescription = getStringInputForHttpPatch("If you want to change the description of the article. Enter the new description. Otherwise press enter:");
+            if (!newDescription.isEmpty()) {
+                article.setDescription(newDescription);
+            }
+
+            int newQuantity = getIntInputForHttpPatch("If you want to change the quantity of the article. Enter the new quantity. Otherwise press enter:");
+            if (newQuantity != 0) {
+                article.setQuantity(newQuantity);
+            }
+
+            return updateArticle(id, existingArticle, article, jwt);
+        }
+        return null;
     }
+
+
 
     public static void removeArticle(String jwt) throws IOException, ParseException {
 
