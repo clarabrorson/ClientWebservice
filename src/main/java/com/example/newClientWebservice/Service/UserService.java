@@ -34,7 +34,7 @@ public class UserService {
     /**
      * @Method getUsers hämtar alla användare från databasen
      * @param jwt är en string som är en token som används för att autentisera användaren
-     * @Return users är en arraylist av User objekt
+     * @Return mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<User>>() {}) är en arraylist av User objekt
      * det här metoden är för admin för att kunna se alla användare
      * */
     public static List<User> getUsers(String jwt) throws IOException, ParseException { // för admin
