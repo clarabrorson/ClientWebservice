@@ -1,5 +1,8 @@
 package com.example.newClientWebservice;
 
+import com.example.newClientWebservice.Menu.AdminMenu;
+import com.example.newClientWebservice.Menu.MainMenu;
+import com.example.newClientWebservice.Models.LoginResponse;
 import com.example.newClientWebservice.Service.ArticleService;
 import com.example.newClientWebservice.Service.CartService;
 import com.example.newClientWebservice.Service.UserService;
@@ -16,6 +19,16 @@ public class NewClientWebserviceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(NewClientWebserviceApplication.class, args);
 	}
+
+
+
+	@Bean
+	public CommandLineRunner run() {
+		return args -> {
+			MainMenu.run();
+			};
+		}
+
 
 
 //	CommandLineRunner run() {

@@ -98,9 +98,9 @@ public static ArrayList<Article> getAllArticles() {
         Article article = new Article();
 
         article.setName(getStringInput("Enter the name of the article:"));
-        article.setCost(getIntInput("Enter the price of the article"));
+        article.setCost(getIntInput("Enter the price of the article:"));
         article.setDescription(getStringInput("Enter the description of the article:"));
-        article.setQuantity(getIntInput("Enter the quantity of the article"));
+        article.setQuantity(getIntInput("Enter the quantity of the article:"));
         return article;
     }
 

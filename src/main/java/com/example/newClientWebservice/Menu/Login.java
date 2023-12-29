@@ -2,6 +2,7 @@ package com.example.newClientWebservice.Menu;
 
 import com.example.newClientWebservice.Models.LoginResponse;
 import org.apache.hc.core5.http.ParseException;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 
 import java.io.IOException;
 

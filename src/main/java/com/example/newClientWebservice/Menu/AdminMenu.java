@@ -49,7 +49,7 @@ public class AdminMenu {
 
     public static void adminMenu2(String jwt) throws IOException, ParseException {
         while (true) {
-            System.out.println("Admin menu:n\n");
+            System.out.println("\nAdmin menu:\n");
             System.out.println("1. View all carts");
             System.out.println("2. View all histories");
             System.out.println("3. View all users");
@@ -98,6 +98,7 @@ public class AdminMenu {
        getUsers(jwt);
    }
 
+   //Fungerar inte riktigt som den ska än
     public static Void patchArticle(String jwt) throws IOException, ParseException {
 
         int id = getIntInput("Enter the id of the article you want to update: ");
@@ -106,11 +107,9 @@ public class AdminMenu {
 
         if (existingArticle == null) {
             System.out.println("No article with that id exists.");
-            return null;
+            patchArticle(jwt);
 
         } else {
-
-            System.out.println("Article found.");
 
             Article article = new Article();
 
@@ -120,7 +119,7 @@ public class AdminMenu {
             article.setQuantity(getIntInputForHttpPatch("If you want to change the quantity of the article. Enter the new quantity. Otherwise press enter:"));
 
             return updateArticle(id, jwt);
-        }
+        } return null;
     }
 
     public static void removeArticle(String jwt) throws IOException, ParseException {
