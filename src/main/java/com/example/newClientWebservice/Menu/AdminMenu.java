@@ -2,6 +2,7 @@ package com.example.newClientWebservice.Menu;
 
 import com.example.newClientWebservice.Models.Article;
 import com.example.newClientWebservice.Models.History;
+import com.example.newClientWebservice.Models.User;
 import com.example.newClientWebservice.Service.UtilService;
 import org.apache.hc.core5.http.ParseException;
 
@@ -67,7 +68,7 @@ public class AdminMenu {
                     getAllHistories(jwt);
                    break;
                case 3:
-                   getUsers(jwt);
+                   getAllUsers(jwt);
                     break;
                 case 4:
                    addArticle(jwt);
@@ -86,6 +87,13 @@ public class AdminMenu {
                     adminMenu2(jwt);
                   break;
             }
+       }
+   }
+
+   public static void getAllUsers(String jwt) throws IOException, ParseException {
+       List<User> users = getUsers(jwt);
+       for (User user : users) {
+           System.out.println(String.format("Id: %d\n Username: %s",user.getId(), user.getUsername()));
        }
    }
 
