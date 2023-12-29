@@ -28,33 +28,7 @@ public class ArticleService {
 
     private static final CloseableHttpClient httpClient = HttpClients.createDefault();
 
-//    public static ArrayList<Article> getAllArticles() {
-//        try {
-//
-//            HttpGet request = new HttpGet("http://localhost:8081/webshop/articles");
-//            CloseableHttpResponse response = httpClient.execute(request);
-//
-//            if (response.getCode() != 200) {
-//                System.out.println("Error occurred. HTTP response code: " + response.getCode());
-//                return null;
-//            }
-//
-//            HttpEntity entity = response.getEntity();
-//            ObjectMapper mapper = new ObjectMapper();
-//            ArrayList<Article> articles = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<Article>>() {});
-//
-//            for (Article article : articles) {
-//                System.out.println(String.format("Article: %s \n Price: %d \n Description: %s \n Quantity: %d \n", article.getName(), article.getCost(), article.getDescription(), article.getQuantity()));
-//            }
-//            return articles;
-//
-//        } catch (IOException | ParseException e) {
-//            System.out.println("Error: " + e.getMessage());
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
-public static ArrayList<Article> getAllArticles() {
+    public static ArrayList<Article> getAllArticles() {
     try {
         HttpGet request = new HttpGet("http://localhost:8081/webshop/articles");
         CloseableHttpResponse response = httpClient.execute(request);

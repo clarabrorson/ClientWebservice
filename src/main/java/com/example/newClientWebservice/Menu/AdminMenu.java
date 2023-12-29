@@ -90,13 +90,6 @@ public class AdminMenu {
        }
    }
 
-   public static void getAllUsers(String jwt) throws IOException, ParseException {
-       List<User> users = getUsers(jwt);
-       for (User user : users) {
-           System.out.println(String.format("Id: %d\n Username: %s",user.getId(), user.getUsername()));
-       }
-   }
-
    public static void getAllHistories(String jwt) throws IOException, ParseException {
        List<History> histories = getAllHistory(jwt);
        System.out.println("Histories:");
@@ -109,6 +102,13 @@ public class AdminMenu {
            }
        }
    }
+
+   public static void getAllUsers(String jwt) throws IOException, ParseException {
+        List<User> users = getUsers(jwt);
+        for (User user : users) {
+            System.out.println(String.format("Id: %d\n Username: %s",user.getId(), user.getUsername()));
+        }
+    }
 
    public static Void patchArticle(String jwt) throws IOException, ParseException {
 
