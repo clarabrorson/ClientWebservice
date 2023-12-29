@@ -2,6 +2,7 @@ package com.example.newClientWebservice.Menu;
 
 import com.example.newClientWebservice.Models.LoginResponse;
 import org.apache.hc.core5.http.ParseException;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 
 import java.io.IOException;
 
@@ -31,7 +32,8 @@ public class Login {
 
                     if (cartId != null) {
                         System.out.println("Ready to go shopping? Don't forget your Cart ID: " + cartId);
-                        UserMenu.userMenu(loginResponse.getJwt());
+                        //UserMenu.userMenu(loginResponse.getJwt());
+                        AdminMenu.adminMenu1(loginResponse.getJwt());
                     } else {
                         System.out.println("Something went wrong. Please try again.");
                     }

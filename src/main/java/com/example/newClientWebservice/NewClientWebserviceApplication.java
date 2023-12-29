@@ -1,5 +1,8 @@
 package com.example.newClientWebservice;
 
+import com.example.newClientWebservice.Menu.AdminMenu;
+import com.example.newClientWebservice.Menu.MainMenu;
+import com.example.newClientWebservice.Models.LoginResponse;
 import com.example.newClientWebservice.Service.ArticleService;
 import com.example.newClientWebservice.Service.CartService;
 import com.example.newClientWebservice.Service.UserService;
@@ -18,14 +21,12 @@ public class NewClientWebserviceApplication {
 	}
 
 
-//	CommandLineRunner run() {
-//
-//		ArticleService.getAllArticles();
-//			CartService.getOneCartById(1, login().getJwt()); //Fungerar
-//			//CartService.getAllCarts(login().getJwt()); //Fungerar
-//			//CartService.addArticleToCart(1, 1, login().getJwt()); //Fungerar
-//			//CartService.updateArticleCount(1, 1, 5, login().getJwt()); //Fungerar
-//			//CartService.deleteArticleFromCart(1, 1, login().getJwt()); //Fungerar
-//	}
+
+	@Bean
+	public CommandLineRunner run() {
+		return args -> {
+			MainMenu.run();
+			};
+		}
 }
 

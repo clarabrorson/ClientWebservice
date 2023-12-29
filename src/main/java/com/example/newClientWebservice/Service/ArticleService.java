@@ -75,7 +75,7 @@ public static ArrayList<Article> getAllArticles() {
     }
 }
 
-    public static void getOneArticle(int id) throws IOException, ParseException {
+    public static Article getOneArticle(int id) throws IOException, ParseException {
 
         HttpGet request = new HttpGet(String.format("http://localhost:8081/webshop/articles/%d", id));
 
@@ -83,7 +83,7 @@ public static ArrayList<Article> getAllArticles() {
 
         if (response.getCode() != 200) {
             System.out.println("Error occurred. HTTP response code: " + response.getCode());
-            return;
+            return null;
         }
         HttpEntity entity = response.getEntity();
 
@@ -91,15 +91,16 @@ public static ArrayList<Article> getAllArticles() {
         Article article = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Article>() {});
 
         System.out.println(String.format("Article: %s \n Price: %d", article.getName(), article.getCost()));
+        return article;
     }
 
     public static Article createArticle() {
         Article article = new Article();
 
         article.setName(getStringInput("Enter the name of the article:"));
-        article.setCost(getIntInput("Enter the price of the article"));
+        article.setCost(getIntInput("Enter the price of the article:"));
         article.setDescription(getStringInput("Enter the description of the article:"));
-        article.setQuantity(getIntInput("Enter the quantity of the article"));
+        article.setQuantity(getIntInput("Enter the quantity of the article:"));
         return article;
     }
 
@@ -135,7 +136,7 @@ public static ArrayList<Article> getAllArticles() {
         }
     }
 
-    public static void updateArticle(int id, String jwt) throws IOException, ParseException {
+    public static Void updateArticle(int id, String jwt) throws IOException, ParseException {
 
         Article article = createArticle();
 
@@ -152,7 +153,7 @@ public static ArrayList<Article> getAllArticles() {
 
         if (response.getCode() != 200) {
             System.out.println("Error uppstod");
-            return;
+            return null;
         }
 
         HttpEntity entity = response.getEntity();
@@ -165,6 +166,7 @@ public static ArrayList<Article> getAllArticles() {
         } else {
             System.out.println("Something went wrong");
         }
+        return null;
     }
 
     public static void deleteArticle(int id, String jwt) throws IOException, ParseException {

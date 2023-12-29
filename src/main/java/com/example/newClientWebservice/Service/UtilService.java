@@ -39,4 +39,26 @@ public class UtilService {
 
         return payload;
     }
+
+    public static String getStringInputForHttpPatch(String prompt) {
+        Scanner scan = new Scanner(System.in);
+        System.out.print(prompt);
+        String input = scan.nextLine();
+
+        if (input.equals("")) {
+            System.out.println("No changes made.");
+        }
+        return input;
+    }
+
+    public static int getIntInputForHttpPatch(String prompt) {
+        Scanner scan = new Scanner(System.in);
+        System.out.print(prompt);
+        int input = scan.nextInt();
+
+        if (input == 0) {
+            System.out.println("No changes made.");
+        }
+        return input;
+    }
 }
