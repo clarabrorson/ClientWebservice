@@ -2,6 +2,7 @@ package com.example.newClientWebservice.Menu;
 
 import com.example.newClientWebservice.Models.Article;
 import com.example.newClientWebservice.Models.Cart;
+import com.example.newClientWebservice.Models.History;
 import com.example.newClientWebservice.Models.LoginResponse;
 import com.example.newClientWebservice.Service.ArticleService;
 import com.example.newClientWebservice.Service.CartService;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.example.newClientWebservice.Menu.ArticlesMenu.printArticlesMenu;
+import static com.example.newClientWebservice.Service.HistoryService.getCurrentUserHistory;
 import static com.example.newClientWebservice.Service.UtilService.getIntInput;
 
 public class UserMenu {
@@ -99,7 +101,17 @@ public class UserMenu {
     }
 
     private static void getHistory(String jwt) throws IOException, ParseException {
-        HistoryService.getCurrentUserHistory(jwt);
+        getCurrentUserHistory(jwt);
+        List<History> histories = getCurrentUserHistory(jwt);
+        System.out.println("\nPurchased Articles:\n");
+        for (History history : histories) {
+            for (Article article : history.getPurchasedArticles()) {
+                System.out.println(String.format(
+                        "id: %d \n  User: %s \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d \n  Total cost: %d",
+                        history.getId(), history.getUser().getUsername(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity(), history.getTotalCost()
+                ));
+            }
+        }
     }
 
     private static void purchaseCart(String jwt) throws IOException, ParseException {
