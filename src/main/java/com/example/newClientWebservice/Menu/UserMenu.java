@@ -29,6 +29,7 @@ public class UserMenu {
             System.out.println("5. Want more fruits? Update the quantity of a fruit in the basket");
             System.out.println("6. History of purchases");
             System.out.println("7. Ready to checkout? Proceed to checkout");
+            System.out.println("8. Back to Main Menu");
 
             int choice = getIntInput("Enter your choice: ");
 
@@ -54,6 +55,9 @@ public class UserMenu {
                 case 7:
                     purchaseCart(jwt);
                     break;
+                case 8:
+                    MainMenu.runMeny();
+                    return;
                 default:
                     System.out.println("Invalid input. Please enter a number between 1 and 7.");
                     userMenu(jwt);
