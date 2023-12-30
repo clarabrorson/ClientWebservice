@@ -35,7 +35,7 @@ public class UserMenu {
 
             switch (choice) {
                 case 1:
-                    printArticlesMenu(); //Fungerar
+                    printArticlesMenu();
                     break;
                 case 2:
                     addFruitToCart(jwt); //Fungerar inte status 405, HttpRequestMethodNotSupportedException: Request method 'POST' is not supported]
@@ -65,11 +65,9 @@ public class UserMenu {
             }
         }
     }
-
     private static void addFruitToCart(String jwt) throws IOException, ParseException {
         printArticlesMenu();
         int articleNumber = getIntInput("Enter the article number of a fruit to add to the basket: ");
-        int quantity = getIntInput("Enter the quantity: ");
 
         // Hämtar artiklar från databasen
         List<Article> articles = ArticleService.getAllArticles();
@@ -78,19 +76,16 @@ public class UserMenu {
             int cartId = getIntInput("Enter the cart ID: ");
 
             // Lägger till artiklar i Cart
-            // Math to int exact konverterar från long till int
-            CartService.addArticleToCart(cartId, Math.toIntExact(selectedArticle.getId()), quantity, jwt);
+            CartService.addArticleToCart(cartId, Math.toIntExact(selectedArticle.getId()), jwt);
         } else {
             System.out.println("Invalid article number. Please try again.");
         }
     }
 
-
     private static void viewCart(String jwt) throws IOException, ParseException {
         int cartId = getIntInput("Enter the cart ID: ");
         CartService.getOneCartById(cartId, jwt);
     }
-
     private static void deleteFruitFromCart(String jwt) throws IOException, ParseException {
         int cartId = getIntInput("Enter the cart ID: ");
         int articleId = getIntInput("Enter the article ID: ");
@@ -105,7 +100,6 @@ public class UserMenu {
     }
 
     private static void getHistory(String jwt) throws IOException, ParseException {
-        //getCurrentUserHistory(jwt);
         List<History> histories = getCurrentUserHistory(jwt);
         System.out.println("\nPurchased Articles:\n");
         for (History history : histories) {
