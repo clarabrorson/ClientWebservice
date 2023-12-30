@@ -71,7 +71,7 @@ public class CartService {
     }
 
     public static void addArticleToCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
-        HttpPost request = new HttpPost(String.format("http://localhost:8081/webshop/cart/%d", cartId, articleId));
+        HttpPost request = new HttpPost(String.format("http://localhost:8081/webshop/cart/%d", articleId));
 
         request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
 

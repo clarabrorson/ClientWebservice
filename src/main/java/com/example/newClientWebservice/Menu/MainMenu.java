@@ -21,15 +21,11 @@ public class MainMenu {
      * @Error Exception e är för att fånga alla fel som kan uppstå
      */
 
-    public static void runMeny(){
+    public static void runMeny() throws IOException, ParseException {
         while (isRunning) {
-            try {
                 printMainMenu();
             int choice = UtilService.getIntInput("Enter your choice: \n");
             userChoice(choice);
-            } catch (Exception e) {
-                System.out.println("Invalid input. Please enter a number.\n");
-            }
 
         }
     }
