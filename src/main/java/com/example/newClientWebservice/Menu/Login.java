@@ -3,6 +3,7 @@ package com.example.newClientWebservice.Menu;
 import com.example.newClientWebservice.Models.LoginResponse;
 import com.example.newClientWebservice.Models.Role;
 import com.example.newClientWebservice.Models.User;
+import com.example.newClientWebservice.Service.UtilService;
 import org.apache.hc.core5.http.ParseException;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class Login {
             System.out.println("1. Login");
             System.out.println("2. Back to Main Menu");
 
-            int choice = getIntInput("Enter your choice: ");
+            int choice = UtilService.getIntInput("Enter your choice: ");
 
             switch (choice) {
                 case 1:
