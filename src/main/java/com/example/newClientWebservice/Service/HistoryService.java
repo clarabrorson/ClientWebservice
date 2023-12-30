@@ -104,26 +104,4 @@ public class HistoryService {
             return null;
         }
     }
-    public static void main(String[] args) throws IOException, ParseException {
-        String jwt = String.valueOf(login().getJwt());
-//        List<History> histories = getAllHistory(jwt);
-//        System.out.println("Histories:");
-//        for (History history : histories) {
-//            System.out.println(String.format(
-//                    "  History id: %d \n totalCost: %d \n article: %s \n user: %s",
-//                    history.getId(), history.getTotalCost(), history.getPurchasedArticles(), history.getUser().getUsername()
-//            ));
-//        }
-
-//       List<History> histories = getCurrentUserHistory(jwt);
-//        System.out.println("\nPurchased Articles:\n");
-//       for (History history : histories) {
-//           for (Article article : history.getPurchasedArticles()) {
-//                System.out.println(String.format(
-//                          "id: %d \n  User: %s \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d \n  Total cost: %d",
-//                          history.getId(), history.getUser().getUsername(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity(), history.getTotalCost()
-//                ));
-//           }
-//       }
-   }
 }

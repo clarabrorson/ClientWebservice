@@ -28,33 +28,7 @@ public class ArticleService {
 
     private static final CloseableHttpClient httpClient = HttpClients.createDefault();
 
-//    public static ArrayList<Article> getAllArticles() {
-//        try {
-//
-//            HttpGet request = new HttpGet("http://localhost:8081/webshop/articles");
-//            CloseableHttpResponse response = httpClient.execute(request);
-//
-//            if (response.getCode() != 200) {
-//                System.out.println("Error occurred. HTTP response code: " + response.getCode());
-//                return null;
-//            }
-//
-//            HttpEntity entity = response.getEntity();
-//            ObjectMapper mapper = new ObjectMapper();
-//            ArrayList<Article> articles = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<Article>>() {});
-//
-//            for (Article article : articles) {
-//                System.out.println(String.format("Article: %s \n Price: %d \n Description: %s \n Quantity: %d \n", article.getName(), article.getCost(), article.getDescription(), article.getQuantity()));
-//            }
-//            return articles;
-//
-//        } catch (IOException | ParseException e) {
-//            System.out.println("Error: " + e.getMessage());
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
-public static ArrayList<Article> getAllArticles() {
+    public static ArrayList<Article> getAllArticles() {
     try {
         HttpGet request = new HttpGet("http://localhost:8081/webshop/articles");
         CloseableHttpResponse response = httpClient.execute(request);
@@ -136,11 +110,23 @@ public static ArrayList<Article> getAllArticles() {
         }
     }
 
-    public static Void updateArticle(int id, String jwt) throws IOException, ParseException {
-
-        Article article = createArticle();
+    public static Void updateArticle(int id, Article existingArticle, Article article, String jwt) throws IOException, ParseException {
 
         HttpPatch request = new HttpPatch(String.format("http://localhost:8081/webshop/articles/%d", id));
+
+        // If a field in 'article' is null, set it to the corresponding value in 'existingArticle'
+        if (article.getName() == null) {
+            article.setName(existingArticle.getName());
+        }
+        if (article.getCost() == 0) {
+            article.setCost(existingArticle.getCost());
+        }
+        if (article.getDescription() == null) {
+            article.setDescription(existingArticle.getDescription());
+        }
+        if (article.getQuantity() == 0) {
+            article.setQuantity(existingArticle.getQuantity());
+        }
 
         ObjectMapper mapper = new ObjectMapper();
         StringEntity payload = new StringEntity(mapper.writeValueAsString(article), ContentType.APPLICATION_JSON);
@@ -152,7 +138,7 @@ public static ArrayList<Article> getAllArticles() {
         CloseableHttpResponse response = httpClient.execute(request);
 
         if (response.getCode() != 200) {
-            System.out.println("Error uppstod");
+            System.out.println("Error occurred: " + response.toString());
             return null;
         }
 
@@ -160,8 +146,10 @@ public static ArrayList<Article> getAllArticles() {
 
         Article responseArticle = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Article>() {});
 
-        if (responseArticle.getName().equals(article.getName()) && responseArticle.getCost() == article.getCost()
-                && responseArticle.getDescription().equals(article.getDescription()) && responseArticle.getQuantity() == article.getQuantity()) {
+        if ((responseArticle.getName() == null ? article.getName() == null : responseArticle.getName().equals(article.getName()))
+                && responseArticle.getCost() == article.getCost()
+                && (responseArticle.getDescription() == null ? article.getDescription() == null : responseArticle.getDescription().equals(article.getDescription()))
+                && responseArticle.getQuantity() == article.getQuantity()) {
             System.out.println(String.format("The article: %s, has been updated", responseArticle.getName()));
         } else {
             System.out.println("Something went wrong");
@@ -182,6 +170,6 @@ public static ArrayList<Article> getAllArticles() {
             return;
         }
 
-        System.out.println(String.format("The article with ID: %d has been deleted", id));
+        System.out.println("The article has been deleted");
     }
 }

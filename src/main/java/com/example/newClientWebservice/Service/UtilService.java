@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class UtilService {
@@ -14,7 +15,10 @@ public class UtilService {
         System.out.print(prompt);
         String input = scan.nextLine();
 
-        if (input.equals("")) {
+        if (input.matches(".*\\d.*")) {
+            System.out.println("Invalid input. Please do not enter numbers.\n");
+            return getStringInput(prompt);
+        } else if (input.equals("")) {
             System.out.println("Try again.");
             return getStringInput(prompt);
         }
@@ -24,13 +28,20 @@ public class UtilService {
     public static int getIntInput(String prompt) {
         Scanner scan = new Scanner(System.in);
         System.out.print(prompt);
-        int input = scan.nextInt();
 
-        if (input == 0) {
-            System.out.println("Try again");
+        try {
+            int input = scan.nextInt();
+
+            if (input == 0) {
+                System.out.println("Try again");
+                return getIntInput(prompt);
+            }
+            return input;
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input. Please enter a number.\n");
+            scan.next(); // discard the invalid input
             return getIntInput(prompt);
         }
-        return input;
     }
 
     public static StringEntity createPayload(Object object) throws JsonProcessingException {
@@ -54,11 +65,18 @@ public class UtilService {
     public static int getIntInputForHttpPatch(String prompt) {
         Scanner scan = new Scanner(System.in);
         System.out.print(prompt);
-        int input = scan.nextInt();
+        String input = scan.nextLine();
 
-        if (input == 0) {
+        if (input.isEmpty()) {
             System.out.println("No changes made.");
+            return 0;
         }
-        return input;
+
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Please enter a number.");
+            return getIntInputForHttpPatch(prompt);
+        }
     }
 }
