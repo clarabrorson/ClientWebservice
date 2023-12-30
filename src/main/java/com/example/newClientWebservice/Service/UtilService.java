@@ -15,13 +15,13 @@ public class UtilService {
         System.out.print(prompt);
         String input = scan.nextLine();
 
-        if (input.matches(".*\\d.*")) {
-            System.out.println("Invalid input. Please do not enter numbers.\n");
-            return getStringInput(prompt);
-        } else if (input.equals("")) {
-            System.out.println("Try again.");
-            return getStringInput(prompt);
-        }
+//        if (input.matches(".*\\d.*")) {
+//            System.out.println("Invalid input. Please do not enter numbers.\n");
+//            return getStringInput(prompt);
+//        } else if (input.equals("")) {
+//            System.out.println("Try again.");
+//            return getStringInput(prompt);
+//        }
         return input;
     }
 
