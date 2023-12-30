@@ -1,8 +1,9 @@
 package com.example.newClientWebservice.Menu;
 
 import com.example.newClientWebservice.Models.LoginResponse;
+import com.example.newClientWebservice.Models.Role;
+import com.example.newClientWebservice.Models.User;
 import org.apache.hc.core5.http.ParseException;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 
 import java.io.IOException;
 
@@ -32,12 +33,21 @@ public class Login {
 
                     if (cartId != null) {
                         System.out.println("Ready to go shopping? Don't forget your Cart ID: " + cartId);
-                        //UserMenu.userMenu(loginResponse.getJwt());
-                        AdminMenu.adminMenu1(loginResponse.getJwt());
+
+                        // Kontrollera om användaren har admin-rollen eller inte
+                        // Om användaren har admin-rollen, visa admin-menyn
+                        // Annars visa användarmenyn
+                        if (isAdmin(loginResponse.getUser())) {
+                            AdminMenu.adminMenu1(loginResponse.getJwt());
+                        } else {
+                            UserMenu.userMenu(loginResponse.getJwt());
+                        }
+
                     } else {
                         System.out.println("Something went wrong. Please try again.");
                     }
                     break;
+
                 case 2:
                     MainMenu.runMeny();
                     return;
@@ -50,9 +60,15 @@ public class Login {
 
 
     }
-//public static void main(String[] args) throws IOException, ParseException {
-//        loginMenu();
-//    }
 
-
+    private static boolean isAdmin(User user) {
+        if (user != null && user.getAuthorities() != null) {
+            for (Role role : user.getAuthorities()) {
+                if ("admin".equalsIgnoreCase(role.getAuthority())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

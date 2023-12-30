@@ -70,7 +70,7 @@ public class CartService {
         System.out.println(String.format("Cart %s belongs to %s and contains %s", cart.getId(), cart.getUsername(), cart.getArticles()));
     }
 
-    /*public static void addArticleToCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
+    /* public static void addArticleToCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
 
         HttpPost request = new HttpPost(String.format("http://localhost:8081/webshop/cart/%d", cartId));
 
@@ -112,6 +112,7 @@ public class CartService {
 
         System.out.println(String.format("Article %s added to cart %s with quantity %d", articleId, cartId, quantity));
     }
+
 
 
     public static void updateArticleCount(int cartId, int articleId, int quantity, String jwt) throws IOException, ParseException {
@@ -178,6 +179,8 @@ public class CartService {
             e.printStackTrace();
         }
     }
+
+
 
     public static void main(String[] args) throws IOException, ParseException {
 
