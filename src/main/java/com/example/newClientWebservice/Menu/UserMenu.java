@@ -40,19 +40,19 @@ public class UserMenu {
                     addFruitToCart(jwt); //Fungerar inte status 405, HttpRequestMethodNotSupportedException: Request method 'POST' is not supported]
                     break;
                 case 3:
-                    viewCart(jwt); //Fungerar
+                    viewCart(jwt);
                     break;
                 case 4:
-                    deleteFruitFromCart(jwt); //Fungerar
+                    deleteFruitFromCart(jwt);
                     break;
                 case 5:
-                    updateFruitQuantity(jwt); //Fungerar
+                    updateFruitQuantity(jwt);
                     break;
                 case 6:
-                    getHistory(jwt); // Fel i getHistory
+                    getHistory(jwt);
                     break;
                 case 7:
-                    purchaseCart(jwt); // Fungerar (skriva ut totalkostnad?)
+                    purchaseCart(jwt);
                     break;
                 default:
                     System.out.println("Invalid input. Please enter a number between 1 and 7.");
@@ -101,7 +101,7 @@ public class UserMenu {
     }
 
     private static void getHistory(String jwt) throws IOException, ParseException {
-        getCurrentUserHistory(jwt);
+        //getCurrentUserHistory(jwt);
         List<History> histories = getCurrentUserHistory(jwt);
         System.out.println("\nPurchased Articles:\n");
         for (History history : histories) {
