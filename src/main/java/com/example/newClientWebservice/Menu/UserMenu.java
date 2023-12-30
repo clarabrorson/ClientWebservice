@@ -38,7 +38,7 @@ public class UserMenu {
                     printArticlesMenu();
                     break;
                 case 2:
-                    addFruitToCart(jwt); //Fungerar inte status 405, HttpRequestMethodNotSupportedException: Request method 'POST' is not supported]
+                    addFruitToCart(jwt);
                     break;
                 case 3:
                     viewCart(jwt);
@@ -115,6 +115,7 @@ public class UserMenu {
     private static void purchaseCart(String jwt) throws IOException, ParseException {
         CartService.purchaseArticles(jwt);
     }
+
 }
 
 

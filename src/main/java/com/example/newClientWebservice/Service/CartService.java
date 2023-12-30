@@ -67,6 +67,8 @@ public class CartService {
         ObjectMapper mapper = new ObjectMapper();
         Cart cart = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Cart>() {});
 
+        System.out.println("Response from server: " + EntityUtils.toString(entity));
+
         System.out.println(String.format("Cart %s belongs to %s and contains %s", cart.getId(), cart.getUsername(), cart.getArticles()));
     }
 
@@ -90,9 +92,6 @@ public class CartService {
 
         System.out.println(String.format("Article %s added to cart %s", articleId, cartId));
     }
-
-
-
 
     public static void updateArticleCount(int cartId, int articleId, int quantity, String jwt) throws IOException, ParseException {
 
