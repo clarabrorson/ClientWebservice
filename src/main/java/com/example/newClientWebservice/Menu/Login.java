@@ -10,11 +10,22 @@ import java.io.IOException;
 
 import static com.example.newClientWebservice.Models.Cart.getCartIdFromUser;
 import static com.example.newClientWebservice.Service.UserService.login;
-import static com.example.newClientWebservice.Service.UtilService.getIntInput;
+
+/**
+ * Denna klass används för att skapa en meny för inloggning.
+ * @author Clara Brorson
+ */
 
 public class Login {
 
-
+    /**
+     * Denna metod används för att skapa en meny för inloggning.
+     * Den anropar metoden login i UserService-klassen för att logga in användaren.
+     * Användaren får tillbaka ett LoginResponse-objekt som innehåller ett JWT och en User.
+     * LoginResponse-objektet skickas in i metoden getCartIdFromUser i Cart-klassen.
+     * En if sats kontrollerar om användaren har admin-roll genom att anropa metoden isAdmin.
+     * Beroende på om användaren har admin-roll eller inte, visas antingen admin-menyn eller användarmenyn.
+     */
     public static void loginMenu() throws IOException, ParseException {
 
         while (true) {
@@ -26,9 +37,6 @@ public class Login {
 
             switch (choice) {
                 case 1:
-                    // Loggar in och får tillbaka ett LoginResponse-objekt
-                    // Skickar in LoginResponse-objektet till getCartIdFromUser-metoden i Cart-klassen
-                    // Returnerar CartId som användaren behöver ange för att utföra CRUD-operationer på sin Cart
                     LoginResponse loginResponse = login();
                     Long cartId = getCartIdFromUser(loginResponse);
 
@@ -58,10 +66,13 @@ public class Login {
                     break;
             }
         }
-
-
     }
 
+    /**
+     * Denna metod används för att kontrollera om en användare har admin-rollen.
+     * @param user är en User som ska kontrolleras.
+     * @return true om användaren har admin-rollen, annars false.
+     */
     private static boolean isAdmin(User user) {
         if (user != null && user.getAuthorities() != null) {
             for (Role role : user.getAuthorities()) {
