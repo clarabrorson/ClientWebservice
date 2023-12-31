@@ -1,23 +1,23 @@
 package com.example.newClientWebservice.Menu;
 
 import com.example.newClientWebservice.Models.Article;
-import com.example.newClientWebservice.Models.Cart;
 import com.example.newClientWebservice.Models.History;
-import com.example.newClientWebservice.Models.LoginResponse;
 import com.example.newClientWebservice.Service.ArticleService;
 import com.example.newClientWebservice.Service.CartService;
-import com.example.newClientWebservice.Service.HistoryService;
 import org.apache.hc.core5.http.ParseException;
-
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-
 import static com.example.newClientWebservice.Menu.ArticlesMenu.printArticlesMenu;
 import static com.example.newClientWebservice.Service.CartService.getOneCartById;
 import static com.example.newClientWebservice.Service.HistoryService.getCurrentUserHistory;
 import static com.example.newClientWebservice.Service.UtilService.getIntInput;
 
+/**
+ * Denna klass används för att skapa en meny för användare.
+ * Här kan användaren välja att lägga till, ta bort och uppdatera artiklar i kundkorgen.
+ * Den innefattar metoder som anropar metoder från olika Service-klasser.
+ * @author Clara Brorson
+ */
 public class UserMenu {
 
     public static void userMenu(String jwt) throws IOException, ParseException {
@@ -67,23 +67,28 @@ public class UserMenu {
             }
         }
     }
+
+    /**
+     * Samtliga metoder nedanför anropas i userMenu-metoden.
+     * @param jwt är en sträng som används för att autentisera användaren.
+     * @throws IOException om det blir fel med inläsning av data.
+     * @throws ParseException om det blir fel med parsning av data.
+     */
+
     private static void addFruitToCart(String jwt) throws IOException, ParseException {
         printArticlesMenu();
         int articleNumber = getIntInput("Enter the article number of a fruit to add to the basket: ");
 
-        // Hämtar artiklar från databasen
         List<Article> articles = ArticleService.getAllArticles();
         if (articleNumber > 0 && articleNumber <= articles.size()) {
             Article selectedArticle = articles.get(articleNumber - 1);
             int cartId = getIntInput("Enter the cart ID: ");
 
-            // Lägger till artiklar i Cart
             CartService.addArticleToCart(cartId, Math.toIntExact(selectedArticle.getId()), jwt);
         } else {
             System.out.println("Invalid article number. Please try again.");
         }
     }
-
     private static void viewCart(String jwt) throws IOException, ParseException {
         int cartId = getIntInput("Enter the cart ID: ");
         getOneCartById(cartId, jwt);
@@ -93,14 +98,12 @@ public class UserMenu {
         int articleId = getIntInput("Enter the article ID: ");
         CartService.deleteArticleFromCart(cartId, articleId, jwt);
     }
-
     private static void updateFruitQuantity(String jwt) throws IOException, ParseException {
         int cartId = getIntInput("Enter the cart ID: ");
         int articleId = getIntInput("Enter the article ID: ");
         int quantity = getIntInput("Enter the new quantity: ");
         CartService.updateArticleCount(cartId, articleId, quantity, jwt);
     }
-
     private static void getHistory(String jwt) throws IOException, ParseException {
         List<History> histories = getCurrentUserHistory(jwt);
         System.out.println("\nPurchased Articles:\n");
@@ -113,7 +116,6 @@ public class UserMenu {
             }
         }
     }
-
     private static void purchaseCart(String jwt) throws IOException, ParseException {
         CartService.purchaseArticles(jwt);
     }

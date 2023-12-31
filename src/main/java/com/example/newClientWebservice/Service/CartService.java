@@ -22,10 +22,25 @@ import java.util.ArrayList;
 
 import static com.example.newClientWebservice.Service.UserService.login;
 
+/**
+ * Denna klass används som en service för att utföra crud operationer.
+ * Metoderna använder sig av HTTP-requests för att skicka förfrågningar till API:et.
+ * Url:en specificeras i varje metod och överensstämmer med de endpoints som finns i API:et.
+ * Metoderna returnerar ett svar från API:et i form av en String.
+ * @author Clara Brorson
+ */
 public class CartService {
 
+    /**
+     * CloseableHttpClient används för att skicka HTTP-requests till API:et.
+     * httpClient är en instans av CloseableHttpClient.
+     */
     private static final CloseableHttpClient httpClient = HttpClients.createDefault();
 
+    /**
+     * Denna metod används för att hämta alla carts från API:et.
+     * @param jwt är en String som innehåller en JWT-token.
+     */
     public static void getAllCarts(String jwt) throws IOException, ParseException {
 
         HttpGet request = new HttpGet("http://localhost:8081/webshop/cart");
@@ -46,10 +61,15 @@ public class CartService {
         ArrayList<Cart> carts = mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<Cart>>() {});
 
         for (Cart cart : carts) {
-            System.out.println(String.format("Cart %s belongs to %s and contains %s", (Object) cart.getId(), (Object) cart.getUsername(), (Object) cart.getArticles()));
+            System.out.println(String.format("Cart %s belongs to %s and contains %s", cart.getId(), cart.getUsername(), cart.getArticles()));
         }
     }
 
+    /**
+     * Denna metod används för att hämta en cart med ett specifikt id från API:et.
+     * @param id är id:t för den cart som ska hämtas.
+     * @param jwt är en String som innehåller en JWT-token.
+     */
     public static void getOneCartById(int id, String jwt) throws IOException, ParseException {
         HttpGet request = new HttpGet(String.format("http://localhost:8081/webshop/cart/%d", id));
         request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
@@ -77,10 +97,12 @@ public class CartService {
         }
     }
 
-
-
-
-
+    /**
+     * Denna metod används för att lägga till en artikel i en cart.
+     * @param cartId är id:t för den cart som artikeln ska läggas till i.
+     * @param articleId är id:t för den artikel som ska läggas till.
+     * @param jwt är en String som innehåller en JWT-token.
+     */
     public static void addArticleToCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
         HttpPost request = new HttpPost(String.format("http://localhost:8081/webshop/cart/%d", articleId));
 
@@ -102,6 +124,13 @@ public class CartService {
         System.out.println(String.format("Article %s added to cart %s", articleId, cartId));
     }
 
+    /**
+     * Denna metod används för att uppdatera antalet artiklar i en cart.
+     * @param cartId är id:t för den cart som artikeln ska uppdateras i.
+     * @param articleId är id:t för den artikel som ska uppdateras.
+     * @param quantity är det nya antalet artiklar.
+     * @param jwt är en String som innehåller en JWT-token.
+     */
     public static void updateArticleCount(int cartId, int articleId, int quantity, String jwt) throws IOException, ParseException {
 
         HttpPatch request = new HttpPatch(String.format("http://localhost:8081/webshop/cart/%d/articles/%d?quantity=%d", cartId, articleId, quantity));
@@ -124,6 +153,12 @@ public class CartService {
         System.out.println(String.format("Article %s in cart %s has updated its quantity to %d", articleId, cartId, quantity));
     }
 
+    /**
+     * Denna metod används för att ta bort en artikel från en cart.
+     * @param cartId är id:t för den cart som artikeln ska tas bort från.
+     * @param articleId är id:t för den artikel som ska tas bort.
+     * @param jwt är en String som innehåller en JWT-token.
+     */
     public static void deleteArticleFromCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
 
         HttpDelete request = new HttpDelete(String.format("http://localhost:8081/webshop/cart/%d/articles/%d", cartId, articleId));
@@ -147,6 +182,10 @@ public class CartService {
         System.out.println(String.format("Article %s has been deleted from cart %s", articleId, cartId));
     }
 
+    /**
+     * Denna metod används för att hämta en användares historik från API:et.
+     * @param jwt är en String som innehåller en JWT-token.
+     */
     public static void purchaseArticles(String jwt) {
         try {
             HttpPost request = new HttpPost("http://localhost:8081/webshop/history/purchase");
@@ -167,11 +206,8 @@ public class CartService {
         }
     }
 
-    public static void main(String[] args) throws IOException, ParseException {
-
-   String jwt = String.valueOf(login().getJwt());
-
-
-    }
 
 }
+
+
+
