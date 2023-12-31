@@ -60,9 +60,9 @@ If your README is long, add a table of contents to make it easy for users to fin
 ## Credits
 
 ### Collaborators in this project:
-* [Clara](https://github.com/clarabrorson)
-* [Fredrik](https://github.com/Fringston)
-
+* [Clara Brorson](https://github.com/clarabrorson)
+* [Fredrik Rinstad](https://github.com/Fringston)
+* [Jafar Hussein](https://github.com/Jafar-Hussein)
 
 ## Badges
 ![badmath](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)
