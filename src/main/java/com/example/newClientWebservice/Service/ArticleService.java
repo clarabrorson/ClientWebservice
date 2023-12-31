@@ -23,11 +23,25 @@ import java.util.ArrayList;
 
 import static com.example.newClientWebservice.Service.UtilService.*;
 
+/**
+ * Denna klass innehåller metoder för att utföra operationer på artiklar.
+ * Metoderna är kopplade till olika endpoints i WebService-applikationen.
+ *
+ * @author Fredrik
+ */
 @Service
 public class ArticleService {
 
+    /**
+     * Detta objekt används för att skicka HTTP requests till WebService-applikationen.
+     */
     private static final CloseableHttpClient httpClient = HttpClients.createDefault();
 
+    /**
+     * Denna metod används för att hämta alla artiklar från databasen.
+     * Metoden skickar en GET request till endpoint: /webshop/articles i WebService-applikationen.
+     * @return en lista med alla artiklar.
+     */
     public static ArrayList<Article> getAllArticles() {
     try {
         HttpGet request = new HttpGet("http://localhost:8081/webshop/articles");
@@ -40,7 +54,7 @@ public class ArticleService {
 
         HttpEntity entity = response.getEntity();
         ObjectMapper mapper = new ObjectMapper();
-        // Simply return the articles without printing
+
         return mapper.readValue(EntityUtils.toString(entity), new TypeReference<ArrayList<Article>>() {});
     } catch (IOException | ParseException e) {
         System.out.println("Error: " + e.getMessage());
@@ -49,6 +63,12 @@ public class ArticleService {
     }
 }
 
+    /**
+     * Denna metod används för att hämta en artikel från databasen med ett specifikt id.
+     * Metoden skickar en GET request till endpoint: /webshop/articles/{id} i WebService-applikationen.
+     * @param id är id:t för den artikel som ska hämtas.
+     * @return en artikel med det specifika id:t.
+     */
     public static Article getOneArticle(int id) throws IOException, ParseException {
 
         HttpGet request = new HttpGet(String.format("http://localhost:8081/webshop/articles/%d", id));
@@ -68,6 +88,10 @@ public class ArticleService {
         return article;
     }
 
+    /**
+     * Denna metod används för att skapa en artikel.
+     * @return en artikel.
+     */
     public static Article createArticle() {
         Article article = new Article();
 
@@ -78,6 +102,13 @@ public class ArticleService {
         return article;
     }
 
+    /**
+     * Denna metod används för att lägga till en artikel i databasen.
+     * Metoden skickar en POST request till endpoint: /webshop/articles i WebService-applikationen.
+     * @param jwt är en String som innehåller en JWT-token.
+     * @throws IOException kastar ett undantag om det blir problem med inläsning från användaren.
+     * @throws ParseException kastar ett undantag om det blir problem med parsning av JSON.
+     */
     public static void addArticle(String jwt) throws IOException, ParseException {
 
        Article newArticle = createArticle();
@@ -110,6 +141,15 @@ public class ArticleService {
         }
     }
 
+    /**
+     * Denna metod används för att uppdatera en artikel i databasen.
+     * Metoden skickar en PATCH request till endpoint: /webshop/articles/{id} i WebService-applikationen.
+     * @param id är id:t för den artikel som ska uppdateras.
+     * @param existingArticle är den artikel som ska uppdateras.
+     * @param article är den artikel som innehåller den nya informationen.
+     * @param jwt är en String som innehåller en JWT-token.
+     * @return den uppdaterade artikeln.
+     */
     public static Void updateArticle(int id, Article existingArticle, Article article, String jwt) throws IOException, ParseException {
 
         HttpPatch request = new HttpPatch(String.format("http://localhost:8081/webshop/articles/%d", id));
@@ -157,6 +197,12 @@ public class ArticleService {
         return null;
     }
 
+    /**
+     * Denna metod används för att ta bort en artikel från databasen.
+     * Metoden skickar en DELETE request till endpoint: /webshop/articles/{id} i WebService-applikationen.
+     * @param id är id:t för den artikel som ska tas bort.
+     * @param jwt är en String som innehåller en JWT-token.
+     */
     public static void deleteArticle(int id, String jwt) throws IOException, ParseException {
 
         HttpDelete request = new HttpDelete(String.format("http://localhost:8081/webshop/articles/%d", id));

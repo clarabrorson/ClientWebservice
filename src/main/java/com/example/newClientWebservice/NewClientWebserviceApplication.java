@@ -20,13 +20,5 @@ public class NewClientWebserviceApplication {
 		SpringApplication.run(NewClientWebserviceApplication.class, args);
 	}
 
-
-
-//	@Bean
-//	public CommandLineRunner run() {
-//		return args -> {
-//			MainMenu.run();
-//			};
-//		}
 }
 
