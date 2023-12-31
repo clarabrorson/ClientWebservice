@@ -10,9 +10,11 @@ import com.example.newClientWebservice.Service.HistoryService;
 import org.apache.hc.core5.http.ParseException;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.example.newClientWebservice.Menu.ArticlesMenu.printArticlesMenu;
+import static com.example.newClientWebservice.Service.CartService.getOneCartById;
 import static com.example.newClientWebservice.Service.HistoryService.getCurrentUserHistory;
 import static com.example.newClientWebservice.Service.UtilService.getIntInput;
 
@@ -84,7 +86,7 @@ public class UserMenu {
 
     private static void viewCart(String jwt) throws IOException, ParseException {
         int cartId = getIntInput("Enter the cart ID: ");
-        CartService.getOneCartById(cartId, jwt);
+        getOneCartById(cartId, jwt);
     }
     private static void deleteFruitFromCart(String jwt) throws IOException, ParseException {
         int cartId = getIntInput("Enter the cart ID: ");
@@ -115,6 +117,9 @@ public class UserMenu {
     private static void purchaseCart(String jwt) throws IOException, ParseException {
         CartService.purchaseArticles(jwt);
     }
+
+
+
 
 }
 

@@ -1,5 +1,6 @@
 package com.example.newClientWebservice.Service;
 
+import com.example.newClientWebservice.Models.Article;
 import com.example.newClientWebservice.Models.Cart;
 import com.example.newClientWebservice.Models.History;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -50,27 +51,35 @@ public class CartService {
     }
 
     public static void getOneCartById(int id, String jwt) throws IOException, ParseException {
-
         HttpGet request = new HttpGet(String.format("http://localhost:8081/webshop/cart/%d", id));
-
         request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
 
-        CloseableHttpResponse response = httpClient.execute(request);
+        try (CloseableHttpResponse response = httpClient.execute(request)) {
+            if (response.getCode() != 200) {
+                System.out.println("Something went wrong");
+                System.out.println(response.getCode());
+                return;
+            }
 
-        if (response.getCode() != 200) {
-            System.out.println("Something went wrong");
-            System.out.println(response.getCode());
-            return;
+            HttpEntity entity = response.getEntity();
+            String responseBody = EntityUtils.toString(entity);
+
+            ObjectMapper mapper = new ObjectMapper();
+            Cart cart = mapper.readValue(responseBody, new TypeReference<Cart>() {
+            });
+
+            System.out.println(String.format("Cart %s belongs to %s and contains:", cart.getId(), cart.getUsername()));
+
+            for (Article article : cart.getArticles()) {
+                System.out.println(String.format("  - Article: %s\n    Price: %d\n    Description: %s\n    Quantity: %d\n",
+                        article.getName(), article.getCost(), article.getDescription(), article.getQuantity()));
+            }
         }
-        HttpEntity entity = response.getEntity();
-
-        ObjectMapper mapper = new ObjectMapper();
-        Cart cart = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Cart>() {});
-
-        System.out.println("Response from server: " + EntityUtils.toString(entity));
-
-        System.out.println(String.format("Cart %s belongs to %s and contains %s", cart.getId(), cart.getUsername(), cart.getArticles()));
     }
+
+
+
+
 
     public static void addArticleToCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
         HttpPost request = new HttpPost(String.format("http://localhost:8081/webshop/cart/%d", articleId));
@@ -162,13 +171,6 @@ public class CartService {
 
    String jwt = String.valueOf(login().getJwt());
 
-
-          // getOneCartById(1, jwt);
-         //addArticleToCart(4, 1, jwt);
-        //getAllCarts(jwt);
-//            purchaseArticles(jwt);
-            //updateArticleCount(1, 1, 5, jwt);
-//            deleteArticleFromCart(1, 1, jwt);
 
     }
 
