@@ -2,6 +2,11 @@
 
 ## Description
 
+This is a client webservice for the ServerWebservice: Webshop. 
+It's a Spring Boot application that uses Spring Security to authenticate users and OAuth2 to authorize them. 
+The application is connected to a MySQL database and uses Spring Data JPA to access the data. The application is also connected to the ServerWebservice: Webshop to get the data from the database.
+The application features secure user registration and login functionality, and allows users to browse through products, add them to their shopping cart and place orders.
+
 Provide a short description explaining the what, why, and how of your project. Use the following questions as a guide:
 
 - What was your motivation?
