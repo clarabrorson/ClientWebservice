@@ -70,36 +70,51 @@ public class CartService {
      * @param jwt är en String som innehåller en JWT-token.
      */
 
-    public static void getOneCartById(int id, String jwt) throws IOException, ParseException {
+//    public static void getOneCartById(int id, String jwt) throws IOException, ParseException {
+//        HttpGet request = new HttpGet(String.format("http://localhost:8081/webshop/cart/%d", id));
+//        request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
+//
+//        try (CloseableHttpResponse response = httpClient.execute(request)) {
+//            if (response.getCode() != 200) {
+//                System.out.println("Something went wrong");
+//                System.out.println(response.getCode());
+//                return;
+//            }
+//
+//            HttpEntity entity = response.getEntity();
+//            String responseBody = EntityUtils.toString(entity);
+//
+//            ObjectMapper mapper = new ObjectMapper();
+//            Cart cart = mapper.readValue(responseBody, new TypeReference<Cart>() {
+//            });
+//
+//            System.out.println(String.format("Cart %s belongs to %s and contains:", cart.getId(), cart.getUsername()));
+//
+//            for (Article article : cart.getArticles()) {
+//                System.out.println(String.format(" id: %d\n Article: %s\n Price: %d\n Description: %s\n Quantity: %d\n",
+//                        article.getId(),   article.getName(), article.getCost(), article.getDescription(), article.getQuantity()));
+//            }
+//        }
+//    }
+
+    public static Cart getOneCartById(int id, String jwt) throws IOException, ParseException {
         HttpGet request = new HttpGet(String.format("http://localhost:8081/webshop/cart/%d", id));
         request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
 
         try (CloseableHttpResponse response = httpClient.execute(request)) {
             if (response.getCode() != 200) {
                 System.out.println("Something went wrong");
-                System.out.println(response.getCode());
-                return;
+                System.out.println("Error code: " + response.getCode());
+                return null;
             }
 
             HttpEntity entity = response.getEntity();
             String responseBody = EntityUtils.toString(entity);
-
             ObjectMapper mapper = new ObjectMapper();
-            Cart cart = mapper.readValue(responseBody, new TypeReference<Cart>() {
-            });
-
-            System.out.println(String.format("Cart %s belongs to %s and contains:", cart.getId(), cart.getUsername()));
-
-            for (Article article : cart.getArticles()) {
-                System.out.println(String.format(" id: %d\n Article: %s\n Price: %d\n Description: %s\n Quantity: %d\n",
-                        article.getId(),   article.getName(), article.getCost(), article.getDescription(), article.getQuantity()));
-            }
+            return mapper.readValue(responseBody, new TypeReference<Cart>() {});
         }
+        // Handle exceptions or issues outside of try-catch block as necessary
     }
-
-
-
-
 
 
 
@@ -213,5 +228,20 @@ public class CartService {
         }
     }
 
+
+    public static boolean articleExistsInCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
+        // Fetch the cart based on cartId and authorization jwt
+        Cart cart = getOneCartById(cartId, jwt); // This would be a method that fetches the cart
+
+        // Check if the cart and its articles list are not null
+        if(cart != null && cart.getArticles() != null) {
+            for(Article article : cart.getArticles()) {
+                if(article.getId() == articleId) {
+                    return true; // Article found
+                }
+            }
+        }
+        return false; // Article not found or cart is null
+    }
 
 }
