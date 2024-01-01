@@ -2,7 +2,6 @@ package com.example.newClientWebservice.Service;
 
 import com.example.newClientWebservice.Models.Article;
 import com.example.newClientWebservice.Models.Cart;
-import com.example.newClientWebservice.Models.History;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.hc.client5.http.classic.methods.HttpDelete;
@@ -70,6 +69,7 @@ public class CartService {
      * @param id är id:t för den cart som ska hämtas.
      * @param jwt är en String som innehåller en JWT-token.
      */
+
     public static void getOneCartById(int id, String jwt) throws IOException, ParseException {
         HttpGet request = new HttpGet(String.format("http://localhost:8081/webshop/cart/%d", id));
         request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
@@ -92,10 +92,17 @@ public class CartService {
 
             for (Article article : cart.getArticles()) {
                 System.out.println(String.format(" id: %d\n Article: %s\n Price: %d\n Description: %s\n Quantity: %d\n",
-                     article.getId(),   article.getName(), article.getCost(), article.getDescription(), article.getQuantity()));
+                        article.getId(),   article.getName(), article.getCost(), article.getDescription(), article.getQuantity()));
             }
         }
     }
+
+
+
+
+
+
+
 
     /**
      * Denna metod används för att lägga till en artikel i en cart.
@@ -208,6 +215,3 @@ public class CartService {
 
 
 }
-
-
-

@@ -1,12 +1,15 @@
 package com.example.newClientWebservice.Menu;
 
 import com.example.newClientWebservice.Models.Article;
+import com.example.newClientWebservice.Models.Cart;
 import com.example.newClientWebservice.Models.History;
 import com.example.newClientWebservice.Service.ArticleService;
 import com.example.newClientWebservice.Service.CartService;
 import org.apache.hc.core5.http.ParseException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+
 import static com.example.newClientWebservice.Menu.ArticlesMenu.printArticlesMenu;
 import static com.example.newClientWebservice.Service.CartService.getOneCartById;
 import static com.example.newClientWebservice.Service.HistoryService.getCurrentUserHistory;
@@ -23,7 +26,7 @@ public class UserMenu {
     public static void userMenu(String jwt) throws IOException, ParseException {
 
         while (true) {
-            System.out.println("\nWelcome to Fruit Haven!");
+            System.out.println("Welcome to Fruit Haven!");
             System.out.println("1. View all fruits");
             System.out.println("2. Add a fruit to the basket");
             System.out.println("3. View basket");
@@ -33,7 +36,7 @@ public class UserMenu {
             System.out.println("7. Ready to checkout? Proceed to checkout");
             System.out.println("8. Back to Main Menu");
 
-            int choice = getIntInput("\nEnter your choice: \n");
+            int choice = getIntInput("Enter your choice: ");
 
             switch (choice) {
                 case 1:
@@ -89,6 +92,7 @@ public class UserMenu {
             System.out.println("Invalid article number. Please try again.");
         }
     }
+
     private static void viewCart(String jwt) throws IOException, ParseException {
         int cartId = getIntInput("Enter the cart ID: ");
         getOneCartById(cartId, jwt);
@@ -119,10 +123,4 @@ public class UserMenu {
     private static void purchaseCart(String jwt) throws IOException, ParseException {
         CartService.purchaseArticles(jwt);
     }
-
-
-
-
 }
-
-
