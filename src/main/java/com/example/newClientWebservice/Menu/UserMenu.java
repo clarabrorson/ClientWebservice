@@ -95,55 +95,27 @@ public class UserMenu {
 
     private static void viewCart(String jwt) throws IOException, ParseException {
         int cartId = getIntInput("Enter the cart ID: ");
-        Optional<Cart> optionalCart = getOneCartById(cartId, jwt);
-
-        if (optionalCart.isPresent()) {
-            Cart cart = optionalCart.get();
-            System.out.println(String.format("Cart %s belongs to %s and contains:", cart.getId(), cart.getUsername()));
-            for (Article article : cart.getArticles()) {
-                System.out.println(String.format("Article: %s\n    Price: %d\n    Description: %s\n    Quantity: %d\n",
-                        article.getName(), article.getCost(), article.getDescription(), article.getQuantity()));
-            }
-        } else {
-            System.out.println("Cart does not exist. Please enter a valid cart ID.");
-        }
+        getOneCartById(cartId, jwt);
     }
-
     private static void deleteFruitFromCart(String jwt) throws IOException, ParseException {
         int cartId = getIntInput("Enter the cart ID: ");
-        Optional<Cart> optionalCart = getOneCartById(cartId, jwt);
-
-        if (optionalCart.isPresent()) {
-            int articleId = getIntInput("Enter the article ID: ");
-            CartService.deleteArticleFromCart(cartId, articleId, jwt);
-        } else {
-            System.out.println("Cart does not exist. Please enter a valid cart ID.");
-        }
+        int articleId = getIntInput("Enter the article ID: ");
+        CartService.deleteArticleFromCart(cartId, articleId, jwt);
     }
-
     private static void updateFruitQuantity(String jwt) throws IOException, ParseException {
         int cartId = getIntInput("Enter the cart ID: ");
         int articleId = getIntInput("Enter the article ID: ");
-
-        Optional<Cart> optionalCart = getOneCartById(cartId, jwt);
-
-        if (optionalCart.isPresent()) {
-            int quantity = getIntInput("Enter the new quantity: ");
-            CartService.updateArticleCount(cartId, articleId, quantity, jwt);
-        } else {
-            System.out.println("Cart does not exist. Please enter a valid cart ID.");
-        }
+        int quantity = getIntInput("Enter the new quantity: ");
+        CartService.updateArticleCount(cartId, articleId, quantity, jwt);
     }
-
-
     private static void getHistory(String jwt) throws IOException, ParseException {
         List<History> histories = getCurrentUserHistory(jwt);
         System.out.println("\nPurchased Articles:\n");
         for (History history : histories) {
             for (Article article : history.getPurchasedArticles()) {
                 System.out.println(String.format(
-                        "id: %d \n  User: %s \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d \n  Total cost: %d",
-                        history.getId(), history.getUser().getUsername(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity(), history.getTotalCost()
+                        "History id: %d\n User: %s\n article id: %d\n name: %s\n cost: %d\n description: %s\n quantity: %d\n Total cost: %d",
+                        history.getId(), history.getUser().getUsername(),article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity(), history.getTotalCost()
                 ));
             }
         }
@@ -151,8 +123,4 @@ public class UserMenu {
     private static void purchaseCart(String jwt) throws IOException, ParseException {
         CartService.purchaseArticles(jwt);
     }
-
-
 }
-
-
