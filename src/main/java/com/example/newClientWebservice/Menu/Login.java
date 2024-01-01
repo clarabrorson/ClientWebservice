@@ -27,7 +27,6 @@ public class Login {
      * Beroende på om användaren har admin-roll eller inte, visas antingen admin-menyn eller användarmenyn.
      */
     public static void loginMenu() throws IOException, ParseException {
-
         while (true) {
             System.out.println("Login Menu");
             System.out.println("1. Login");
@@ -43,9 +42,6 @@ public class Login {
                     if (cartId != null) {
                         System.out.println("Ready to go shopping? Don't forget your Cart ID: " + cartId);
 
-                        // Kontrollera om användaren har admin-rollen eller inte
-                        // Om användaren har admin-rollen, visa admin-menyn
-                        // Annars visa användarmenyn
                         if (isAdmin(loginResponse.getUser())) {
                             AdminMenu.adminMenu1(loginResponse.getJwt());
                         } else {
