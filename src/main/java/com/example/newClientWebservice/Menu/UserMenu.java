@@ -23,7 +23,7 @@ public class UserMenu {
     public static void userMenu(String jwt) throws IOException, ParseException {
 
         while (true) {
-            System.out.println("Welcome to Fruit Haven!");
+            System.out.println("\nWelcome to Fruit Haven!");
             System.out.println("1. View all fruits");
             System.out.println("2. Add a fruit to the basket");
             System.out.println("3. View basket");
@@ -33,7 +33,7 @@ public class UserMenu {
             System.out.println("7. Ready to checkout? Proceed to checkout");
             System.out.println("8. Back to Main Menu");
 
-            int choice = getIntInput("Enter your choice: ");
+            int choice = getIntInput("\nEnter your choice: \n");
 
             switch (choice) {
                 case 1:
@@ -110,8 +110,8 @@ public class UserMenu {
         for (History history : histories) {
             for (Article article : history.getPurchasedArticles()) {
                 System.out.println(String.format(
-                        "id: %d \n  User: %s \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d \n  Total cost: %d",
-                        history.getId(), history.getUser().getUsername(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity(), history.getTotalCost()
+                        "History id: %d\n User: %s\n article id: %d\n name: %s\n cost: %d\n description: %s\n quantity: %d\n Total cost: %d",
+                        history.getId(), history.getUser().getUsername(),article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity(), history.getTotalCost()
                 ));
             }
         }

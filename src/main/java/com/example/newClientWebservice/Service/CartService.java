@@ -91,8 +91,8 @@ public class CartService {
             System.out.println(String.format("Cart %s belongs to %s and contains:", cart.getId(), cart.getUsername()));
 
             for (Article article : cart.getArticles()) {
-                System.out.println(String.format("  - Article: %s\n    Price: %d\n    Description: %s\n    Quantity: %d\n",
-                        article.getName(), article.getCost(), article.getDescription(), article.getQuantity()));
+                System.out.println(String.format(" id: %d\n Article: %s\n Price: %d\n Description: %s\n Quantity: %d\n",
+                     article.getId(),   article.getName(), article.getCost(), article.getDescription(), article.getQuantity()));
             }
         }
     }
