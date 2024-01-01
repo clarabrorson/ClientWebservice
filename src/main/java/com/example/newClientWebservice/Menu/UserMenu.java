@@ -26,7 +26,7 @@ public class UserMenu {
     public static void userMenu(String jwt) throws IOException, ParseException {
 
         while (true) {
-            System.out.println("Welcome to Fruit Haven!");
+            System.out.println("\nWelcome to Fruit Haven!");
             System.out.println("1. View all fruits");
             System.out.println("2. Add a fruit to the basket");
             System.out.println("3. View basket");
@@ -34,7 +34,7 @@ public class UserMenu {
             System.out.println("5. Want more fruits? Update the quantity of a fruit in the basket");
             System.out.println("6. History of purchases");
             System.out.println("7. Ready to checkout? Proceed to checkout");
-            System.out.println("8. Back to Main Menu");
+            System.out.println("8. Back to Main Menu\n");
 
             int choice = getIntInput("Enter your choice: ");
 
@@ -80,7 +80,7 @@ public class UserMenu {
 
     private static void addFruitToCart(String jwt) throws IOException, ParseException {
         printArticlesMenu();
-        int articleNumber = getIntInput("Enter the article number of a fruit to add to the basket: ");
+        int articleNumber = getIntInput("\nEnter the article number of a fruit to add to the basket: ");
 
         List<Article> articles = ArticleService.getAllArticles();
         if (articleNumber > 0 && articleNumber <= articles.size()) {
@@ -95,13 +95,34 @@ public class UserMenu {
 
     private static void viewCart(String jwt) throws IOException, ParseException {
         int cartId = getIntInput("Enter the cart ID: ");
-        getOneCartById(cartId, jwt);
+        Cart cart = getOneCartById(cartId, jwt);
+
+        if (cart != null) {
+            System.out.println(String.format("\nCart %d belongs to %s and contains:", cart.getId(), cart.getUsername()));
+            for (Article article : cart.getArticles()) {
+                System.out.println(String.format(" id: %d\n Article: %s\n Price: %d\n Description: %s\n Quantity: %d\n",
+                        article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity()));
+            }
+        } else {
+            System.out.println("Cart not found or an error occurred.");
+        }
     }
+
     private static void deleteFruitFromCart(String jwt) throws IOException, ParseException {
         int cartId = getIntInput("Enter the cart ID: ");
         int articleId = getIntInput("Enter the article ID: ");
-        CartService.deleteArticleFromCart(cartId, articleId, jwt);
+
+        // Check if articleId exists in the cart before attempting to delete
+        if(CartService.articleExistsInCart(cartId, articleId, jwt)) {
+            // If the article exists, proceed with deletion
+            CartService.deleteArticleFromCart(cartId, articleId, jwt);
+            System.out.println("Article deleted successfully from the cart.");
+        } else {
+            // If the article does not exist, print an error message
+            System.out.println("Error: Article does not exist in the cart.");
+        }
     }
+
     private static void updateFruitQuantity(String jwt) throws IOException, ParseException {
         int cartId = getIntInput("Enter the cart ID: ");
         int articleId = getIntInput("Enter the article ID: ");
