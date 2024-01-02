@@ -32,7 +32,7 @@ public class AdminMenu {
      */
     public static void adminMenu1(String jwt) throws IOException, ParseException {
         while (true) {
-            System.out.println("Choose an option:");
+            System.out.println("\nChoose an option:");
             System.out.println("1. User menu");
             System.out.println("2. Admin menu");
             System.out.println("3. Exit.");

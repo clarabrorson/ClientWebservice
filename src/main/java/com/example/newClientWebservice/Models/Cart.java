@@ -6,6 +6,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+/**
+ * Denna klass används för att representera en kundkorg.
+ * @author Clara Brorson
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

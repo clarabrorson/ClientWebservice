@@ -51,7 +51,9 @@ public class UtilService {
                 System.out.println("Try again");
                 return getIntInput(prompt);
             }
+
             return input;
+
         } catch (InputMismatchException e) {
             System.out.println("Invalid input. Please enter a number.\n");
             scan.next(); // discard the invalid input

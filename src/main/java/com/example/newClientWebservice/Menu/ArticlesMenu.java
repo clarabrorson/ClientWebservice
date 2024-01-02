@@ -19,13 +19,13 @@ public class ArticlesMenu {
      * varje loop ökar articleNumber med 1
      */
     public static void printArticlesMenu() { // prints out the articles from articleService
-        System.out.println("Articles Menu \n");
+        System.out.println("\nArticles Menu \n");
         List<Article> articles = ArticleService.getAllArticles();
         int articleNumber = 0;
         for (Article article : articles) {
             articleNumber++;
-            System.out.println(String.format("%d. Article: %s \n Price: %d \n Description: %s \n Quantity: %d \n",
-                    articleNumber, article.getName(), article.getCost(), article.getDescription(), article.getQuantity()));
+            System.out.println(String.format("%d. Article id: %d\n Article: %s \n Price: %d \n Description: %s \n Quantity: %d \n",
+                    articleNumber, article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity()));
         }
     }
 
