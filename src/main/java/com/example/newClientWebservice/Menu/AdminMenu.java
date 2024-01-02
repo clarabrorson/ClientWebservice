@@ -1,8 +1,10 @@
 package com.example.newClientWebservice.Menu;
 
 import com.example.newClientWebservice.Models.Article;
+import com.example.newClientWebservice.Models.Cart;
 import com.example.newClientWebservice.Models.History;
 import com.example.newClientWebservice.Models.User;
+import com.example.newClientWebservice.Service.CartService;
 import com.example.newClientWebservice.Service.UtilService;
 import org.apache.hc.core5.http.ParseException;
 
@@ -66,8 +68,8 @@ public class AdminMenu {
     public static void adminMenu2(String jwt) throws IOException, ParseException {
         while (true) {
             System.out.println("\nAdmin menu:\n");
-            System.out.println("1. View all carts");
-            System.out.println("2. View all histories");
+            System.out.println("1. View all current carts");
+            System.out.println("2. View all cart-histories");
             System.out.println("3. View all users");
             System.out.println("4. Add article");
             System.out.println("5. Update article");
@@ -107,42 +109,51 @@ public class AdminMenu {
    }
 
    /**
-    * Den här metoden visar alla varukorgar.
+    * Den här metoden visar alla varukorgar som någonsin funnits historiskt.
     * @param jwt är en String som innehåller en JWT-token.
     * @throws IOException kastar ett undantag om det blir problem med inläsning från användaren.
     * @throws ParseException kastar ett undantag om det blir problem med parsning av JSON.
     */
    public static void getAllHistories(String jwt) throws IOException, ParseException {
        List<History> histories = getAllHistory(jwt);
-       System.out.println("Histories:");
+       System.out.println("\nCart history:\n");
        for (History history : histories) {
            for (Article article : history.getPurchasedArticles()) {
                System.out.println(String.format(
-                       "id: %d \n  User: %s \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d \n  Total cost: %d",
-                       history.getId(), history.getUser().getUsername(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity(), history.getTotalCost()
+                       "id: %d \n  User: %s \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d \n",
+                       history.getId(), history.getUser().getUsername(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity()
                ));
            }
        }
    }
 
    /**
-        * Den här metoden visar alla varukorgar.
+        * Den här metoden visar alla varukorgar som har artiklar i sig för tillfället.
         * @param jwt är en String som innehåller en JWT-token.
         * @throws IOException kastar ett undantag om det blir problem med inläsning från användaren.
         * @throws ParseException kastar ett undantag om det blir problem med parsning av JSON.
         */
    public static void getAllCarts(String jwt) throws IOException, ParseException {
-            List<History> histories = getAllHistory(jwt);
-            System.out.println("Carts:");
-            for (History history : histories) {
-                for (Article article : history.getPurchasedArticles()) {
-                    System.out.println(String.format(
-                            "id: %d \n  User: %s \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d \n  Total cost: %d",
-                            history.getId(), history.getUser().getUsername(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity(), history.getTotalCost()
-                    ));
-                }
-            }
-        }
+       List<Cart> carts = CartService.getAllCarts(jwt);
+       System.out.println("\nAll current carts:\n");
+       for (Cart cart : carts) {
+           if (cart != null) {
+               System.out.println("\u001B[4m" + "Cart ID: " + cart.getId() + "\u001B[0m" + "\nUser: " + cart.getUsername());
+               if (cart.getArticles().isEmpty()) {
+                   System.out.println("Empty cart.\n");
+               } else {
+                   for (Article article : cart.getArticles()) {
+                       System.out.println(String.format(
+                               "article ID: %d \n article name: %s \n  cost: %d \n  description: %s \n  quantity: %d\n",
+                               article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity()
+                       ));
+                   }
+               }
+           } else {
+               System.out.println("No cart found.");
+           }
+       }
+   }
 
         /**
         * Den här metoden visar alla användare.

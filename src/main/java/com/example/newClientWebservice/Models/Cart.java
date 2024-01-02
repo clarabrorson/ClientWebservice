@@ -35,4 +35,12 @@ public class Cart {
                 return null;
         }
 
+        @Override
+        public String toString() {
+                return "Cart{" +
+                        "id=" + id +
+                        ", user=" + user +
+                        ", articles=" + articles +
+                        '}';
+        }
 }

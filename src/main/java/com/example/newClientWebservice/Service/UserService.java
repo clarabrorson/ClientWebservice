@@ -92,7 +92,7 @@ public class UserService {
         // skriv ut att användaren har skapats
         User responseUser = mapper.readValue(EntityUtils.toString(payload), new TypeReference<User>() {});
 
-        System.out.println(String.format("User %s has been created with the id %d",responseUser.getUsername(), responseUser.getId()));
+        System.out.println(String.format("User %s has been created with the user-id: %d",responseUser.getUsername(), responseUser.getId()));
     }
 
     /**
