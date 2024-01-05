@@ -72,32 +72,6 @@ public class CartService {
      * @param jwt är en String som innehåller en JWT-token.
      */
 
-//    public static void getOneCartById(int id, String jwt) throws IOException, ParseException {
-//        HttpGet request = new HttpGet(String.format("http://localhost:8081/webshop/cart/%d", id));
-//        request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
-//
-//        try (CloseableHttpResponse response = httpClient.execute(request)) {
-//            if (response.getCode() != 200) {
-//                System.out.println("Something went wrong");
-//                System.out.println(response.getCode());
-//                return;
-//            }
-//
-//            HttpEntity entity = response.getEntity();
-//            String responseBody = EntityUtils.toString(entity);
-//
-//            ObjectMapper mapper = new ObjectMapper();
-//            Cart cart = mapper.readValue(responseBody, new TypeReference<Cart>() {
-//            });
-//
-//            System.out.println(String.format("Cart %s belongs to %s and contains:", cart.getId(), cart.getUsername()));
-//
-//            for (Article article : cart.getArticles()) {
-//                System.out.println(String.format(" id: %d\n Article: %s\n Price: %d\n Description: %s\n Quantity: %d\n",
-//                        article.getId(),   article.getName(), article.getCost(), article.getDescription(), article.getQuantity()));
-//            }
-//        }
-//    }
 
     public static Cart getOneCartById(int id, String jwt) throws IOException, ParseException {
         HttpGet request = new HttpGet(String.format("http://localhost:8081/webshop/cart/%d", id));
@@ -148,31 +122,8 @@ public class CartService {
 
     /**
      * Denna metod används för att uppdatera antalet artiklar i en cart.
-     * @param cartId är id:t för den cart som artikeln ska uppdateras i.
-     * @param articleId är id:t för den artikel som ska uppdateras.
-     * @param quantity är det nya antalet artiklar.
-     * @param jwt är en String som innehåller en JWT-token.
      */
-    public static void updateArticleCount(int cartId, int articleId, int quantity, String jwt) throws IOException, ParseException {
-
-        HttpPatch request = new HttpPatch(String.format("http://localhost:8081/webshop/cart/%d/articles/%d?quantity=%d", cartId, articleId, quantity));
-
-        request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
-
-        CloseableHttpResponse response = httpClient.execute(request);
-
-        if (response.getCode() != 200) {
-            System.out.println("Something went wrong");
-            System.out.println(response.getCode());
-            return;
-        }
-
-        HttpEntity entity = response.getEntity();
-
-        ObjectMapper mapper = new ObjectMapper();
-        Cart cart = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Cart>() {});
-
-        System.out.println(String.format("Article %s in cart %s has updated its quantity to %d", articleId, cartId, quantity));
+    public static void updateArticleCount()  {
     }
 
     /**

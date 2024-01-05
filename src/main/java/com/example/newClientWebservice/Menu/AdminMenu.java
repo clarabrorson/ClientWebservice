@@ -69,7 +69,7 @@ public class AdminMenu {
         while (true) {
             System.out.println("\nAdmin menu:\n");
             System.out.println("1. View all current carts");
-            System.out.println("2. View all cart-histories");
+            System.out.println("2. View all purchase-histories");
             System.out.println("3. View all users");
             System.out.println("4. Add article");
             System.out.println("5. Update article");
@@ -116,12 +116,12 @@ public class AdminMenu {
     */
    public static void getAllHistories(String jwt) throws IOException, ParseException {
        List<History> histories = getAllHistory(jwt);
-       System.out.println("\nCart history:\n");
+       System.out.println("\nPurchase history:\n");
        for (History history : histories) {
            for (Article article : history.getPurchasedArticles()) {
                System.out.println(String.format(
-                       "id: %d \n  User: %s \n  name: %s \n  cost: %d \n  description: %s \n  quantity: %d \n",
-                       history.getId(), history.getUser().getUsername(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity()
+                       "id: %d \n  User: %s \n  name: %s \n  cost: %d \n  description: %s \n ",
+                       history.getId(), history.getUser().getUsername(), article.getName(), article.getCost(), article.getDescription()
                ));
            }
        }
@@ -144,8 +144,8 @@ public class AdminMenu {
                } else {
                    for (Article article : cart.getArticles()) {
                        System.out.println(String.format(
-                               "article ID: %d \n article name: %s \n  cost: %d \n  description: %s \n  quantity: %d\n",
-                               article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity()
+                               "article ID: %d \n article name: %s \n  cost: %d \n  description: %s \n",
+                               article.getId(), article.getName(), article.getCost(), article.getDescription()
                        ));
                    }
                }
@@ -201,11 +201,6 @@ public class AdminMenu {
             String newDescription = getStringInputForHttpPatch("If you want to change the description of the article. Enter the new description. Otherwise press enter:");
             if (!newDescription.isEmpty()) {
                 article.setDescription(newDescription);
-            }
-
-            int newQuantity = getIntInputForHttpPatch("If you want to change the quantity of the article. Enter the new quantity. Otherwise press enter:");
-            if (newQuantity != 0) {
-                article.setQuantity(newQuantity);
             }
 
             return updateArticle(id, existingArticle, article, jwt);

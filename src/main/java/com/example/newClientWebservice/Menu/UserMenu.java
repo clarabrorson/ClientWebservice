@@ -80,7 +80,7 @@ public class UserMenu {
 
     private static void addFruitToCart(String jwt) throws IOException, ParseException {
         printArticlesMenu();
-        int articleNumber = getIntInput("\nEnter the article number of a fruit to add to the basket: ");
+        int articleNumber = getIntInput("\nEnter the article ID-number of a fruit to add to the basket: ");
 
         List<Article> articles = ArticleService.getAllArticles();
         if (articleNumber > 0 && articleNumber <= articles.size()) {
@@ -100,8 +100,8 @@ public class UserMenu {
         if (cart != null) {
             System.out.println(String.format("\nCart %d belongs to %s and contains:", cart.getId(), cart.getUsername()));
             for (Article article : cart.getArticles()) {
-                System.out.println(String.format(" id: %d\n Article: %s\n Price: %d\n Description: %s\n Quantity: %d\n",
-                        article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity()));
+                System.out.println(String.format(" id: %d\n Article: %s\n Price: %d\n Description: %s\n",
+                        article.getId(), article.getName(), article.getCost(), article.getDescription()));
             }
         } else {
             System.out.println("Cart not found or an error occurred.");
@@ -123,24 +123,22 @@ public class UserMenu {
         }
     }
 
-    private static void updateFruitQuantity(String jwt) throws IOException, ParseException {
-        int cartId = getIntInput("Enter the cart ID: ");
-        int articleId = getIntInput("Enter the article ID: ");
-        int quantity = getIntInput("Enter the new quantity: ");
-        CartService.updateArticleCount(cartId, articleId, quantity, jwt);
+    private static void updateFruitQuantity(String jwt){
     }
+
     private static void getHistory(String jwt) throws IOException, ParseException {
         List<History> histories = getCurrentUserHistory(jwt);
         System.out.println("\nPurchased Articles:\n");
         for (History history : histories) {
             for (Article article : history.getPurchasedArticles()) {
                 System.out.println(String.format(
-                        "History id: %d\n User: %s\n article id: %d\n name: %s\n cost: %d\n description: %s\n quantity: %d\n Total cost: %d\n",
-                        history.getId(), history.getUser().getUsername(),article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity(), history.getTotalCost()
+                        "History id: %d\n User: %s\n article id: %d\n name: %s\n cost: %d\n description: %s\n Total cost: %d\n",
+                        history.getId(), history.getUser().getUsername(),article.getId(), article.getName(), article.getCost(), article.getDescription(), history.getTotalCost()
                 ));
             }
         }
     }
+
     private static void purchaseCart(String jwt) throws IOException, ParseException {
         CartService.purchaseArticles(jwt);
     }
