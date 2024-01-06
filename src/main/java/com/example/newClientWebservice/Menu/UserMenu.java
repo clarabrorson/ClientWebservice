@@ -2,6 +2,7 @@ package com.example.newClientWebservice.Menu;
 
 import com.example.newClientWebservice.Models.Article;
 import com.example.newClientWebservice.Models.Cart;
+import com.example.newClientWebservice.Models.CartItem;
 import com.example.newClientWebservice.Models.History;
 import com.example.newClientWebservice.Service.ArticleService;
 import com.example.newClientWebservice.Service.CartService;
@@ -78,7 +79,8 @@ public class UserMenu {
      * @throws ParseException om det blir fel med parsning av data.
      */
 
-    private static void addFruitToCart(String jwt) throws IOException, ParseException {
+    //Gammal metod
+    /*private static void addFruitToCart(String jwt) throws IOException, ParseException {
         printArticlesMenu();
         int articleNumber = getIntInput("\nEnter the article ID-number of a fruit to add to the basket: ");
 
@@ -90,8 +92,24 @@ public class UserMenu {
             CartService.addArticleToCart(cartId, Math.toIntExact(selectedArticle.getId()), jwt);
         } else {
             System.out.println("Invalid article number. Please try again.");
+        } */
+
+        private static void addFruitToCart(String jwt) throws IOException, ParseException {
+        printArticlesMenu();
+        int articleNumber = getIntInput("\nEnter the article ID-number of a fruit to add to the basket: ");
+        int quantity = getIntInput("Enter the quantity of the fruit to add to the basket: ");
+
+        List<Article> articles = ArticleService.getAllArticles();
+        if (articleNumber > 0 && articleNumber <= articles.size()) {
+            Article selectedArticle = articles.get(articleNumber - 1);
+            int cartId = getIntInput("Enter the cart ID: ");
+
+            CartService.addArticleToCart(cartId, Math.toIntExact(selectedArticle.getId()), quantity, jwt);
+        } else {
+            System.out.println("Invalid article number. Please try again.");
         }
     }
+
 
     private static void viewCart(String jwt) throws IOException, ParseException {
         int cartId = getIntInput("Enter the cart ID: ");
@@ -99,7 +117,8 @@ public class UserMenu {
 
         if (cart != null) {
             System.out.println(String.format("\nCart %d belongs to %s and contains:", cart.getId(), cart.getUsername()));
-            for (Article article : cart.getArticles()) {
+            for (CartItem cartItem : cart.getCartItems()) {
+                Article article = cartItem.getArticle();
                 System.out.println(String.format(" id: %d\n Article: %s\n Price: %d\n Description: %s\n",
                         article.getId(), article.getName(), article.getCost(), article.getDescription()));
             }

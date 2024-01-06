@@ -1,9 +1,6 @@
 package com.example.newClientWebservice.Menu;
 
-import com.example.newClientWebservice.Models.Article;
-import com.example.newClientWebservice.Models.Cart;
-import com.example.newClientWebservice.Models.History;
-import com.example.newClientWebservice.Models.User;
+import com.example.newClientWebservice.Models.*;
 import com.example.newClientWebservice.Service.CartService;
 import com.example.newClientWebservice.Service.UtilService;
 import org.apache.hc.core5.http.ParseException;
@@ -133,7 +130,8 @@ public class AdminMenu {
         * @throws IOException kastar ett undantag om det blir problem med inläsning från användaren.
         * @throws ParseException kastar ett undantag om det blir problem med parsning av JSON.
         */
-   public static void getAllCarts(String jwt) throws IOException, ParseException {
+   //Gammal metod
+   /*public static void getAllCarts(String jwt) throws IOException, ParseException {
        List<Cart> carts = CartService.getAllCarts(jwt);
        System.out.println("\nAll current carts:\n");
        for (Cart cart : carts) {
@@ -153,7 +151,31 @@ public class AdminMenu {
                System.out.println("No cart found.");
            }
        }
-   }
+   } */
+
+   //Ny metod
+    public static void getAllCarts(String jwt) throws IOException, ParseException {
+        List<Cart> carts = CartService.getAllCarts(jwt);
+        System.out.println("\nAll current carts:\n");
+        for (Cart cart : carts) {
+            if (cart != null) {
+                System.out.println("\u001B[4m" + "Cart ID: " + cart.getId() + "\u001B[0m" + "\nUser: " + cart.getUsername());
+                if (cart.getCartItems().isEmpty()) {
+                    System.out.println("Empty cart.\n");
+                } else {
+                    for (CartItem cartItem : cart.getCartItems()) {
+                        Article article = cartItem.getArticle();
+                        System.out.println(String.format(
+                                "CartArticle ID: %d \n Article ID: %d \n Article name: %s \n  Cost: %d \n  Description: %s \n Quantity: %d\n",
+                                cartItem.getId(), article.getId(), article.getName(), article.getCost(), article.getDescription(), cartItem.getQuantity()
+                        ));
+                    }
+                }
+            } else {
+                System.out.println("No cart found.");
+            }
+        }
+    }
 
         /**
         * Den här metoden visar alla användare.

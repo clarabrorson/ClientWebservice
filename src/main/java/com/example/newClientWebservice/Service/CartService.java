@@ -2,9 +2,11 @@ package com.example.newClientWebservice.Service;
 
 import com.example.newClientWebservice.Models.Article;
 import com.example.newClientWebservice.Models.Cart;
+import com.example.newClientWebservice.Models.CartItem;
 import com.example.newClientWebservice.Models.History;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.apache.hc.client5.http.classic.methods.HttpDelete;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPatch;
@@ -16,6 +18,8 @@ import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.HttpHeaders;
 import org.apache.hc.core5.http.ParseException;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -99,7 +103,8 @@ public class CartService {
      * @param articleId är id:t för den artikel som ska läggas till.
      * @param jwt är en String som innehåller en JWT-token.
      */
-    public static void addArticleToCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
+    //Gammal metod
+    /*public static void addArticleToCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
         HttpPost request = new HttpPost(String.format("http://localhost:8081/webshop/cart/%d", articleId));
 
         request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
@@ -116,6 +121,37 @@ public class CartService {
 
         ObjectMapper mapper = new ObjectMapper();
         Cart cart = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Cart>() {});
+
+        System.out.println(String.format("Article %s added to cart %s", articleId, cartId));
+    } */
+
+    //Ny metod
+    public static void addArticleToCart(int cartId, int articleId, int quantity, String jwt) throws IOException, ParseException {
+        HttpPost request = new HttpPost(String.format("http://localhost:8081/webshop/cart/%d", articleId));
+
+        request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
+        request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+
+        // Create a JSON object to hold the quantity
+        JSONObject json = new JSONObject();
+        json.put("quantity", quantity);
+
+        // Set the JSON object as the request entity
+        StringEntity entity = new StringEntity(json.toString());
+        request.setEntity(entity);
+
+        CloseableHttpResponse response = httpClient.execute(request);
+
+        if (response.getCode() != 200) {
+            System.out.println("Something went wrong");
+            System.out.println(response.getCode());
+            return;
+        }
+
+        HttpEntity responseEntity = response.getEntity();
+
+        ObjectMapper mapper = new ObjectMapper();
+        Cart cart = mapper.readValue(EntityUtils.toString(responseEntity), new TypeReference<Cart>() {});
 
         System.out.println(String.format("Article %s added to cart %s", articleId, cartId));
     }
@@ -180,7 +216,8 @@ public class CartService {
     }
 
 
-    public static boolean articleExistsInCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
+    //Gammal metod
+    /*public static boolean articleExistsInCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
         // Fetch the cart based on cartId and authorization jwt
         Cart cart = getOneCartById(cartId, jwt); // This would be a method that fetches the cart
 
@@ -188,6 +225,22 @@ public class CartService {
         if(cart != null && cart.getArticles() != null) {
             for(Article article : cart.getArticles()) {
                 if(article.getId() == articleId) {
+                    return true; // Article found
+                }
+            }
+        }
+        return false; // Article not found or cart is null
+    } */
+
+    //Ny metod
+    public static boolean articleExistsInCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
+        // Fetch the cart based on cartId and authorization jwt
+        Cart cart = getOneCartById(cartId, jwt); // This would be a method that fetches the cart
+
+        // Check if the cart and its cartItems list are not null
+        if(cart != null && cart.getCartItems() != null) {
+            for(CartItem cartItem : cart.getCartItems()) {
+                if(cartItem.getArticle().getId() == articleId) {
                     return true; // Article found
                 }
             }
