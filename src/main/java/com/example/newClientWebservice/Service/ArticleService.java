@@ -124,7 +124,7 @@ public class ArticleService {
         CloseableHttpResponse response = httpClient.execute(request);
 
         if (response.getCode() != 200) {
-            System.out.println("Error occurred");
+            System.out.println("Error occurred" + response.toString());
             return;
         }
 
