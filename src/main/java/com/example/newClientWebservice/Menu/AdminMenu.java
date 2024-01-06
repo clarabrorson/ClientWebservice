@@ -166,8 +166,8 @@ public class AdminMenu {
                     for (CartItem cartItem : cart.getCartItems()) {
                         Article article = cartItem.getArticle();
                         System.out.println(String.format(
-                                "CartArticle ID: %d \n Article ID: %d \n Article name: %s \n  Cost: %d \n  Description: %s \n Quantity: %d\n",
-                                cartItem.getId(), article.getId(), article.getName(), article.getCost(), article.getDescription(), cartItem.getQuantity()
+                                "Article ID: %d \n Article name: %s \n  Cost: %d \n  Description: %s \n Quantity: %d\n",
+                                article.getId(), article.getName(), article.getCost(), article.getDescription(), cartItem.getQuantity()
                         ));
                     }
                 }

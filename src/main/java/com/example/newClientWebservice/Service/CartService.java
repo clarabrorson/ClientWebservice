@@ -103,28 +103,6 @@ public class CartService {
      * @param articleId är id:t för den artikel som ska läggas till.
      * @param jwt är en String som innehåller en JWT-token.
      */
-    //Gammal metod
-    /*public static void addArticleToCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
-        HttpPost request = new HttpPost(String.format("http://localhost:8081/webshop/cart/%d", articleId));
-
-        request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
-
-        CloseableHttpResponse response = httpClient.execute(request);
-
-        if (response.getCode() != 200) {
-            System.out.println("Something went wrong");
-            System.out.println(response.getCode());
-            return;
-        }
-
-        HttpEntity entity = response.getEntity();
-
-        ObjectMapper mapper = new ObjectMapper();
-        Cart cart = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Cart>() {});
-
-        System.out.println(String.format("Article %s added to cart %s", articleId, cartId));
-    } */
-
     //Ny metod
     public static void addArticleToCart(int cartId, int articleId, int quantity, String jwt) throws IOException, ParseException {
         HttpPost request = new HttpPost(String.format("http://localhost:8081/webshop/cart/%d", articleId));
