@@ -118,13 +118,13 @@ public class ArticleService {
         StringEntity payload = new StringEntity(mapper.writeValueAsString(newArticle), ContentType.APPLICATION_JSON);
 
         request.setEntity(payload);
-
+        request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
         request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
 
         CloseableHttpResponse response = httpClient.execute(request);
 
         if (response.getCode() != 200) {
-            System.out.println("Error occurred" + response.toString());
+            System.out.println("Error occurred: " + response.toString());
             return;
         }
 
