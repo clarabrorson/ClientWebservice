@@ -19,6 +19,7 @@ public class Cart {
         private User user;
         private Set<CartItem> cartItems;
         private String username;
+        private int totalCost;
 
         public Cart(Long id) {
                 this.id = id;

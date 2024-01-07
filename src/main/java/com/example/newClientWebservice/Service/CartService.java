@@ -137,8 +137,30 @@ public class CartService {
     /**
      * Denna metod används för att uppdatera antalet artiklar i en cart.
      */
-    public static void updateArticleCount()  {
+    public static void updateArticleCount(int cartId, int quantity, int articleId, String jwt) throws IOException, ParseException {
+        HttpPatch request = new HttpPatch(String.format("http://localhost:8081/webshop/cart/%d/articles/%d/quantity/%d", cartId, articleId, quantity));
+
+        request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
+
+        // Execute the request
+        CloseableHttpResponse response = httpClient.execute(request);
+
+        // Check the response code
+        if (response.getCode() != 200) {
+            System.out.println("Something went wrong");
+            System.out.println(response.getCode());
+            return;
+        }
+
+        HttpEntity entity = response.getEntity();
+
+        ObjectMapper mapper = new ObjectMapper();
+        Cart cart = mapper.readValue(EntityUtils.toString(entity), new TypeReference<Cart>() {});
+
+
+        System.out.println(String.format("Quantity of article %d has been updated to %d in cart %d", articleId, quantity, cartId));
     }
+
 
     /**
      * Denna metod används för att ta bort en artikel från en cart.

@@ -119,9 +119,10 @@ public class UserMenu {
             System.out.println(String.format("\nCart %d belongs to %s and contains:", cart.getId(), cart.getUsername()));
             for (CartItem cartItem : cart.getCartItems()) {
                 Article article = cartItem.getArticle();
-                System.out.println(String.format(" id: %d\n Article: %s\n Price: %d\n Description: %s\n",
-                        article.getId(), article.getName(), article.getCost(), article.getDescription()));
+                System.out.println(String.format(" Article id: %d\n Article: %s \n Price: %d \n Description: %s \n Quantity: %d\n",
+                        article.getId(), article.getName(), article.getCost(), article.getDescription(), cartItem.getQuantity()));
             }
+            System.out.println(String.format("Total cost: %d", cart.getTotalCost()));
         } else {
             System.out.println("Cart not found or an error occurred.");
         }
@@ -142,8 +143,19 @@ public class UserMenu {
         }
     }
 
-    private static void updateFruitQuantity(String jwt){
+    private static void updateFruitQuantity(String jwt) throws IOException, ParseException {
+        int cartId = getIntInput("Enter the cart ID: ");
+        int articleId = getIntInput("Enter the article ID: ");
+        int quantity = getIntInput("Enter the new quantity: ");
+
+        if(CartService.articleExistsInCart(cartId, articleId, jwt)) {
+            CartService.updateArticleCount(cartId, quantity, articleId, jwt);
+            System.out.println("Article quantity updated successfully in the cart.");
+        } else {
+            System.out.println("Error: Article does not exist in the cart.");
+        }
     }
+
 
     private static void getHistory(String jwt) throws IOException, ParseException {
         List<History> histories = getCurrentUserHistory(jwt);
@@ -151,10 +163,11 @@ public class UserMenu {
         for (History history : histories) {
             for (Article article : history.getPurchasedArticles()) {
                 System.out.println(String.format(
-                        "History id: %d\n User: %s\n article id: %d\n name: %s\n cost: %d\n description: %s\n Total cost: %d\n",
-                        history.getId(), history.getUser().getUsername(),article.getId(), article.getName(), article.getCost(), article.getDescription(), history.getTotalCost()
+                        "History id: %d\n User: %s\n article id: %d\n name: %s\n cost: %d\n description: %s\n",
+                        history.getId(), history.getUser().getUsername(),article.getId(), article.getName(), article.getCost(), article.getDescription()
                 ));
             }
+            System.out.println(String.format("Total cost: %d", history.getTotalCost()));
         }
     }
 
