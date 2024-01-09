@@ -119,6 +119,7 @@ public class CartService {
     }
     /**
      * Denna metod används för att uppdatera antalet artiklar i en cart.
+     *
      */
     public static void updateArticleCount(int cartId, int quantity, int articleId, String jwt) throws IOException, ParseException {
         HttpPatch request = new HttpPatch(String.format("http://localhost:8081/webshop/cart/%d/articles/%d/quantity/%d", cartId, articleId, quantity));

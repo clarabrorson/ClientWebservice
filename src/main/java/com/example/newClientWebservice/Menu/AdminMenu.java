@@ -112,7 +112,6 @@ public class AdminMenu {
      * @throws IOException kastar ett undantag om det blir problem med inläsning från användaren.
      * @throws ParseException kastar ett undantag om det blir problem med parsning av JSON.
      */
-    //Ny metod
     public static void getAllCarts(String jwt) throws IOException, ParseException {
         List<Cart> carts = CartService.getAllCarts(jwt);
         System.out.println("\nAll current carts:\n");
@@ -178,8 +177,12 @@ public class AdminMenu {
         addArticle(jwt);
     }
 
-
-
+    /**
+     * Den här metoden uppdaterar en artikel.
+     * @param jwt är en String som innehåller en JWT-token.
+     * @throws IOException kastar ett undantag om det blir problem med inläsning från användaren.
+     * @throws ParseException kastar ett undantag om det blir problem med parsning av JSON.
+     */
    public static Void patchArticle(String jwt) throws IOException, ParseException {
 
         int id = getIntInput("Enter the id of the article you want to update: ");
@@ -215,11 +218,11 @@ public class AdminMenu {
     }
 
     /**
-     * Den här metoden lägger till en artikel.
-     * @param jwt är en String som innehåller en JWT-token.
-     * @throws IOException kastar ett undantag om det blir problem med inläsning från användaren.
-     * @throws ParseException kastar ett undantag om det blir problem med parsning av JSON.
-     */
+        * Den här metoden tar bort en artikel.
+        * @param jwt är en String som innehåller en JWT-token.
+        * @throws IOException kastar ett undantag om det blir problem med inläsning från användaren.
+        * @throws ParseException kastar ett undantag om det blir problem med parsning av JSON.
+        */
     public static void removeArticle(String jwt) throws IOException, ParseException {
 
         int id = getIntInput("Enter the id of the article you want to delete: ");
@@ -245,5 +248,4 @@ public class AdminMenu {
         }
     }
 }
-
 }
