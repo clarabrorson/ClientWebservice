@@ -154,7 +154,6 @@ public class ArticleService {
 
         HttpPatch request = new HttpPatch(String.format("http://localhost:8081/webshop/articles/%d", id));
 
-        // If a field in 'article' is null, set it to the corresponding value in 'existingArticle'
         if (article.getName() == null) {
             article.setName(existingArticle.getName());
         }
