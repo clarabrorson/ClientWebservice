@@ -3,7 +3,6 @@ package com.example.newClientWebservice.Models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.Set;
 
 /**
@@ -14,7 +13,6 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Cart {
-
         private Long id;
         private User user;
         private Set<CartItem> cartItems;
@@ -36,12 +34,9 @@ public class Cart {
                 }
                 return null;
         }
-
         public Set<CartItem> getCartItems() {
                 return cartItems;
         }
-
-
         @Override
         public String toString() {
                 return "Cart{" +
