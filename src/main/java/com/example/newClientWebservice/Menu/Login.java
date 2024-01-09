@@ -5,9 +5,7 @@ import com.example.newClientWebservice.Models.Role;
 import com.example.newClientWebservice.Models.User;
 import com.example.newClientWebservice.Service.UtilService;
 import org.apache.hc.core5.http.ParseException;
-
 import java.io.IOException;
-
 import static com.example.newClientWebservice.Models.Cart.getCartIdFromUser;
 import static com.example.newClientWebservice.Service.UserService.login;
 
@@ -52,7 +50,6 @@ public class Login {
                         System.out.println("Something went wrong. Please try again.");
                     }
                     break;
-
                 case 2:
                     MainMenu.runMeny();
                     return;
@@ -66,6 +63,7 @@ public class Login {
 
     /**
      * Denna metod används för att kontrollera om en användare har admin-rollen.
+     *
      * @param user är en User som ska kontrolleras.
      * @return true om användaren har admin-rollen, annars false.
      */

@@ -63,6 +63,7 @@ public class ArticleService {
     }
 }
 
+
     /**
      * Denna metod används för att hämta en artikel från databasen med ett specifikt id.
      * Metoden skickar en GET request till endpoint: /webshop/articles/{id} i WebService-applikationen.
@@ -153,7 +154,6 @@ public class ArticleService {
 
         HttpPatch request = new HttpPatch(String.format("http://localhost:8081/webshop/articles/%d", id));
 
-        // If a field in 'article' is null, set it to the corresponding value in 'existingArticle'
         if (article.getName() == null) {
             article.setName(existingArticle.getName());
         }

@@ -74,27 +74,13 @@ public class UserMenu {
 
     /**
      * Samtliga metoder nedanför anropas i userMenu-metoden.
+     *
      * @param jwt är en sträng som används för att autentisera användaren.
-     * @throws IOException om det blir fel med inläsning av data.
+     * @throws IOException    om det blir fel med inläsning av data.
      * @throws ParseException om det blir fel med parsning av data.
      */
 
-    //Gammal metod
-    /*private static void addFruitToCart(String jwt) throws IOException, ParseException {
-        printArticlesMenu();
-        int articleNumber = getIntInput("\nEnter the article ID-number of a fruit to add to the basket: ");
-
-        List<Article> articles = ArticleService.getAllArticles();
-        if (articleNumber > 0 && articleNumber <= articles.size()) {
-            Article selectedArticle = articles.get(articleNumber - 1);
-            int cartId = getIntInput("Enter the cart ID: ");
-
-            CartService.addArticleToCart(cartId, Math.toIntExact(selectedArticle.getId()), jwt);
-        } else {
-            System.out.println("Invalid article number. Please try again.");
-        } */
-
-        private static void addFruitToCart(String jwt) throws IOException, ParseException {
+    private static void addFruitToCart(String jwt) throws IOException, ParseException {
         printArticlesMenu();
         int articleNumber = getIntInput("\nEnter the article ID-number of a fruit to add to the basket: ");
         int quantity = getIntInput("Enter the quantity of the fruit to add to the basket: ");
@@ -109,7 +95,6 @@ public class UserMenu {
             System.out.println("Invalid article number. Please try again.");
         }
     }
-
 
     private static void viewCart(String jwt) throws IOException, ParseException {
         int cartId = getIntInput("Enter the cart ID: ");
@@ -132,13 +117,13 @@ public class UserMenu {
         int cartId = getIntInput("Enter the cart ID: ");
         int articleId = getIntInput("Enter the article ID: ");
 
-        // Check if articleId exists in the cart before attempting to delete
-        if(CartService.articleExistsInCart(cartId, articleId, jwt)) {
-            // If the article exists, proceed with deletion
+        if (CartService.articleExistsInCart(cartId, articleId, jwt)) {
+
             CartService.deleteArticleFromCart(cartId, articleId, jwt);
+
             System.out.println("Article deleted successfully from the cart.");
         } else {
-            // If the article does not exist, print an error message
+
             System.out.println("Error: Article does not exist in the cart.");
         }
     }
@@ -148,14 +133,13 @@ public class UserMenu {
         int articleId = getIntInput("Enter the article ID: ");
         int quantity = getIntInput("Enter the new quantity: ");
 
-        if(CartService.articleExistsInCart(cartId, articleId, jwt)) {
+        if (CartService.articleExistsInCart(cartId, articleId, jwt)) {
             CartService.updateArticleCount(cartId, quantity, articleId, jwt);
             System.out.println("Article quantity updated successfully in the cart.");
         } else {
             System.out.println("Error: Article does not exist in the cart.");
         }
     }
-
 
     private static void getHistory(String jwt) throws IOException, ParseException {
         List<History> histories = getCurrentUserHistory(jwt);
@@ -164,7 +148,7 @@ public class UserMenu {
             for (Article article : history.getPurchasedArticles()) {
                 System.out.println(String.format(
                         "History id: %d\n User: %s\n article id: %d\n name: %s\n cost: %d\n description: %s\n",
-                        history.getId(), history.getUser().getUsername(),article.getId(), article.getName(), article.getCost(), article.getDescription()
+                        history.getId(), history.getUser().getUsername(), article.getId(), article.getName(), article.getCost(), article.getDescription()
                 ));
             }
             System.out.println(String.format("Total cost: %d", history.getTotalCost()));
