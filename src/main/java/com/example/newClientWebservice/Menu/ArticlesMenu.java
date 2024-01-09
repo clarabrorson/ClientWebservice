@@ -5,15 +5,14 @@ import com.example.newClientWebservice.Service.ArticleService;
 
 import java.util.List;
 /**
- * @Author Jafar Hussein
- * denna klass skriver ut alla artiklar från databasen
- * @Method printArticlesMenu() skriver ut alla artiklar från databasen med hjälp av getAllArticles() från ArticleService
+ * @author Jafar Hussein
+ * Denna klass skriver ut alla artiklar från databasen
+ *
  */
 public class ArticlesMenu {
 
     /**
      * Skriver ut alla artiklar från databasen med hjälp av getAllArticles() från ArticleService
-     * @return void
      * använde mig av en for loop för att skriva ut alla artiklar från databasen
      * skapar en int articleNumber för att kunna skriva ut artikel nummer för varje artikel
      * varje loop ökar articleNumber med 1
@@ -24,13 +23,10 @@ public class ArticlesMenu {
         int articleNumber = 0;
         for (Article article : articles) {
             articleNumber++;
-            System.out.println(String.format("%d. Article id: %d\n Article: %s \n Price: %d \n Description: %s \n Quantity: %d \n",
-                    articleNumber, article.getId(), article.getName(), article.getCost(), article.getDescription(), article.getQuantity()));
+            System.out.println(String.format("%d. Article id: %d\n Article: %s \n Price: %d \n Description: %s \n",
+                    articleNumber, article.getId(), article.getName(), article.getCost(), article.getDescription()));
         }
     }
 
 
-//    public static void main(String[] args) {
-//        printArticlesMenu();
-//    }
 }

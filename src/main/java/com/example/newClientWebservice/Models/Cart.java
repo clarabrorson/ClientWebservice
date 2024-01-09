@@ -17,8 +17,10 @@ public class Cart {
 
         private Long id;
         private User user;
-        private Set<Article> articles;
+        private Set<CartItem> cartItems;
         private String username;
+        private int totalCost;
+
         public Cart(Long id) {
                 this.id = id;
         }
@@ -35,12 +37,17 @@ public class Cart {
                 return null;
         }
 
+        public Set<CartItem> getCartItems() {
+                return cartItems;
+        }
+
+
         @Override
         public String toString() {
                 return "Cart{" +
                         "id=" + id +
                         ", user=" + user +
-                        ", articles=" + articles +
+                        ", cart item=" + cartItems +
                         '}';
         }
 }

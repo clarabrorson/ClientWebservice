@@ -52,15 +52,12 @@ public class MainMenu {
     public static void userChoice(int choice) throws IOException, ParseException {
         switch (choice) {
             case 1:
-                //login();
                 Login.loginMenu();
                 break;
             case 2:
-                //register();
                 Register.register();
                 break;
             case 3:
-                //viewArticles();
                 ArticlesMenu.printArticlesMenu();
                 break;
             case 4:

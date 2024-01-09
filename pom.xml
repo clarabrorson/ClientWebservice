@@ -58,6 +58,14 @@
 			<version>2.16.0</version>
 		</dependency>
 
+		<!-- Ny dependency -->
+		<!-- https://mvnrepository.com/artifact/org.json/json -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20231013</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
