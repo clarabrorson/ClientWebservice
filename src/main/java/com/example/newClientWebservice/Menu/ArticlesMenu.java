@@ -17,7 +17,7 @@ public class ArticlesMenu {
      * skapar en int articleNumber för att kunna skriva ut artikel nummer för varje artikel
      * varje loop ökar articleNumber med 1
      */
-    public static void printArticlesMenu() { // prints out the articles from articleService
+    public static void printArticlesMenu() {
         System.out.println("\nArticles Menu \n");
         List<Article> articles = ArticleService.getAllArticles();
         int articleNumber = 0;

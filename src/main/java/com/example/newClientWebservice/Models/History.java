@@ -3,10 +3,13 @@ package com.example.newClientWebservice.Models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
-import java.util.HashSet;
 import java.util.Set;
+/**
+ * @Author Jafar
+ * Denna klass används för att skapa objekt av typen User.
+ * det är en behållare för användarens historik
+ * */
 
 @Data
 @AllArgsConstructor
@@ -27,14 +30,5 @@ public class History {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
-    }
-    @Override
-    public String toString() {
-        return "History{" +
-                "id=" + id +
-                ", purchasedArticles=" + purchasedArticles +
-                ", user=" + user +
-                ", totalCost=" + totalCost +
-                '}';
     }
 }

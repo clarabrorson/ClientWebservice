@@ -1,13 +1,15 @@
 package com.example.newClientWebservice.Models;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Set;
-
+/**
+ * @Author Jafar
+ * Denna klass används för att skapa objekt av typen User.
+ * det är en behållare för användarinformation
+ * */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,10 +24,6 @@ public class User {
     private boolean credentialsNonExpired;
     private boolean accountNonExpired;
 
-    @JsonAlias("cartId")
-    private void setCartId(Long cartId) {
-        this.cart = new Cart(cartId);
-    }
 
     public User(long id, String username, String password) {
         this.id = id;
@@ -33,17 +31,4 @@ public class User {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", enabled=" + enabled +
-                ", cart=" + cart +
-                ", authorities=" + authorities +
-                ", accountNonLocked=" + accountNonLocked +
-                ", credentialsNonExpired=" + credentialsNonExpired +
-                ", accountNonExpired=" + accountNonExpired +
-                '}';
-    }
 }

@@ -136,18 +136,4 @@ public class UserService {
 
         return loginResponse;
     }
-
-//    public static void main(String[] args) throws IOException, ParseException {
-//        // Replace with your actual JWT token
-//        String jwt = String.valueOf(login().getJwt());
-////
-////        getUsers(jwtToken);
-//
-////    register();
-////   login();
-//        List<User> users = getUsers(jwt);
-//        for (User user : users) {
-//            System.out.println(String.format("Id: %d\n Username: %s",user.getId(), user.getUsername()));
-//        }
-//    }
 }
