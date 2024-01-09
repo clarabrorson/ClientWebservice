@@ -46,7 +46,6 @@ public class CartService {
      * Denna metod används för att hämta alla carts från API:et.
      * @param jwt är en String som innehåller en JWT-token.
      */
-
     public static List<Cart> getAllCarts(String jwt) throws IOException, ParseException {
 
         HttpGet request = new HttpGet("http://localhost:8081/webshop/cart");
@@ -75,8 +74,6 @@ public class CartService {
      * @param id är id:t för den cart som ska hämtas.
      * @param jwt är en String som innehåller en JWT-token.
      */
-
-
     public static Cart getOneCartById(int id, String jwt) throws IOException, ParseException {
         HttpGet request = new HttpGet(String.format("http://localhost:8081/webshop/cart/%d", id));
         request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
@@ -103,7 +100,6 @@ public class CartService {
      * @param articleId är id:t för den artikel som ska läggas till.
      * @param jwt är en String som innehåller en JWT-token.
      */
-    //Ny metod
     public static void addArticleToCart(int cartId, int articleId, int quantity, String jwt) throws IOException, ParseException {
         HttpPost request = new HttpPost(String.format("http://localhost:8081/webshop/cart/%d", articleId));
 
@@ -136,6 +132,7 @@ public class CartService {
 
     /**
      * Denna metod används för att uppdatera antalet artiklar i en cart.
+     *
      */
     public static void updateArticleCount(int cartId, int quantity, int articleId, String jwt) throws IOException, ParseException {
         HttpPatch request = new HttpPatch(String.format("http://localhost:8081/webshop/cart/%d/articles/%d/quantity/%d", cartId, articleId, quantity));
@@ -216,23 +213,6 @@ public class CartService {
     }
 
 
-    //Gammal metod
-    /*public static boolean articleExistsInCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
-        // Fetch the cart based on cartId and authorization jwt
-        Cart cart = getOneCartById(cartId, jwt); // This would be a method that fetches the cart
-
-        // Check if the cart and its articles list are not null
-        if(cart != null && cart.getArticles() != null) {
-            for(Article article : cart.getArticles()) {
-                if(article.getId() == articleId) {
-                    return true; // Article found
-                }
-            }
-        }
-        return false; // Article not found or cart is null
-    } */
-
-    //Ny metod
     public static boolean articleExistsInCart(int cartId, int articleId, String jwt) throws IOException, ParseException {
         // Fetch the cart based on cartId and authorization jwt
         Cart cart = getOneCartById(cartId, jwt); // This would be a method that fetches the cart

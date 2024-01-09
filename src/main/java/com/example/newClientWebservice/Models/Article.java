@@ -23,6 +23,7 @@ public class Article {
 
     private Set<CartItem> cartItems;
 
+
     /**
      * Denna konstruktor används för att skapa ett objekt av typen Article.
      * @param name är namnet på artikeln.

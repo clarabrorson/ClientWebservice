@@ -63,6 +63,7 @@ public class ArticleService {
     }
 }
 
+
     /**
      * Denna metod används för att hämta en artikel från databasen med ett specifikt id.
      * Metoden skickar en GET request till endpoint: /webshop/articles/{id} i WebService-applikationen.
