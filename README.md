@@ -2,15 +2,14 @@
 
 ## Description
 
-This is a client webservice for the ServerWebservice: Webshop. 
+This is a client webservice for the Server [Webshop](https://github.com/clarabrorson/WebShopService)
+ 
 It's a Spring Boot application that uses Spring Security to authenticate users and OAuth2 to authorize them. 
 The application is connected to a MySQL database and uses Spring Data JPA to access the data. The application is also connected to the ServerWebservice: Webshop to get the data from the database.
 The application features secure user registration and login functionality, and allows users to browse through products, add them to their shopping cart and place orders.
 
 
-## Table of Contents (Optional)
-
-If your README is long, add a table of contents to make it easy for users to find what they need.
+## Table of Contents
 
 - [Installation](#installation)
 - [Functionality](#functionality)
