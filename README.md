@@ -41,12 +41,26 @@ The application features secure user registration and login functionality, and a
 ## Installation
 
 + Download and install IntelliJ IDEA or your preferred IDE [Here](https://www.jetbrains.com/idea/download/?section=windows).
-+ clone this repository to your local machine.
++ Clone this repository and [WebShopService](https://github.com/clarabrorson/WebShopService)
+to your local machine.
 
 ## Usage
-+ Clone this repository to your local machine.
-+ Open project in IntelliJ IDEA or your preferred IDE.
-+ Run the application in the main class.
+
+### Backend - WebShopService
+### 1. Set up the MySQL database:
+- Open MySQL Workbench.
+- Connect to your MySQL server.
+- Create a new schema for the application. You can do this by clicking on the "Create a new schema in the connected server" button, entering a name for the schema, and clicking "Apply".
+- Ensure that the *schema name*, *username*, and *password* in the application.properties file match your MySQL setup.
+
+### 2. Start the WebShopService application:
+- Open your IDE and run the WebShopServiceApplication class to start the application.
+  
+### Client Application - ClientWebService
+### 3. Start the client application:
+- Open your IDE and run the Main class to start the application.
+- Follow the instructions in the console to use the web-shop.
+
 
 ## Dependencies:
 
